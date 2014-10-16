@@ -2,4 +2,4 @@ C:\Users\ryan.defour\Documents\GitHub\StudyAdminAPIAutomatedTest\StudyAdminAPIAu
 C:\Users\ryan.defour\Documents\GitHub\StudyAdminAPIAutomatedTest\StudyAdminAPIAutomatedTests\StudyAdminAPIAutomatedTest\StudyAdminAPILib\bin\Debug\StudyAdminAPILib.pdb
 C:\Users\ryan.defour\Documents\GitHub\StudyAdminAPIAutomatedTest\StudyAdminAPIAutomatedTests\StudyAdminAPIAutomatedTest\StudyAdminAPILib\obj\Debug\StudyAdminAPILib.dll
 C:\Users\ryan.defour\Documents\GitHub\StudyAdminAPIAutomatedTest\StudyAdminAPIAutomatedTests\StudyAdminAPIAutomatedTest\StudyAdminAPILib\obj\Debug\StudyAdminAPILib.pdb
-C:\Users\ryan.defour\Documents\GitHub\StudyAdminAPIAutomatedTest\StudyAdminAPIAutomatedTests\StudyAdminAPIAutomatedTest\StudyAdminAPILib\obj\Debug\StudyAdminAPITestLib.csprojResolveAssemblyReference.cache
+C:\Users\ryan.defour\Documents\GitHub\StudyAdminAPIAutomatedTest\StudyAdminAPIAutomatedTests\StudyAdminAPIAutomatedTest\StudyAdminAPILib\bin\Debug\Newtonsoft.Json.dll

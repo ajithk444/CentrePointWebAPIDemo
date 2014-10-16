@@ -44,5 +44,11 @@ namespace StudyAdminAPILib
 
         }
 
+        public static void BuildAuthHeader(ref HttpRequestMessage requestMessage)
+        {
+            var signature = Sign(requestMessage, ClientState.SecretKey);
+            requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
+        }
+
     }
 }
