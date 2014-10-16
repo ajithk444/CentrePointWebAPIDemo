@@ -8,16 +8,16 @@ using StudyAdminAPILib.Tests;
 namespace StudyAdminAPILib
 {
 
-    public class TestCaseRepo
+    public class TestCaseRepository
     {
-        private static TestCaseRepo _instance = new TestCaseRepo();
+        private static TestCaseRepository _instance = new TestCaseRepository();
         public List<APITestCase> _testCaseList;
 
-        private TestCaseRepo() {
+        private TestCaseRepository() {
             InitializeTestCases();
         }
 
-        public static TestCaseRepo Instance {
+        public static TestCaseRepository Instance {
             get { 
                  return _instance; 
             }

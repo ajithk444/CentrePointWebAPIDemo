@@ -38,6 +38,11 @@ namespace StudyAdminAPILib
             return Convert.ToBase64String(hash.ComputeHash(Encoding.UTF8.GetBytes(message)));
         }
 
+        public static void SubmitRequest()
+        {
+
+
+        }
 
     }
 }
