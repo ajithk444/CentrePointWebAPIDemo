@@ -12,5 +12,11 @@ namespace StudyAdminAPILib
         public HttpMethod httpMethod;
         public string uniqueId;
         public string uri;
+
+        public Endpoint(string uri, HttpMethod httpMethod) 
+        {
+            this.uri = uri;
+            this.httpMethod = httpMethod;
+        }
     }
 }

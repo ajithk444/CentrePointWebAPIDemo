@@ -49,17 +49,8 @@ namespace StudyAdminAPIAutomatedTest
 
             _testCaseList = new List<APITestCase>()
             {
-               new GetSubjectTest() {
-                    ExpectedStatusCode = "200",
-                    Name = "GetSubject",
-                    dto = new StudyAdminAPILib.JsonDTOs.GetSubjectDTO() {
-                        SubjectID = ClientState.DefaultSubjectID
-                    },
-                    Endpoint = new Endpoint() {
-                        httpMethod = System.Net.Http.HttpMethod.Get,
-                        uri = string.Format("{0}/v1/subjects/{1}", ClientState.BaseURI, ClientState.DefaultSubjectID)
-                    }
-               }
+               new GetSubjectTest() ,
+               new GetStudiesTest()
             };
         }
 

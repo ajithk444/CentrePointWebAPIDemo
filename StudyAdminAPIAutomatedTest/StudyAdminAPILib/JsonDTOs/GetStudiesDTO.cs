@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace StudyAdminAPILib.JsonDTOs
 {
-    public class JsonDTO { }
+    public class GetStudiesDTO : JsonDTO { }
 }

@@ -48,6 +48,7 @@
     <Compile Include="ClientState.cs" />
     <Compile Include="Endpoint.cs" />
     <Compile Include="ITestCase.cs" />
+    <Compile Include="JsonDTOs\GetStudiesDTO.cs" />
     <Compile Include="JsonDTOs\GetSubjectDTO.cs" />
     <Compile Include="JsonDTOs\JsonDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

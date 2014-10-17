@@ -20,14 +20,14 @@ namespace StudyAdminAPIAutomatedTest
             InitializeComponent();
 
             // Initialize Client State Object
-            ClientState.AccessKey = "AKIAIOSFODNN7EXAMPLE";
-            ClientState.SecretKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY";
-            ClientState.DefaultSubjectID = "000058";
+            ClientState.AccessKey = "2f6507c9-f504-41cb-885f-601e507587b5";
+            ClientState.SecretKey = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
+            ClientState.DefaultSubjectID = "594";
 
             // Add items to Base URI combo box
-            ClientState.BaseURI = "https://studyadmin-dev.actigraphcorp.com"; // defaults to dev
+            ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
             cbBaseURI.Items.Add(ClientState.BaseURI);
-            cbBaseURI.Items.Add("https://studyadmin.actigraphcorp.com"); // add production option
+            cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
             
 
@@ -43,7 +43,11 @@ namespace StudyAdminAPIAutomatedTest
             // setting onselectedchage action for tests combo box
             cBBuiltInTests.SelectedIndexChanged += (o, e) =>
             {
-                APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases where i.Name.Equals(cBBuiltInTests.Text) select i).FirstOrDefault();
+                APITestCase apiTest = (
+                from i in TestCaseRepo.Instance.TestCases 
+                where i.Name.Equals(cBBuiltInTests.Text) 
+                select i).FirstOrDefault();
+
                 if (apiTest != null) 
                 {
                     txtBxRequest.Text = JsonConvert.SerializeObject(apiTest.dto);
@@ -61,7 +65,8 @@ namespace StudyAdminAPIAutomatedTest
             btnExecute.Click += async (o,e) => {
 
                 APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases where i.Name.Equals(cBBuiltInTests.Text) select i).FirstOrDefault();
-                apiTest.Run(txtBxRequest.Text);
+                string result = apiTest.Run(txtBxRequest.Text);
+                txtBxResponse.Text = result;
 
             };
             

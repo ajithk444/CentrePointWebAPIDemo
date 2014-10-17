@@ -68,6 +68,7 @@
             this.txtBxRequest.Location = new System.Drawing.Point(184, 163);
             this.txtBxRequest.Multiline = true;
             this.txtBxRequest.Name = "txtBxRequest";
+            this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtBxRequest.Size = new System.Drawing.Size(535, 102);
             this.txtBxRequest.TabIndex = 2;
             // 
@@ -101,6 +102,7 @@
             this.txtBxResponse.Location = new System.Drawing.Point(184, 372);
             this.txtBxResponse.Multiline = true;
             this.txtBxResponse.Name = "txtBxResponse";
+            this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtBxResponse.Size = new System.Drawing.Size(535, 126);
             this.txtBxResponse.TabIndex = 7;
             // 
