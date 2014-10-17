@@ -13,12 +13,18 @@ namespace StudyAdminAPIAutomatedTest
     */
     public class TestCaseRepo
     {
-        private static TestCaseRepo _instance = new TestCaseRepo();
+        private static TestCaseRepo _instance = null; 
         private List<APITestCase> _testCaseList;
 
 
         public static TestCaseRepo Instance {
             get {
+                
+                if (_instance == null) 
+                {
+                    _instance = new TestCaseRepo();
+                }
+
                 return _instance;
             }
         }
@@ -44,14 +50,15 @@ namespace StudyAdminAPIAutomatedTest
             _testCaseList = new List<APITestCase>()
             {
                new GetSubjectTest() {
-                    dto = new StudyAdminAPILib.JsonDTOs.GetSubjectDTO(){
+                    ExpectedStatusCode = "200",
+                    Name = "GetSubject",
+                    dto = new StudyAdminAPILib.JsonDTOs.GetSubjectDTO() {
                         SubjectID = ClientState.DefaultSubjectID
                     },
-                    _endpoint = new Endpoint() {
+                    Endpoint = new Endpoint() {
+                        httpMethod = System.Net.Http.HttpMethod.Get,
                         uri = string.Format("{0}/v1/subjects/{1}", ClientState.BaseURI, ClientState.DefaultSubjectID)
-                    }, 
-                    _expectedStatusCode = "200",
-                    _name = "GetSubject"
+                    }
                }
             };
         }

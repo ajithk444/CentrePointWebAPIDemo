@@ -43,6 +43,7 @@
             this.txtBxSecretKey = new System.Windows.Forms.TextBox();
             this.lblEndpoint = new System.Windows.Forms.Label();
             this.lblEndpointResult = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cBBuiltInTests
@@ -58,9 +59,9 @@
             this.lblTest.AutoSize = true;
             this.lblTest.Location = new System.Drawing.Point(17, 99);
             this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(63, 13);
+            this.lblTest.Size = new System.Drawing.Size(68, 13);
             this.lblTest.TabIndex = 1;
-            this.lblTest.Text = "Built-In Test";
+            this.lblTest.Text = "Built-In Tests";
             // 
             // txtBxRequest
             // 
@@ -171,11 +172,20 @@
             this.lblEndpointResult.Size = new System.Drawing.Size(0, 13);
             this.lblEndpointResult.TabIndex = 16;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(117, 133);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.TabIndex = 17;
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(744, 561);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblEndpointResult);
             this.Controls.Add(this.lblEndpoint);
             this.Controls.Add(this.txtBxSecretKey);
@@ -215,6 +225,7 @@
         private System.Windows.Forms.TextBox txtBxSecretKey;
         private System.Windows.Forms.Label lblEndpoint;
         private System.Windows.Forms.Label lblEndpointResult;
+        private System.Windows.Forms.Label label1;
     }
 }
 

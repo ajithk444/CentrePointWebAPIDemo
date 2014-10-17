@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using StudyAdminAPILib;
 using Newtonsoft.Json;
+using StudyAdminAPILib.JsonDTOs;
 
 namespace StudyAdminAPIAutomatedTest
 {
@@ -18,36 +19,54 @@ namespace StudyAdminAPIAutomatedTest
         {
             InitializeComponent();
 
-            // Add items to Base URI combo box
-            cbBaseURI.Items.Add("https://studyadmin-dev.actigraphcorp.com");
-            cbBaseURI.Items.Add("https://studyadmin.actigraphcorp.com");
-            cbBaseURI.SelectedIndex = 0;
-
-            // Populate Tests Combo Box
-            cBBuiltInTests.DataSource = (from i in TestCaseRepo.Instance.TestCases select i._name).ToList();
-
             // Initialize Client State Object
-            ClientState.BaseURI = cbBaseURI.SelectedText;
-            ClientState.AccessKey = "AKIAIOSFODNN7EXAMPLE";  
-            ClientState.SecretKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"; 
+            ClientState.AccessKey = "AKIAIOSFODNN7EXAMPLE";
+            ClientState.SecretKey = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY";
             ClientState.DefaultSubjectID = "000058";
 
+            // Add items to Base URI combo box
+            ClientState.BaseURI = "https://studyadmin-dev.actigraphcorp.com"; // defaults to dev
+            cbBaseURI.Items.Add(ClientState.BaseURI);
+            cbBaseURI.Items.Add("https://studyadmin.actigraphcorp.com"); // add production option
+            cbBaseURI.SelectedIndex = 0;
+            
+
+            // Populate Tests Combo Box
+            List<string> testCases = (from i in TestCaseRepo.Instance.TestCases select i.Name).ToList();
+            testCases.Insert(0, "");
+            cBBuiltInTests.DataSource = testCases;
+          
             // Set defaults for access and secret keys
             txtBxAccessKey.Text = ClientState.AccessKey;
             txtBxSecretKey.Text = ClientState.SecretKey;
 
-            string json = "";
-            // setting click action
-            btnExecute.Click += async (o,e) => {      
-                
-                APITestCase testCase = (from i in TestCaseRepo.Instance.TestCases where i._name.Equals( cBBuiltInTests.Text ) select i).FirstOrDefault();
-                json = JsonConvert.SerializeObject(new StudyAdminAPILib.JsonDTOs.GetSubjectDTO() { SubjectID = ClientState.DefaultSubjectID });
-
-                 MessageBox.Show(json, "test");
+            // setting onselectedchage action for tests combo box
+            cBBuiltInTests.SelectedIndexChanged += (o, e) =>
+            {
+                APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases where i.Name.Equals(cBBuiltInTests.Text) select i).FirstOrDefault();
+                if (apiTest != null) 
+                {
+                    txtBxRequest.Text = JsonConvert.SerializeObject(apiTest.dto);
+                    lblEndpointResult.Text = apiTest.Endpoint.uri;
+                } 
+                else 
+                {
+                    txtBxRequest.Text = string.Empty;
+                    lblEndpointResult.Text = string.Empty;
+                }
             };
 
+
+            // setting click action for execute button
+            btnExecute.Click += async (o,e) => {
+
+                APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases where i.Name.Equals(cBBuiltInTests.Text) select i).FirstOrDefault();
+                apiTest.Run(txtBxRequest.Text);
+
+            };
             
         }
+
 
         private void PerformInputValidation()
         {

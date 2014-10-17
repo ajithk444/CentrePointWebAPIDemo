@@ -26,6 +26,9 @@ namespace StudyAdminAPILib
             }
         }
 
+        /// <summary>
+        /// Private Key for Api Authorization
+        /// </summary>
         private static string _accessKey;
         public static String AccessKey
         {
@@ -39,6 +42,9 @@ namespace StudyAdminAPILib
             }
         }
 
+        /// <summary>
+        /// Secret Key for Api Authorization
+        /// </summary>
         private static string _secretKey;
         public static String SecretKey
         {
@@ -52,12 +58,20 @@ namespace StudyAdminAPILib
             }
         }
 
-
-        public static HttpClient _client;
+        /// <summary>
+        /// HttpClient for application
+        /// </summary>
+        private static HttpClient _client;
         public static HttpClient HttpClient
         {
             get 
-            { 
+            {
+                if (_client == null) 
+                {
+                    _client = new HttpClient();
+                    _client.BaseAddress = new Uri(ClientState.BaseURI);
+                }
+
                 return _client; 
             }
             set 
@@ -69,7 +83,7 @@ namespace StudyAdminAPILib
         /// <summary>
         /// default subject id. Application defaults to this. User has ability to modify.
         /// </summary>
-        public static string _defaultSubjectId;
+        private static string _defaultSubjectId;
         public static string DefaultSubjectID
         {
             get

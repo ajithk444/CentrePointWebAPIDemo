@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Net.Http;
+using StudyAdminAPILib.JsonDTOs;
 
 namespace StudyAdminAPILib
 {
@@ -46,8 +47,18 @@ namespace StudyAdminAPILib
 
         public static void BuildAuthHeader(ref HttpRequestMessage requestMessage)
         {
+            requestMessage.Headers.Date = DateTime.UtcNow;
             var signature = Sign(requestMessage, ClientState.SecretKey);
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
+        }
+
+
+
+        public static HttpRequestMessage InitRequestMessage(HttpMethod httpMethod, string uri)
+        {
+            HttpRequestMessage _httpRequest = new HttpRequestMessage(httpMethod, uri);
+            APIUtils.BuildAuthHeader(ref _httpRequest);
+            return _httpRequest;
         }
 
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StudyAdminAPILib;
 using System.Net.Http;
 using StudyAdminAPILib.JsonDTOs;
+using Newtonsoft.Json;
 
 namespace StudyAdminAPILib
 {
@@ -18,18 +19,23 @@ namespace StudyAdminAPILib
 
     public abstract class APITestCase
     {
-    
-        public Endpoint _endpoint { get; set; }
-        public string _expectedStatusCode { get; set; }
-        public string _name { get; set; }
-        public IJsonDTO dto;
+
+        public string Name { get; set; }
+        public Endpoint Endpoint { get; set; }
+        public string ExpectedStatusCode { get; set; }
+        
+        public JsonDTO dto;
 
 
-       public HttpRequestMessage InitRequestMessage()
+        public virtual void Run(string jsonRequest) 
+        { 
+            throw new Exception("This method must run from a child class."); 
+        }
+
+        public virtual Boolean HasPassed() 
         {
-            HttpRequestMessage _httpRequest = new HttpRequestMessage();
-            APIUtils.BuildAuthHeader(ref _httpRequest);
-            return  _httpRequest;
+            throw new Exception("The HasPassed method cannot be run from a base class.");
+            return false;     
         }
     }
 
@@ -39,23 +45,30 @@ namespace StudyAdminAPILib
 
         public GetSubjectTest() 
         {
-            this._name = "GetSubject";
+            this.Name = "GetSubject";
         }
 
         public GetSubjectTest(string baseURI, Endpoint endpoint, string expectedStatusCode) : base()
         {
-            this._name = "GetSubject";
-            this._endpoint = endpoint;
-            this._expectedStatusCode = expectedStatusCode;
+            this.Name = "GetSubject";
+            this.Endpoint = endpoint;
+            this.ExpectedStatusCode = expectedStatusCode;
         }
 
-        public void Run()
+        public override void Run(string json)
         {
-            HttpRequestMessage request = InitRequestMessage();
-            request.Dispose();
+            // Update endpont URI from Json Object
+            GetSubjectDTO dataTranserObject = JsonConvert.DeserializeObject<GetSubjectDTO>(json);
+            this.Endpoint.uri = string.Format("{0}/v1/subjects/{1}", ClientState.BaseURI, dataTranserObject.SubjectID);
+            this.dto = dataTranserObject;
+            HttpRequestMessage request = APIUtils.InitRequestMessage(HttpMethod.Get, Endpoint.uri);
+         
+            
+
+
         }
 
-        public Boolean HasPassed()
+        public override Boolean HasPassed()
         {
             return true;
         }

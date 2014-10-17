@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StudyAdminAPILib.JsonDTOs
 {
-    public interface IJsonDTO
+    public class JsonDTO
     {
         //String Serialize();
         //IJsonDTO DeSerialize(string json);

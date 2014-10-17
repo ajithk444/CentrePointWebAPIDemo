@@ -49,7 +49,7 @@
     <Compile Include="Endpoint.cs" />
     <Compile Include="ITestCase.cs" />
     <Compile Include="JsonDTOs\GetSubjectDTO.cs" />
-    <Compile Include="JsonDTOs\IJsonDTO.cs" />
+    <Compile Include="JsonDTOs\JsonDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="APITestCase.cs" />
   </ItemGroup>

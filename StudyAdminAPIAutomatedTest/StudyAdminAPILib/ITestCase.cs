@@ -9,6 +9,6 @@ namespace StudyAdminAPILib
     public interface ITestCase
     {
          Boolean HasPassed();
-         void Run();
+         void Run(string json);
     }
 }

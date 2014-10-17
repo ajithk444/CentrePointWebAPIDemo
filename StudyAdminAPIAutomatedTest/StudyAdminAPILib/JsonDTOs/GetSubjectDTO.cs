@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace StudyAdminAPILib.JsonDTOs
 {
-    public class GetSubjectDTO : IJsonDTO
+    public class GetSubjectDTO : JsonDTO
     {
         [JsonProperty(Required = Required.Default)]
         public String SubjectID;
