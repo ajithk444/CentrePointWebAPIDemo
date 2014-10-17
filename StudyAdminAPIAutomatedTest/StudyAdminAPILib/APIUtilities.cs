@@ -9,7 +9,7 @@ using StudyAdminAPILib.JsonDTOs;
 
 namespace StudyAdminAPILib
 {
-    public class APIUtils
+    public class APIUtilities
     {
 
         public static string Sign(HttpRequestMessage request, string secret)
@@ -57,7 +57,7 @@ namespace StudyAdminAPILib
         public static HttpRequestMessage InitRequestMessage(HttpMethod httpMethod, string uri)
         {
             HttpRequestMessage _httpRequest = new HttpRequestMessage(httpMethod, uri);
-            APIUtils.BuildAuthHeader(ref _httpRequest);
+            APIUtilities.BuildAuthHeader(ref _httpRequest);
             return _httpRequest;
         }
 

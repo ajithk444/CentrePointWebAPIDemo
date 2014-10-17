@@ -41,9 +41,13 @@
             this.btnExecute = new System.Windows.Forms.Button();
             this.lblPrivateKey = new System.Windows.Forms.Label();
             this.txtBxSecretKey = new System.Windows.Forms.TextBox();
-            this.lblEndpoint = new System.Windows.Forms.Label();
-            this.lblEndpointResult = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblBaseURIRequired = new System.Windows.Forms.Label();
+            this.lblAccessKeyRequired = new System.Windows.Forms.Label();
+            this.lblSecretKeyRequired = new System.Windows.Forms.Label();
+            this.lblRequestRequired = new System.Windows.Forms.Label();
+            this.lblResponseRequired = new System.Windows.Forms.Label();
+            this.lblTestRequired = new System.Windows.Forms.Label();
+            this.lblValidationError = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cBBuiltInTests
@@ -65,7 +69,7 @@
             // 
             // txtBxRequest
             // 
-            this.txtBxRequest.Location = new System.Drawing.Point(184, 163);
+            this.txtBxRequest.Location = new System.Drawing.Point(184, 160);
             this.txtBxRequest.Multiline = true;
             this.txtBxRequest.Name = "txtBxRequest";
             this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -84,6 +88,7 @@
             // lblAccessKey
             // 
             this.lblAccessKey.AutoSize = true;
+            this.lblAccessKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAccessKey.Location = new System.Drawing.Point(17, 56);
             this.lblAccessKey.Name = "lblAccessKey";
             this.lblAccessKey.Size = new System.Drawing.Size(63, 13);
@@ -134,7 +139,7 @@
             // 
             // btnExecute
             // 
-            this.btnExecute.Location = new System.Drawing.Point(374, 287);
+            this.btnExecute.Location = new System.Drawing.Point(184, 300);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(112, 23);
             this.btnExecute.TabIndex = 12;
@@ -157,39 +162,87 @@
             this.txtBxSecretKey.Size = new System.Drawing.Size(298, 20);
             this.txtBxSecretKey.TabIndex = 14;
             // 
-            // lblEndpoint
+            // lblBaseURIRequired
             // 
-            this.lblEndpoint.AutoSize = true;
-            this.lblEndpoint.Location = new System.Drawing.Point(17, 133);
-            this.lblEndpoint.Name = "lblEndpoint";
-            this.lblEndpoint.Size = new System.Drawing.Size(49, 13);
-            this.lblEndpoint.TabIndex = 15;
-            this.lblEndpoint.Text = "Endpoint";
+            this.lblBaseURIRequired.AutoSize = true;
+            this.lblBaseURIRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBaseURIRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblBaseURIRequired.Location = new System.Drawing.Point(570, 29);
+            this.lblBaseURIRequired.Name = "lblBaseURIRequired";
+            this.lblBaseURIRequired.Size = new System.Drawing.Size(0, 25);
+            this.lblBaseURIRequired.TabIndex = 18;
             // 
-            // lblEndpointResult
+            // lblAccessKeyRequired
             // 
-            this.lblEndpointResult.AutoSize = true;
-            this.lblEndpointResult.Location = new System.Drawing.Point(117, 133);
-            this.lblEndpointResult.Name = "lblEndpointResult";
-            this.lblEndpointResult.Size = new System.Drawing.Size(0, 13);
-            this.lblEndpointResult.TabIndex = 16;
+            this.lblAccessKeyRequired.AutoSize = true;
+            this.lblAccessKeyRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAccessKeyRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblAccessKeyRequired.Location = new System.Drawing.Point(331, 59);
+            this.lblAccessKeyRequired.Name = "lblAccessKeyRequired";
+            this.lblAccessKeyRequired.Size = new System.Drawing.Size(0, 25);
+            this.lblAccessKeyRequired.TabIndex = 19;
             // 
-            // label1
+            // lblSecretKeyRequired
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(117, 133);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 13);
-            this.label1.TabIndex = 17;
+            this.lblSecretKeyRequired.AutoSize = true;
+            this.lblSecretKeyRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSecretKeyRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblSecretKeyRequired.Location = new System.Drawing.Point(726, 56);
+            this.lblSecretKeyRequired.Name = "lblSecretKeyRequired";
+            this.lblSecretKeyRequired.Size = new System.Drawing.Size(0, 25);
+            this.lblSecretKeyRequired.TabIndex = 20;
+            // 
+            // lblRequestRequired
+            // 
+            this.lblRequestRequired.AutoSize = true;
+            this.lblRequestRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRequestRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblRequestRequired.Location = new System.Drawing.Point(729, 163);
+            this.lblRequestRequired.Name = "lblRequestRequired";
+            this.lblRequestRequired.Size = new System.Drawing.Size(0, 25);
+            this.lblRequestRequired.TabIndex = 21;
+            // 
+            // lblResponseRequired
+            // 
+            this.lblResponseRequired.AutoSize = true;
+            this.lblResponseRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResponseRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblResponseRequired.Location = new System.Drawing.Point(732, 372);
+            this.lblResponseRequired.Name = "lblResponseRequired";
+            this.lblResponseRequired.Size = new System.Drawing.Size(0, 25);
+            this.lblResponseRequired.TabIndex = 22;
+            // 
+            // lblTestRequired
+            // 
+            this.lblTestRequired.AutoSize = true;
+            this.lblTestRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTestRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblTestRequired.Location = new System.Drawing.Point(398, 99);
+            this.lblTestRequired.Name = "lblTestRequired";
+            this.lblTestRequired.Size = new System.Drawing.Size(0, 25);
+            this.lblTestRequired.TabIndex = 23;
+            // 
+            // lblValidationError
+            // 
+            this.lblValidationError.AutoSize = true;
+            this.lblValidationError.ForeColor = System.Drawing.Color.Red;
+            this.lblValidationError.Location = new System.Drawing.Point(184, 281);
+            this.lblValidationError.Name = "lblValidationError";
+            this.lblValidationError.Size = new System.Drawing.Size(0, 13);
+            this.lblValidationError.TabIndex = 24;
             // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(744, 561);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblEndpointResult);
-            this.Controls.Add(this.lblEndpoint);
+            this.ClientSize = new System.Drawing.Size(759, 561);
+            this.Controls.Add(this.lblValidationError);
+            this.Controls.Add(this.lblTestRequired);
+            this.Controls.Add(this.lblResponseRequired);
+            this.Controls.Add(this.lblRequestRequired);
+            this.Controls.Add(this.lblSecretKeyRequired);
+            this.Controls.Add(this.lblAccessKeyRequired);
+            this.Controls.Add(this.lblBaseURIRequired);
             this.Controls.Add(this.txtBxSecretKey);
             this.Controls.Add(this.lblPrivateKey);
             this.Controls.Add(this.btnExecute);
@@ -204,7 +257,7 @@
             this.Controls.Add(this.lblTest);
             this.Controls.Add(this.cBBuiltInTests);
             this.Name = "TestForm";
-            this.Text = "Study Admin API Automated Tests";
+            this.Text = "Study Admin API Test";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -225,9 +278,13 @@
         private System.Windows.Forms.Button btnExecute;
         private System.Windows.Forms.Label lblPrivateKey;
         private System.Windows.Forms.TextBox txtBxSecretKey;
-        private System.Windows.Forms.Label lblEndpoint;
-        private System.Windows.Forms.Label lblEndpointResult;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblBaseURIRequired;
+        private System.Windows.Forms.Label lblAccessKeyRequired;
+        private System.Windows.Forms.Label lblSecretKeyRequired;
+        private System.Windows.Forms.Label lblRequestRequired;
+        private System.Windows.Forms.Label lblResponseRequired;
+        private System.Windows.Forms.Label lblTestRequired;
+        private System.Windows.Forms.Label lblValidationError;
     }
 }
 

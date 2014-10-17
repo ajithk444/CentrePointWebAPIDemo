@@ -51,9 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnviornmentHandler.cs" />
-    <Compile Include="TestCaseEngine.cs" />
-    <Compile Include="TestClasses\TestCaseRepo.cs" />
+    <Compile Include="TestCaseRepo.cs" />
     <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>

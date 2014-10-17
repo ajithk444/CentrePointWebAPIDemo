@@ -30,7 +30,6 @@ namespace StudyAdminAPIAutomatedTest
             cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
             
-
             // Populate Tests Combo Box
             List<string> testCases = (from i in TestCaseRepo.Instance.TestCases select i.Name).ToList();
             testCases.Insert(0, "");
@@ -41,56 +40,96 @@ namespace StudyAdminAPIAutomatedTest
             txtBxSecretKey.Text = ClientState.SecretKey;
 
             // setting onselectedchage action for tests combo box
-            cBBuiltInTests.SelectedIndexChanged += (o, e) =>
-            {
+            cBBuiltInTests.SelectedIndexChanged += (o, e) => {
+
+                txtBxResponse.Text = string.Empty;
+                
                 APITestCase apiTest = (
                 from i in TestCaseRepo.Instance.TestCases 
                 where i.Name.Equals(cBBuiltInTests.Text) 
                 select i).FirstOrDefault();
 
-                if (apiTest != null) 
-                {
+                if (apiTest != null) {
                     txtBxRequest.Text = JsonConvert.SerializeObject(apiTest.dto);
-                    lblEndpointResult.Text = apiTest.Endpoint.uri;
-                } 
-                else 
-                {
+                    //lblEndpointResult.Text = string.Format(apiTest.UriFormat, ClientState.BaseURI);
+                } else {
                     txtBxRequest.Text = string.Empty;
-                    lblEndpointResult.Text = string.Empty;
                 }
             };
 
+            // setting onselectedchange action for baseURI combo box
+            cbBaseURI.SelectedIndexChanged += (o, e) => {
 
+                ClientState.BaseURI = cbBaseURI.Text;
+                txtBxRequest.Text = string.Empty;
+                cBBuiltInTests.SelectedIndex = 0;
+                cbBaseURI.Text = string.Empty;
+                txtBxResponse.Text = string.Empty;
+
+            };
+
+           
             // setting click action for execute button
-            btnExecute.Click += async (o,e) => {
+            btnExecute.Click += (o,e) => {
 
-                APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases where i.Name.Equals(cBBuiltInTests.Text) select i).FirstOrDefault();
-                string result = apiTest.Run(txtBxRequest.Text);
-                txtBxResponse.Text = result;
+                lblValidationError.Text = String.Empty;
+                if (!IsValidInput()) 
+                {
+                    lblValidationError.Text = "*Required Fields Missing";
+                }
+                else 
+                {
 
+                    ClientState.AccessKey = txtBxAccessKey.Text;
+                    ClientState.SecretKey = txtBxSecretKey.Text;
+
+                    APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases 
+                                           where i.Name.Equals(cBBuiltInTests.Text) 
+                                           select i).FirstOrDefault();
+
+                    txtBxResponse.Text = apiTest.Run(txtBxRequest.Text);
+                }
             };
             
         }
 
 
-        private void PerformInputValidation()
+        private Boolean IsValidInput()
         {
-            if (String.IsNullOrEmpty(txtBxAccessKey.Text))
-            {
+            bool isValid = true;
 
+            lblAccessKeyRequired.Text = string.Empty;
+            lblSecretKeyRequired.Text = string.Empty;
+            lblTestRequired.Text = string.Empty;
+            lblRequestRequired.Text = string.Empty;
+
+            if (String.IsNullOrEmpty( txtBxAccessKey.Text )) 
+            {
+                lblAccessKeyRequired.Text = "*";
+                isValid = false;
             }
 
+            if (String.IsNullOrEmpty( txtBxSecretKey.Text ))  
+            {
+                lblSecretKeyRequired.Text = "*";
+                isValid = false;
+            }
+
+            if (!(cBBuiltInTests.SelectedIndex > 0))
+            {
+                lblTestRequired.Text = "*";
+                isValid = false;
+            }
+
+            if (String.IsNullOrEmpty( txtBxRequest.Text )) 
+            {
+                lblRequestRequired.Text = "*";
+                isValid = false;
+            }
+
+            return isValid;
+
         }
-
-
-
-        /*
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-        */
-
 
 
     }

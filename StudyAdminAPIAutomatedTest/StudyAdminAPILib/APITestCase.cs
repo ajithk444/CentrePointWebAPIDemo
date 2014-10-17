@@ -10,49 +10,43 @@ using Newtonsoft.Json;
 
 namespace StudyAdminAPILib
 {
-    public enum HTTPStatusCode
-    {
-        // ToDo: Fill in rest of the codes
-        Code404,
-        Code200
-    }
 
     public abstract class APITestCase
     {
 
         public string Name { get; set; }
-        public Endpoint Endpoint { get; set; }
+        public APIEndpoint Endpoint { get; set; }
         public string ExpectedStatusCode { get; set; }
-        
-        public JsonDTO dto;
+        public string UriFormat {get; set; }
+
+        public APIJsonDTO dto;
 
 
         public virtual string Run(string jsonRequest) 
-        { 
-            throw new Exception("This method must run from a child class.");
+        {
+            throw new Exception("The function: \"Run\" cannot be run from abstract base class.");
             return string.Empty;
         }
 
         public virtual Boolean HasPassed() 
         {
-            throw new Exception("The HasPassed method cannot be run from a base class.");
+            throw new Exception("The function: \"HasPassed\" cannot be run from abstract base class");
             return false;     
         }
     }
 
 
-    public class GetSubjectTest : APITestCase, ITestCase
+    public class GetSubjectTest : APITestCase, IAPITestCase
     {
 
-        public string uriFormat = "{0}/v1/subjects/{1}";
-
-        public GetSubjectTest() 
+        
+        public GetSubjectTest(string name) 
         {
-            this.Name = "GetSubject";
-            this.Endpoint = new Endpoint(string.Format(uriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID), HttpMethod.Get);
+            this.UriFormat = "{0}/v1/subjects/{1}";
+            this.Name = name;
+            this.Endpoint = new APIEndpoint(string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID), HttpMethod.Get);
             this.ExpectedStatusCode = "200";
-            this.dto = new StudyAdminAPILib.JsonDTOs.GetSubjectDTO()
-            {
+            this.dto = new StudyAdminAPILib.JsonDTOs.GetSubjectDTO() {
                 SubjectID = ClientState.DefaultSubjectID
             };
         }
@@ -60,14 +54,14 @@ namespace StudyAdminAPILib
 
         public override string Run(string jsonRequest)
         {
-            // De-Serialize Json request from user and set it to DTO object
+            // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectDTO>(jsonRequest);
             
             // Update Endpoint URI
-            this.Endpoint.uri = string.Format(uriFormat, ClientState.BaseURI, ((GetSubjectDTO)this.dto).SubjectID);
+            this.Endpoint.uri = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDTO)this.dto).SubjectID);
        
             // Generate HttpRequestMessage
-            HttpRequestMessage request = APIUtils.InitRequestMessage(HttpMethod.Get, Endpoint.uri);
+            HttpRequestMessage request = APIUtilities.InitRequestMessage(HttpMethod.Get, Endpoint.uri);
 
             var response = ClientState.HttpClient.SendAsync(request).Result;
 
@@ -85,19 +79,17 @@ namespace StudyAdminAPILib
     }
 
 
-    public class GetStudiesTest : APITestCase, ITestCase
+    public class GetStudiesTest : APITestCase, IAPITestCase
     {
 
-        public string uriFormat = "{0}/v1/studies";
 
-        public GetStudiesTest()
+        public GetStudiesTest(string name)
         {
-            this.Name = "GetStudiesTest";
-            this.Endpoint = new Endpoint(string.Format(uriFormat, ClientState.BaseURI), HttpMethod.Get);
+            this.UriFormat = "{0}/v1/studies";
+            this.Name = name;
+            this.Endpoint = new APIEndpoint(string.Format(UriFormat, ClientState.BaseURI), HttpMethod.Get);
             this.ExpectedStatusCode = "200";
-            this.dto = new StudyAdminAPILib.JsonDTOs.GetStudiesDTO()
-            {     
-            };
+            this.dto = new StudyAdminAPILib.JsonDTOs.GetStudiesDTO();
         }
 
 
@@ -107,11 +99,10 @@ namespace StudyAdminAPILib
             this.dto = JsonConvert.DeserializeObject<GetStudiesDTO>(jsonRequest);
 
             // Update Endpoint URI
-            this.Endpoint.uri = string.Format(uriFormat, ClientState.BaseURI);
+            this.Endpoint.uri = string.Format(UriFormat, ClientState.BaseURI);
 
             // Generate HttpRequestMessage
-            HttpRequestMessage request = APIUtils.InitRequestMessage(HttpMethod.Get, Endpoint.uri);
-
+            HttpRequestMessage request = APIUtilities.InitRequestMessage(HttpMethod.Get, Endpoint.uri);
 
             var response = ClientState.HttpClient.SendAsync(request).Result;
 

@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudyAdminAPIAutomatedTest
+namespace StudyAdminAPILib
 {
-    public class TestCaseEngine
+    public interface IAPITestCase
     {
-
-        public TestCaseEngine()
-        {
-
-        }
+         Boolean HasPassed();
+         string Run(string jsonRequest);
     }
 }

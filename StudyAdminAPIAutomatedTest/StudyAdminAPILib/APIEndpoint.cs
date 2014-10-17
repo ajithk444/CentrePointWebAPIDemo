@@ -7,13 +7,13 @@ using System.Net.Http;
 
 namespace StudyAdminAPILib
 {
-    public class Endpoint
+    public class APIEndpoint
     {
         public HttpMethod httpMethod;
         public string uniqueId;
         public string uri;
 
-        public Endpoint(string uri, HttpMethod httpMethod) 
+        public APIEndpoint(string uri, HttpMethod httpMethod) 
         {
             this.uri = uri;
             this.httpMethod = httpMethod;

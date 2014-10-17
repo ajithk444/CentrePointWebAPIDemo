@@ -7,9 +7,15 @@ using Newtonsoft.Json;
 
 namespace StudyAdminAPILib.JsonDTOs
 {
-    public class GetSubjectDTO : JsonDTO
+    public class APIJsonDTO { }
+
+    public class GetStudiesDTO : APIJsonDTO { }
+
+    public class GetSubjectDTO : APIJsonDTO
     {
         [JsonProperty(Required = Required.Default)]
         public String SubjectID;
     }
+
+
 }
