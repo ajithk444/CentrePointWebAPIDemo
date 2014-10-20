@@ -26,12 +26,14 @@ namespace StudyAdminAPIAutomatedTest
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
+            cbBaseURI.Items.Add("http://localhost:49248");
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
             
             // Populate Tests Combo Box
-            List<string> testCases = (from i in TestCaseRepo.Instance.TestCases select i.Name).ToList();
+            List<string> testCases = (from i in TestCaseRepo.Instance.TestCases
+                                      select i.Name).ToList();
             testCases.Insert(0, "");
             cBBuiltInTests.DataSource = testCases;
           
@@ -39,9 +41,10 @@ namespace StudyAdminAPIAutomatedTest
             txtBxAccessKey.Text = ClientState.AccessKey;
             txtBxSecretKey.Text = ClientState.SecretKey;
 
-            // setting onselectedchage action for tests combo box
+            // Setting onselectedchage action for tests combo box
             cBBuiltInTests.SelectedIndexChanged += (o, e) => {
-
+                
+                // clear response box when selecting new built in test
                 txtBxResponse.Text = string.Empty;
                 
                 APITestCase apiTest = (
@@ -50,8 +53,7 @@ namespace StudyAdminAPIAutomatedTest
                 select i).FirstOrDefault();
 
                 if (apiTest != null) {
-                    txtBxRequest.Text = JsonConvert.SerializeObject(apiTest.dto);
-                    //lblEndpointResult.Text = string.Format(apiTest.UriFormat, ClientState.BaseURI);
+                    txtBxRequest.Text = apiTest.GetJsonRequestText();
                 } else {
                     txtBxRequest.Text = string.Empty;
                 }
@@ -75,19 +77,27 @@ namespace StudyAdminAPIAutomatedTest
                 lblValidationError.Text = String.Empty;
                 if (!IsValidInput()) 
                 {
-                    lblValidationError.Text = "*Required Fields Missing";
+                    lblValidationError.Text = "** Required Fields Missing **";
                 }
                 else 
                 {
+                    try
+                    {
+                        ClientState.BaseURI = cbBaseURI.Text;
+                        ClientState.AccessKey = txtBxAccessKey.Text;
+                        ClientState.SecretKey = txtBxSecretKey.Text;
+                        APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases
+                                               where i.Name.Equals(cBBuiltInTests.Text)
+                                               select i).FirstOrDefault();
 
-                    ClientState.AccessKey = txtBxAccessKey.Text;
-                    ClientState.SecretKey = txtBxSecretKey.Text;
+                        txtBxResponse.Text = apiTest.Run(txtBxRequest.Text);
+                    }
+                    catch (Exception ex) {
 
-                    APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases 
-                                           where i.Name.Equals(cBBuiltInTests.Text) 
-                                           select i).FirstOrDefault();
-
-                    txtBxResponse.Text = apiTest.Run(txtBxRequest.Text);
+                        if (ex.InnerException != null && ex.InnerException.InnerException != null) {
+                            lblValidationError.Text = "** Unable to connect to Study Admin API **";
+                        }
+                    }
                 }
             };
             

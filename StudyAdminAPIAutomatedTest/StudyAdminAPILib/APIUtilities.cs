@@ -39,12 +39,6 @@ namespace StudyAdminAPILib
             return Convert.ToBase64String(hash.ComputeHash(Encoding.UTF8.GetBytes(message)));
         }
 
-        public static void SubmitRequest()
-        {
-
-
-        }
-
         public static void BuildAuthHeader(ref HttpRequestMessage requestMessage)
         {
             requestMessage.Headers.Date = DateTime.UtcNow;
@@ -52,14 +46,6 @@ namespace StudyAdminAPILib
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
         }
 
-
-
-        public static HttpRequestMessage InitRequestMessage(HttpMethod httpMethod, string uri)
-        {
-            HttpRequestMessage _httpRequest = new HttpRequestMessage(httpMethod, uri);
-            APIUtilities.BuildAuthHeader(ref _httpRequest);
-            return _httpRequest;
-        }
 
     }
 }

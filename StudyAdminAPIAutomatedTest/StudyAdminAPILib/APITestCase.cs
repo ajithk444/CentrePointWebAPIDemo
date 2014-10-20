@@ -11,30 +11,35 @@ using Newtonsoft.Json;
 namespace StudyAdminAPILib
 {
 
-    public abstract class APITestCase
+    public abstract class APITestCase : IAPITestCase
     {
 
         public string Name { get; set; }
-        public APIEndpoint Endpoint { get; set; }
-        public string ExpectedStatusCode { get; set; }
+        public String Endpoint { get; set; }
         public string UriFormat {get; set; }
-
         public APIJsonDTO dto;
 
 
         public virtual string Run(string jsonRequest) 
         {
             throw new Exception("The function: \"Run\" cannot be run from abstract base class.");
-            return string.Empty;
+            return null;
         }
 
-        public virtual Boolean HasPassed() 
+        public string GetJsonRequestText()
         {
-            throw new Exception("The function: \"HasPassed\" cannot be run from abstract base class");
-            return false;     
-        }
-    }
+            JsonSerializerSettings jsonFormatter = new JsonSerializerSettings
+            {
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
 
+            return JsonConvert.SerializeObject(this.dto, jsonFormatter); 
+
+        }
+
+    }
 
     public class GetSubjectTest : APITestCase, IAPITestCase
     {
@@ -44,13 +49,11 @@ namespace StudyAdminAPILib
         {
             this.UriFormat = "{0}/v1/subjects/{1}";
             this.Name = name;
-            this.Endpoint = new APIEndpoint(string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID), HttpMethod.Get);
-            this.ExpectedStatusCode = "200";
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID);
             this.dto = new StudyAdminAPILib.JsonDTOs.GetSubjectDTO() {
                 SubjectID = ClientState.DefaultSubjectID
             };
         }
-
 
         public override string Run(string jsonRequest)
         {
@@ -58,10 +61,12 @@ namespace StudyAdminAPILib
             this.dto = JsonConvert.DeserializeObject<GetSubjectDTO>(jsonRequest);
             
             // Update Endpoint URI
-            this.Endpoint.uri = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDTO)this.dto).SubjectID);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDTO)this.dto).SubjectID);
        
             // Generate HttpRequestMessage
-            HttpRequestMessage request = APIUtilities.InitRequestMessage(HttpMethod.Get, Endpoint.uri);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, this.Endpoint);
+
+            APIUtilities.BuildAuthHeader(ref request);
 
             var response = ClientState.HttpClient.SendAsync(request).Result;
 
@@ -71,24 +76,148 @@ namespace StudyAdminAPILib
 
         }
 
-        public override Boolean HasPassed()
+    }
+
+    public class GetSubjectStatsTest : APITestCase, IAPITestCase
+    {
+
+
+        public GetSubjectStatsTest(string name)
         {
-            return true;
+            this.UriFormat = "{0}/v1/subjects/stats?id={1}";
+            this.Name = name;
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID);
+            this.dto = new GetSubjectStatsDTO()
+            {
+              SubjectID = ClientState.DefaultSubjectID  
+            };
+        }
+
+        public override string Run(string jsonRequest)
+        {
+            // Deserialize Json request from user & set it to DTO object
+            this.dto = JsonConvert.DeserializeObject<GetSubjectStatsDTO>(jsonRequest);
+
+            // Update Endpoint URI
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectStatsDTO)this.dto).SubjectID);
+
+            // Generate HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, this.Endpoint);
+
+            APIUtilities.BuildAuthHeader(ref request);
+
+            var response = ClientState.HttpClient.SendAsync(request).Result;
+
+            var responseBody = response.Content.ReadAsStringAsync().Result;
+
+            return responseBody;
+
         }
 
     }
 
+    public class AddSubjectTest : APITestCase, IAPITestCase
+    {
+
+        public AddSubjectTest(string name)
+        {
+            this.UriFormat = "{0}/v1/subjects";
+            this.Name = name;
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
+            this.dto = new StudyAdminAPILib.JsonDTOs.AddSubjectDTO() {
+                Gender = "Male",
+                SiteID = "001",
+                SubjectIdentifier = "000008",
+                WearPosition = "Left Wrist",
+                WeightLbs = "185.00",
+                DOB = "1975-10-06"
+            };
+        }
+
+
+        public override string Run(string jsonRequest) 
+        {
+            // Deserialize Json request from user & set it to DTO object
+            this.dto = JsonConvert.DeserializeObject<AddSubjectDTO>(jsonRequest);
+
+            // Update Endpoint URI
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
+
+            // Generate HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, this.Endpoint);
+
+            request.Content = new StringContent(JsonConvert.SerializeObject(this.dto), Encoding.UTF8);
+            request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            // Build Auth Header
+            APIUtilities.BuildAuthHeader(ref request);
+
+
+            var response = ClientState.HttpClient.SendAsync(request).Result;
+
+            var responseBody = response.Content.ReadAsStringAsync().Result;
+
+            return responseBody;
+
+        }
+
+    }
+
+    public class UpdateSubjectTest : APITestCase, IAPITestCase
+    {
+
+        public UpdateSubjectTest(string name)
+        {
+            this.UriFormat = "{0}/v1/subjects/{1}";
+            this.Name = name;
+            //this.Endpoint = new APIEndpoint(string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID), HttpMethod.Put);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID);
+            this.dto = new StudyAdminAPILib.JsonDTOs.UpdateSubjectDTO() {
+                SubjectId = "594",
+                Gender = "Male",
+                SiteID = "001",
+                SubjectIdentifier = "000008",
+                WearPosition = "Left Wrist",
+                WeightLbs = "185.00",
+                DOB = "1975-10-06"
+            };
+        }
+
+
+        public override string Run(string jsonRequest)
+        {
+            // Deserialize Json request from user & set it to DTO object
+            this.dto = JsonConvert.DeserializeObject<UpdateSubjectDTO>(jsonRequest);
+
+            // Update Endpoint URI
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
+
+            // Generate HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, this.Endpoint);
+
+            request.Content = new StringContent(JsonConvert.SerializeObject(this.dto), Encoding.UTF8);
+            request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            // Build Auth Header
+            APIUtilities.BuildAuthHeader(ref request);
+
+            var response = ClientState.HttpClient.SendAsync(request).Result;
+            var responseBody = response.Content.ReadAsStringAsync().Result;
+
+            return responseBody;
+
+        }
+
+    }
 
     public class GetStudiesTest : APITestCase, IAPITestCase
     {
-
 
         public GetStudiesTest(string name)
         {
             this.UriFormat = "{0}/v1/studies";
             this.Name = name;
-            this.Endpoint = new APIEndpoint(string.Format(UriFormat, ClientState.BaseURI), HttpMethod.Get);
-            this.ExpectedStatusCode = "200";
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
             this.dto = new StudyAdminAPILib.JsonDTOs.GetStudiesDTO();
         }
 
@@ -99,10 +228,12 @@ namespace StudyAdminAPILib
             this.dto = JsonConvert.DeserializeObject<GetStudiesDTO>(jsonRequest);
 
             // Update Endpoint URI
-            this.Endpoint.uri = string.Format(UriFormat, ClientState.BaseURI);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
 
             // Generate HttpRequestMessage
-            HttpRequestMessage request = APIUtilities.InitRequestMessage(HttpMethod.Get, Endpoint.uri);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, this.Endpoint);
+
+            APIUtilities.BuildAuthHeader(ref request);
 
             var response = ClientState.HttpClient.SendAsync(request).Result;
 
@@ -112,10 +243,6 @@ namespace StudyAdminAPILib
 
         }
 
-        public override Boolean HasPassed()
-        {
-            return true;
-        }
 
     }
 
