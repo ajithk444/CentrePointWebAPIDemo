@@ -47,16 +47,27 @@ namespace StudyAdminAPIAutomatedTest
         private void InitializeTestCases()
         {
 
+            string subjectId = ClientState.DefaultSubjectID;
+            string inBed = "2014-05-27T16:40:00";
+            string outBed = "2014-05-28T02:28:00";
+            string day = "2014-05-27";
+
+
+
             _testCaseList = new List<APITestCase>()
             {
-               new GetSubjectTest("Get Subject") ,
-               new GetSubjectStatsTest("GetSubjectStats"),
-               new GetSubjectDayStatsTest("GetSubjectDayStats"),
-               new GetSubjectDayMinutesTest("GetSubjectDayMinutes"),
+                // Subject Endpoints
+               new GetSubjectTest("GetSubject", subjectId),
+               new GetSubjectStatsTest("GetSubjectStats", subjectId),
+               new GetSubjectDayStatsTest("GetSubjectDayStats", subjectId),
+               new GetSubjectDayMinutesTest("GetSubjectDayMinutes", subjectId, day),
+               new GetSubjectSleepEpochsTest("GetSubjectSleepEpochs", subjectId, inBed, outBed),
+               new GetSubjectSleepScoreTest("GetSubjectSleepScore", subjectId, inBed, outBed),
+               new GetSubjectBoutsTest("GetSubjectBouts", subjectId, inBed, outBed),
+               new GetSubjectBedTimesTest("GetSubjectBedTimes", subjectId, inBed, outBed),
+               new GetSubjectWeightHistoryTest("GetSubjectWeightHistory", subjectId),
                new AddSubjectTest("AddSubject"), 
-               new GetStudiesTest("GetStudies"),
-               
-               
+               new GetStudiesTest("GetStudies")
             };
         }
 

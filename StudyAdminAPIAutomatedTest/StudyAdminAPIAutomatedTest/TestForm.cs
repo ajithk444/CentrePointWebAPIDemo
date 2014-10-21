@@ -26,7 +26,7 @@ namespace StudyAdminAPIAutomatedTest
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
-            cbBaseURI.Items.Add("http://localhost:49248");
+       //     cbBaseURI.Items.Add("http://localhost:49248");
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;

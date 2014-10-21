@@ -38,6 +38,60 @@ namespace StudyAdminAPILib.JsonDTOs
         public String day;
     }
 
+    public class GetSubjectSleepEpochsDTO : APIJsonDTO
+    {
+        [JsonProperty(Required = Required.Default)]
+        public String subjectId;
+
+        [JsonProperty(Required = Required.Default)]
+        public String inBed;
+
+        [JsonProperty(Required = Required.Default)]
+        public String outBed;
+    }
+
+    public class GetSubjectSleepScoreDTO : APIJsonDTO
+    {
+        [JsonProperty(Required = Required.Default)]
+        public String subjectId;
+
+        [JsonProperty(Required = Required.Default)]
+        public String inBed;
+
+        [JsonProperty(Required = Required.Default)]
+        public String outBed;
+    }
+
+    public class GetSubjectBoutsDTO : APIJsonDTO
+    {
+        [JsonProperty(Required = Required.Default)]
+        public String subjectId;
+
+        [JsonProperty(Required = Required.Default)]
+        public String start;
+
+        [JsonProperty(Required = Required.Default)]
+        public String stop;
+    }
+
+    public class GetSubjectBedTimesDTO : APIJsonDTO
+    {
+        [JsonProperty(Required = Required.Default)]
+        public String subjectId;
+
+        [JsonProperty(Required = Required.Default)]
+        public String start;
+
+        [JsonProperty(Required = Required.Default)]
+        public String stop;
+    }
+   
+    public class GetSubjectWeightHistoryDTO : APIJsonDTO
+    {
+        [JsonProperty(Required = Required.Default)]
+        public String subjectId;
+    }
+
     public class AddSubjectDTO : APIJsonDTO
     {
 

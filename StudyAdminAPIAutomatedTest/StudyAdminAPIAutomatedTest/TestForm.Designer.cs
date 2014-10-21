@@ -257,7 +257,7 @@
             this.Controls.Add(this.lblTest);
             this.Controls.Add(this.cBBuiltInTests);
             this.Name = "TestForm";
-            this.Text = "Study Admin API Test";
+            this.Text = "Study Admin API Tester";
             this.ResumeLayout(false);
             this.PerformLayout();
 
