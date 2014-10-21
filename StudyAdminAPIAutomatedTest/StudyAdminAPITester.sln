@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyAdminAPIAutomatedTest", "StudyAdminAPIAutomatedTest\StudyAdminAPIAutomatedTest.csproj", "{D788B87B-632D-486E-9920-24BBADBAA7A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyAdminAPITester", "StudyAdminAPIAutomatedTest\StudyAdminAPITester.csproj", "{D788B87B-632D-486E-9920-24BBADBAA7A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyAdminAPITestLib", "StudyAdminAPILib\StudyAdminAPITestLib.csproj", "{4249A1A4-AF3E-4A6C-ABDA-1361A62539FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyAdminAPITesterLib", "StudyAdminAPILib\StudyAdminAPITesterLib.csproj", "{4249A1A4-AF3E-4A6C-ABDA-1361A62539FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

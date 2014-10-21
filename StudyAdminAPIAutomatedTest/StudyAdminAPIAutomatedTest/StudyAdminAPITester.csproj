@@ -88,9 +88,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StudyAdminAPILib\StudyAdminAPITestLib.csproj">
+    <ProjectReference Include="..\StudyAdminAPILib\StudyAdminAPITesterLib.csproj">
       <Project>{4249a1a4-af3e-4a6c-abda-1361a62539fe}</Project>
-      <Name>StudyAdminAPITestLib</Name>
+      <Name>StudyAdminAPITesterLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
