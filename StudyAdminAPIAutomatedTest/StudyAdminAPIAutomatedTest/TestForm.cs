@@ -94,9 +94,17 @@ namespace StudyAdminAPIAutomatedTest
                     }
                     catch (Exception ex) {
 
-                        if (ex.InnerException != null && ex.InnerException.InnerException != null) {
+                        if (ex.InnerException != null && ex.InnerException.InnerException != null 
+                            && ex.InnerException.InnerException.Message.StartsWith("Unable to connect")) {
                             lblValidationError.Text = "** Unable to connect to Study Admin API **";
+                            }
+                        else
+                        {
+                            throw ex;
                         }
+
+
+
                     }
                 }
             };

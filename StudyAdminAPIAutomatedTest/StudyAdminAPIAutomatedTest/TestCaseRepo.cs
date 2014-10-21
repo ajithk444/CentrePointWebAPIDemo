@@ -49,10 +49,12 @@ namespace StudyAdminAPIAutomatedTest
 
             _testCaseList = new List<APITestCase>()
             {
-               new GetSubjectTest("GetSubject") ,
+               new GetSubjectTest("Get Subject") ,
                new GetSubjectStatsTest("GetSubjectStats"),
-               new AddSubjectTest("Add Subject"), 
-               new GetStudiesTest("GetStudies")
+               new GetSubjectDayStatsTest("GetSubjectDayStats"),
+               new GetSubjectDayMinutesTest("GetSubjectDayMinutes"),
+               new AddSubjectTest("AddSubject"), 
+               new GetStudiesTest("GetStudies"),
                
                
             };

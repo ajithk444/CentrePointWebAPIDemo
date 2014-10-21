@@ -23,6 +23,21 @@ namespace StudyAdminAPILib.JsonDTOs
         public String SubjectID;
     }
 
+    public class GetSubjectDayStatsDTO : APIJsonDTO
+    {
+        [JsonProperty(Required = Required.Default)]
+        public String SubjectID;
+    }
+
+    public class GetSubjectDayMinutesDTO : APIJsonDTO
+    {
+        [JsonProperty(Required = Required.Default)]
+        public String subjectId;
+
+        [JsonProperty(Required = Required.Default)]
+        public String day;
+    }
+
     public class AddSubjectDTO : APIJsonDTO
     {
 

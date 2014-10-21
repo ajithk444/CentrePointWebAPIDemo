@@ -84,7 +84,7 @@ namespace StudyAdminAPILib
 
         public GetSubjectStatsTest(string name)
         {
-            this.UriFormat = "{0}/v1/subjects/stats?id={1}";
+            this.UriFormat = "{0}/v1/subjects/{1}/stats";
             this.Name = name;
             this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID);
             this.dto = new GetSubjectStatsDTO()
@@ -104,6 +104,82 @@ namespace StudyAdminAPILib
             // Generate HttpRequestMessage
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, this.Endpoint);
 
+            APIUtilities.BuildAuthHeader(ref request);
+
+            var response = ClientState.HttpClient.SendAsync(request).Result;
+
+            var responseBody = response.Content.ReadAsStringAsync().Result;
+
+            return responseBody;
+
+        }
+
+    }
+
+    public class GetSubjectDayStatsTest : APITestCase, IAPITestCase
+    {
+
+
+        public GetSubjectDayStatsTest(string name)
+        {
+            this.UriFormat = "{0}/v1/subjects/{1}/daystats";
+            this.Name = name;
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID);
+            this.dto = new GetSubjectStatsDTO()
+            {
+                SubjectID = ClientState.DefaultSubjectID
+            };
+        }
+
+        public override string Run(string jsonRequest)
+        {
+            // Deserialize Json request from user & set it to DTO object
+            this.dto = JsonConvert.DeserializeObject<GetSubjectDayStatsDTO>(jsonRequest);
+
+            // Update Endpoint URI
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayStatsDTO)this.dto).SubjectID);
+
+            // Generate HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, this.Endpoint);
+
+            APIUtilities.BuildAuthHeader(ref request);
+
+            var response = ClientState.HttpClient.SendAsync(request).Result;
+
+            var responseBody = response.Content.ReadAsStringAsync().Result;
+
+            return responseBody;
+
+        }
+
+    }
+
+    public class GetSubjectDayMinutesTest : APITestCase, IAPITestCase
+    {
+
+
+        public GetSubjectDayMinutesTest(string name)
+        {
+            this.UriFormat = "{0}/v1/subjects/{1}/dayminutes/{2}";
+            this.Name = name;
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ClientState.DefaultSubjectID, DateTime.Today.ToShortDateString());
+            this.dto = new GetSubjectDayMinutesDTO()
+            {
+                subjectId = ClientState.DefaultSubjectID,
+                day = "2013-08-01"
+            };
+        }
+
+        public override string Run(string jsonRequest)
+        {
+            // Deserialize Json request from user & set it to DTO object
+            this.dto = JsonConvert.DeserializeObject<GetSubjectDayMinutesDTO>(jsonRequest);
+
+            // Update Endpoint URI
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayMinutesDTO)this.dto).subjectId, ((GetSubjectDayMinutesDTO)this.dto).day.ToString());
+
+            // Generate HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, this.Endpoint);
             APIUtilities.BuildAuthHeader(ref request);
 
             var response = ClientState.HttpClient.SendAsync(request).Result;
