@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Net.Http;
 using StudyAdminAPILib.JsonDTOs;
+using Newtonsoft.Json;
 
 namespace StudyAdminAPILib
 {
@@ -44,6 +45,43 @@ namespace StudyAdminAPILib
             requestMessage.Headers.Date = DateTime.UtcNow;
             var signature = Sign(requestMessage, ClientState.SecretKey);
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
+        }
+
+        public static string SendRequest(APIJsonDTO dto, string resourceEndpoint, HttpMethod httpVerb, string mediaType = "")
+        {
+            // Generate HttpRequestMessage
+            HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
+                   
+            // If post or get request, serialize Data Transfer Object
+            if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put)) { 
+                request.Content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8);
+            }
+           
+            if (!(String.IsNullOrEmpty(mediaType))) { 
+                request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mediaType);
+            }
+
+            // Build Auth Header
+            APIUtilities.BuildAuthHeader(ref request);
+
+            string responseBody = null;
+
+            try {
+                
+                var response = ClientState.HttpClient.SendAsync(request).Result;
+                responseBody = response.Content.ReadAsStringAsync().Result;
+            } 
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                 request.Dispose();
+            }
+           
+
+            return responseBody;
         }
 
 

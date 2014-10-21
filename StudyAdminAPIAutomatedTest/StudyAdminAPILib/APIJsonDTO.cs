@@ -7,14 +7,79 @@ using Newtonsoft.Json;
 
 namespace StudyAdminAPILib.JsonDTOs
 {
-    public abstract class APIJsonDTO { }
+    public abstract class APIJsonDTO 
+    {
+        public virtual bool SerializedSuccessfullyAfterResponse() 
+        {
+            throw new Exception("The function: \"SerializeSuccessfullyAfterResponse\" cannot be run from abstract base class.");
+            return false;
+        }
+    }
 
-    public class GetStudiesDTO : APIJsonDTO { }
-
+    #region Subject DTOs
     public class GetSubjectDTO : APIJsonDTO
     {
         [JsonProperty(Required = Required.Default)]
         public String SubjectID;
+    }
+
+    public class AddSubjectDTO : APIJsonDTO
+    {
+
+        [JsonProperty(Required = Required.Default)]
+        public String Gender;
+
+        [JsonProperty(Required = Required.Default)]
+        public String SiteID;
+
+        [JsonProperty(Required = Required.Default)]
+        public String SubjectIdentifier;
+
+        [JsonProperty(Required = Required.Default)]
+        public String WearPosition;
+
+        [JsonProperty(Required = Required.Default)]
+        public String WeightLbs;
+
+        [JsonProperty(Required = Required.Default)]
+        public String DOB;
+
+    }
+
+    public class UpdateSubjectDTO : APIJsonDTO
+    {
+
+        [JsonProperty(Required = Required.Default)]
+        public String SubjectId;
+
+        [JsonProperty(Required = Required.Default)]
+        public String Gender;
+
+        [JsonProperty(Required = Required.Default)]
+        public String SiteID;
+
+        [JsonProperty(Required = Required.Default)]
+        public String SubjectIdentifier;
+
+        [JsonProperty(Required = Required.Default)]
+        public String WearPosition;
+
+        [JsonProperty(Required = Required.Default)]
+        public String WeightLbs;
+
+        [JsonProperty(Required = Required.Default)]
+        public String DOB;
+
+        public override bool SerializedSuccessfullyAfterResponse()
+        {
+            if (String.IsNullOrEmpty(this.SubjectId) || string.IsNullOrEmpty(this.SubjectIdentifier))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 
     public class GetSubjectStatsDTO : APIJsonDTO
@@ -91,56 +156,29 @@ namespace StudyAdminAPILib.JsonDTOs
         [JsonProperty(Required = Required.Default)]
         public String subjectId;
     }
+    #endregion
 
-    public class AddSubjectDTO : APIJsonDTO
+    #region Site DTOs
+    public class GetSitesDTO : APIJsonDTO { }
+    #endregion 
+
+    #region Study DTOs
+    public class GetStudiesDTO : APIJsonDTO { }
+
+    public class GetStudyDTO : APIJsonDTO 
     {
-
         [JsonProperty(Required = Required.Default)]
-        public String Gender;
-
-        [JsonProperty(Required = Required.Default)]
-        public String SiteID;
-
-        [JsonProperty(Required = Required.Default)]
-        public String SubjectIdentifier;
-
-        [JsonProperty(Required = Required.Default)]
-        public String WearPosition;
-
-        [JsonProperty(Required = Required.Default)]
-        public String WeightLbs;
-
-        [JsonProperty(Required = Required.Default)]
-        public String DOB;
-
+        public String StudyId;
+    
     }
 
-    public class UpdateSubjectDTO : APIJsonDTO
+    public class GetStudySubjectsDTO : APIJsonDTO
     {
-
         [JsonProperty(Required = Required.Default)]
-        public String SubjectId;
-
-        [JsonProperty(Required = Required.Default)]
-        public String Gender;
-
-        [JsonProperty(Required = Required.Default)]
-        public String SiteID;
-
-        [JsonProperty(Required = Required.Default)]
-        public String SubjectIdentifier;
-
-        [JsonProperty(Required = Required.Default)]
-        public String WearPosition;
-
-        [JsonProperty(Required = Required.Default)]
-        public String WeightLbs;
-
-        [JsonProperty(Required = Required.Default)]
-        public String DOB;
+        public String StudyId;
 
     }
-
+    #endregion
 
 
 }

@@ -51,13 +51,15 @@ namespace StudyAdminAPIAutomatedTest
             string inBed = "2014-05-27T16:40:00";
             string outBed = "2014-05-28T02:28:00";
             string day = "2014-05-27";
-
+            string studyId = "1";
 
 
             _testCaseList = new List<APITestCase>()
             {
                 // Subject Endpoints
                new GetSubjectTest("GetSubject", subjectId),
+               new UpdateSubjectTest("UpdateSubject", subjectId),
+               new AddSubjectTest("AddSubject"), 
                new GetSubjectStatsTest("GetSubjectStats", subjectId),
                new GetSubjectDayStatsTest("GetSubjectDayStats", subjectId),
                new GetSubjectDayMinutesTest("GetSubjectDayMinutes", subjectId, day),
@@ -66,8 +68,16 @@ namespace StudyAdminAPIAutomatedTest
                new GetSubjectBoutsTest("GetSubjectBouts", subjectId, inBed, outBed),
                new GetSubjectBedTimesTest("GetSubjectBedTimes", subjectId, inBed, outBed),
                new GetSubjectWeightHistoryTest("GetSubjectWeightHistory", subjectId),
-               new AddSubjectTest("AddSubject"), 
-               new GetStudiesTest("GetStudies")
+               
+
+               // Site Endpoints
+               new GetSitesTest("GetSites"),
+
+
+               // Study Endpoints
+               new GetStudiesTest("GetStudies"),
+               new GetStudyTest("GetStudy", studyId),
+               new GetStudySubjectsTest("GetStudySubjects", studyId)
             };
         }
 

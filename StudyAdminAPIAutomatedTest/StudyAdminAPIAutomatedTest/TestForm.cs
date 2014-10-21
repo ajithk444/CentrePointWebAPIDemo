@@ -26,7 +26,7 @@ namespace StudyAdminAPIAutomatedTest
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
-            //cbBaseURI.Items.Add("http://localhost:49248");
+            cbBaseURI.Items.Add("http://localhost:49248");
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
@@ -61,21 +61,20 @@ namespace StudyAdminAPIAutomatedTest
 
             // setting onselectedchange action for baseURI combo box
             cbBaseURI.SelectedIndexChanged += (o, e) => {
-
-                ClientState.BaseURI = cbBaseURI.Text;
                 txtBxRequest.Text = string.Empty;
                 cBBuiltInTests.SelectedIndex = 0;
                 cbBaseURI.Text = string.Empty;
                 txtBxResponse.Text = string.Empty;
-
             };
 
            
             // setting click action for execute button
             btnExecute.Click += (o,e) => {
     
-                try
-                {
+                try {
+
+                    lblValidationError.Text = String.Empty;
+                    txtBxResponse.Text = String.Empty;
 
                     if (!IsValidInput())
                         throw new Exception("** Required Fields Missing **");
@@ -91,14 +90,13 @@ namespace StudyAdminAPIAutomatedTest
                     string jsonResponse = apiTest.Run(txtBxRequest.Text);
 
                     if (jsonResponse.Equals("Unauthorized")) {
-                        throw new Exception("Unauthorized Access. Please verify Base URI, Access Key and Private Key");
+                        throw new Exception("Unauthorized Access. Please verify Base URI, Access Key and Private Key.");
                     }
 
                     txtBxResponse.Text = jsonResponse;
-                }
-                catch (Exception ex) {
-                    
-                    lblValidationError.Text = String.Empty;
+
+                }  catch (Exception ex) {
+             
                     
                     if (ex.InnerException != null && ex.InnerException.InnerException != null && ex.InnerException.InnerException.Message.StartsWith("Unable to connect")) 
                     {
