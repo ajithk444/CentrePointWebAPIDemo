@@ -26,7 +26,7 @@ namespace StudyAdminAPIAutomatedTest
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
-       //     cbBaseURI.Items.Add("http://localhost:49248");
+            //cbBaseURI.Items.Add("http://localhost:49248");
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
@@ -73,40 +73,43 @@ namespace StudyAdminAPIAutomatedTest
            
             // setting click action for execute button
             btnExecute.Click += (o,e) => {
+    
+                try
+                {
 
-                lblValidationError.Text = String.Empty;
-                if (!IsValidInput()) 
-                {
-                    lblValidationError.Text = "** Required Fields Missing **";
+                    if (!IsValidInput())
+                        throw new Exception("** Required Fields Missing **");
+                    
+                    // Updating Client State Before Execution
+                    ClientState.BaseURI = cbBaseURI.Text;
+                    ClientState.AccessKey = txtBxAccessKey.Text;
+                    ClientState.SecretKey = txtBxSecretKey.Text;
+                    APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases
+                                            where i.Name.Equals(cBBuiltInTests.Text)
+                                            select i).FirstOrDefault();
+
+                    string jsonResponse = apiTest.Run(txtBxRequest.Text);
+
+                    if (jsonResponse.Equals("Unauthorized")) {
+                        throw new Exception("Unauthorized Access. Please verify Base URI, Access Key and Private Key");
+                    }
+
+                    txtBxResponse.Text = jsonResponse;
                 }
-                else 
-                {
-                    try
+                catch (Exception ex) {
+                    
+                    lblValidationError.Text = String.Empty;
+                    
+                    if (ex.InnerException != null && ex.InnerException.InnerException != null && ex.InnerException.InnerException.Message.StartsWith("Unable to connect")) 
                     {
-                        ClientState.BaseURI = cbBaseURI.Text;
-                        ClientState.AccessKey = txtBxAccessKey.Text;
-                        ClientState.SecretKey = txtBxSecretKey.Text;
-                        APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases
-                                               where i.Name.Equals(cBBuiltInTests.Text)
-                                               select i).FirstOrDefault();
-
-                        txtBxResponse.Text = apiTest.Run(txtBxRequest.Text);
+                        lblValidationError.Text = "** Unable to connect to Study Admin API **";
                     }
-                    catch (Exception ex) {
-
-                        if (ex.InnerException != null && ex.InnerException.InnerException != null 
-                            && ex.InnerException.InnerException.Message.StartsWith("Unable to connect")) {
-                            lblValidationError.Text = "** Unable to connect to Study Admin API **";
-                            }
-                        else
-                        {
-                            throw ex;
-                        }
-
-
-
+                    else
+                    {
+                        lblValidationError.Text = ex.Message;
                     }
                 }
+                
             };
             
         }

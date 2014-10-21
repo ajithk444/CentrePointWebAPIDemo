@@ -225,10 +225,11 @@
             // lblValidationError
             // 
             this.lblValidationError.AutoSize = true;
+            this.lblValidationError.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblValidationError.ForeColor = System.Drawing.Color.Red;
             this.lblValidationError.Location = new System.Drawing.Point(184, 281);
             this.lblValidationError.Name = "lblValidationError";
-            this.lblValidationError.Size = new System.Drawing.Size(0, 13);
+            this.lblValidationError.Size = new System.Drawing.Size(0, 17);
             this.lblValidationError.TabIndex = 24;
             // 
             // TestForm
