@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using StudyAdminAPILib;
 using System.Net.Http;
 using StudyAdminAPILib.JsonDTOs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 
 namespace StudyAdminAPILib
 {
@@ -19,6 +21,7 @@ namespace StudyAdminAPILib
         public String Endpoint { get; set; }
         public string UriFormat {get; set; }
         public APIJsonDTO dto;
+        public HttpStatusCode responseStatusCode;
 
         public virtual string Run(string jsonRequest) 
         {
@@ -65,8 +68,10 @@ namespace StudyAdminAPILib
         {
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectDTO>(jsonRequest);
-            return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDTO)this.dto).SubjectID),
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDTO)this.dto).SubjectID);
+
+            return APIUtilities.SendRequest(this.dto, ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
 
         }
@@ -92,8 +97,11 @@ namespace StudyAdminAPILib
         {
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectStatsDTO>(jsonRequest);
-            return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectStatsDTO)this.dto).SubjectID),
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectStatsDTO)this.dto).SubjectID);
+
+            return APIUtilities.SendRequest(this.dto, 
+                                            ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
 
         }
@@ -118,8 +126,11 @@ namespace StudyAdminAPILib
         {
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectDayStatsDTO>(jsonRequest);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayStatsDTO)this.dto).SubjectID);
+           
             return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayStatsDTO)this.dto).SubjectID),
+                                            ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
 
 
@@ -147,8 +158,11 @@ namespace StudyAdminAPILib
 
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectDayMinutesDTO>(jsonRequest);
-            return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayMinutesDTO)this.dto).subjectId, ((GetSubjectDayMinutesDTO)this.dto).day),
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayMinutesDTO)this.dto).subjectId, ((GetSubjectDayMinutesDTO)this.dto).day);
+
+            return APIUtilities.SendRequest(this.dto, 
+                                            ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
 
         }
@@ -175,9 +189,11 @@ namespace StudyAdminAPILib
         {
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectSleepEpochsDTO>(jsonRequest);
-            return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectSleepEpochsDTO)this.dto).subjectId,
-                                                    ((GetSubjectSleepEpochsDTO)this.dto).inBed, ((GetSubjectSleepEpochsDTO)this.dto).outBed),
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectSleepEpochsDTO)this.dto).subjectId,
+                                                    ((GetSubjectSleepEpochsDTO)this.dto).inBed, ((GetSubjectSleepEpochsDTO)this.dto).outBed);
+
+            return APIUtilities.SendRequest(this.dto, ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
 
 
@@ -206,12 +222,15 @@ namespace StudyAdminAPILib
 
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectSleepScoreDTO>(jsonRequest);
-            string jsonResponse = APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectSleepScoreDTO)this.dto).subjectId,
-                                                ((GetSubjectSleepScoreDTO)this.dto).inBed, ((GetSubjectSleepScoreDTO)this.dto).outBed),
-                                            HttpMethod.Get);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectSleepScoreDTO)this.dto).subjectId,
+                                                ((GetSubjectSleepScoreDTO)this.dto).inBed, ((GetSubjectSleepScoreDTO)this.dto).outBed);
+            
+            string jsonResponse = APIUtilities.SendRequest(this.dto, 
+                                                            ref this.responseStatusCode,
+                                                            this.Endpoint,
+                                                            HttpMethod.Get);
 
-            CheckResponse(jsonResponse);
+         //   CheckResponse(jsonResponse);
             return jsonResponse;
 
 
@@ -275,12 +294,15 @@ namespace StudyAdminAPILib
 
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectBoutsDTO>(jsonRequest);
-            string jsonResponse = APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectBoutsDTO)this.dto).subjectId,
-                                                ((GetSubjectBoutsDTO)this.dto).start, ((GetSubjectBoutsDTO)this.dto).stop),
-                                            HttpMethod.Get);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectBoutsDTO)this.dto).subjectId,
+                                                ((GetSubjectBoutsDTO)this.dto).start, ((GetSubjectBoutsDTO)this.dto).stop);
 
-            CheckResponse(jsonResponse);
+            string jsonResponse = APIUtilities.SendRequest(this.dto, 
+                                                            ref this.responseStatusCode,
+                                                            this.Endpoint,
+                                                            HttpMethod.Get);
+
+          //  CheckResponse(jsonResponse);
             return jsonResponse;
 
 
@@ -340,12 +362,14 @@ namespace StudyAdminAPILib
         {
             // Deserialize Json request from user & set it to DTO object
             this.dto = JsonConvert.DeserializeObject<GetSubjectBedTimesDTO>(jsonRequest);
-            string jsonResponse = APIUtilities.SendRequest(this.dto,
-                                        string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectBedTimesDTO)this.dto).subjectId,
-                                            ((GetSubjectBedTimesDTO)this.dto).start, ((GetSubjectBedTimesDTO)this.dto).stop),
-                                        HttpMethod.Get);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectBedTimesDTO)this.dto).subjectId,
+                                            ((GetSubjectBedTimesDTO)this.dto).start, ((GetSubjectBedTimesDTO)this.dto).stop);
 
-            CheckResponse(jsonResponse);
+            string jsonResponse = APIUtilities.SendRequest(this.dto, 
+                                                            ref this.responseStatusCode, 
+                                                            this.Endpoint,
+                                                            HttpMethod.Get);
+            //CheckResponse(jsonResponse);
             return jsonResponse;
 
 
@@ -390,11 +414,13 @@ namespace StudyAdminAPILib
 
             // Send Request            
             this.dto = (GetSubjectWeightHistoryDTO)JsonConvert.DeserializeObject<GetSubjectWeightHistoryDTO>(jsonRequest);
-            string jsonResponse = APIUtilities.SendRequest(this.dto,
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectWeightHistoryDTO)this.dto).subjectId);
+
+            string jsonResponse = APIUtilities.SendRequest(this.dto, ref this.responseStatusCode,
                                        string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectWeightHistoryDTO)this.dto).subjectId),
                                        HttpMethod.Get);
 
-            CheckResponse(jsonResponse);
+            //CheckResponse(jsonResponse);
             return jsonResponse;
         }
 
@@ -438,12 +464,14 @@ namespace StudyAdminAPILib
         public override string Run(string jsonRequest) 
         {
             this.dto = (AddSubjectDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(jsonRequest);
-            string jsonResponse =  APIUtilities.SendRequest(((APIJsonDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(jsonRequest)),
-                                         string.Format(UriFormat, ClientState.BaseURI),
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
+
+            string jsonResponse = APIUtilities.SendRequest(this.dto, ref this.responseStatusCode,
+                                         this.Endpoint,
                                          HttpMethod.Post, 
                                          "application/json");
 
-            CheckResponse(jsonResponse);
+            //CheckResponse(jsonResponse);
             return jsonResponse;
         }
 
@@ -482,11 +510,13 @@ namespace StudyAdminAPILib
         public override string Run(string jsonRequest)
         {
             this.dto = (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(jsonRequest);
-            string jsonResponse = APIUtilities.SendRequest(this.dto, 
-                                              string.Format(UriFormat, ClientState.BaseURI, ((UpdateSubjectDTO)this.dto).SubjectId),
-                                              HttpMethod.Put, 
-                                              "application/json");
-            CheckResponse(jsonResponse);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((UpdateSubjectDTO)this.dto).SubjectId);
+
+            string jsonResponse = APIUtilities.SendRequest(this.dto, ref this.responseStatusCode, 
+                                                          this.Endpoint,
+                                                          HttpMethod.Put, 
+                                                          "application/json");
+            //CheckResponse(jsonResponse);
             return jsonResponse;
 
         }
@@ -521,15 +551,12 @@ namespace StudyAdminAPILib
 
         public override string Run(string jsonRequest)
         {
-        
 
-            return APIUtilities.SendRequest(this.dto,
-                                              string.Format(UriFormat, ClientState.BaseURI),
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
+            return APIUtilities.SendRequest(this.dto, ref this.responseStatusCode,
+                                              this.Endpoint,
                                               HttpMethod.Get);
-            
-          
-
-
+           
         }
 
     }       
@@ -553,10 +580,11 @@ namespace StudyAdminAPILib
         public override string Run(string jsonRequest)
         {
             this.dto = JsonConvert.DeserializeObject<GetStudyDTO>(jsonRequest);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetStudyDTO)this.dto).StudyId);  
             return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetStudyDTO)this.dto).StudyId),
+                                            ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
-
         }
 
 
@@ -576,8 +604,11 @@ namespace StudyAdminAPILib
         public override string Run(string jsonRequest)
         {
             this.dto = JsonConvert.DeserializeObject<GetStudiesDTO>(jsonRequest);
-            return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI),
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
+            
+            return APIUtilities.SendRequest(this.dto, 
+                                            ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
 
         }
@@ -600,8 +631,11 @@ namespace StudyAdminAPILib
         public override string Run(string jsonRequest)
         {
             this.dto = JsonConvert.DeserializeObject<GetStudySubjectsDTO>(jsonRequest);
+            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetStudySubjectsDTO)this.dto).StudyId);
+
             return APIUtilities.SendRequest(this.dto,
-                                            string.Format(UriFormat, ClientState.BaseURI, ((GetStudySubjectsDTO)this.dto).StudyId),
+                                            ref this.responseStatusCode,
+                                            this.Endpoint,
                                             HttpMethod.Get);
 
         }

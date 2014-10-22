@@ -29,17 +29,14 @@
         private void InitializeComponent()
         {
             this.cBBuiltInTests = new System.Windows.Forms.ComboBox();
-            this.lblTest = new System.Windows.Forms.Label();
             this.txtBxRequest = new System.Windows.Forms.TextBox();
             this.lblRequest = new System.Windows.Forms.Label();
-            this.lblAccessKey = new System.Windows.Forms.Label();
             this.txtBxAccessKey = new System.Windows.Forms.TextBox();
             this.txtBxResponse = new System.Windows.Forms.TextBox();
             this.lblResponse = new System.Windows.Forms.Label();
             this.lblBaseURI = new System.Windows.Forms.Label();
             this.cbBaseURI = new System.Windows.Forms.ComboBox();
             this.btnExecute = new System.Windows.Forms.Button();
-            this.lblPrivateKey = new System.Windows.Forms.Label();
             this.txtBxSecretKey = new System.Windows.Forms.TextBox();
             this.lblBaseURIRequired = new System.Windows.Forms.Label();
             this.lblAccessKeyRequired = new System.Windows.Forms.Label();
@@ -48,24 +45,24 @@
             this.lblResponseRequired = new System.Windows.Forms.Label();
             this.lblTestRequired = new System.Windows.Forms.Label();
             this.lblValidationError = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblStatusCode = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // cBBuiltInTests
             // 
             this.cBBuiltInTests.FormattingEnabled = true;
-            this.cBBuiltInTests.Location = new System.Drawing.Point(117, 99);
+            this.cBBuiltInTests.Location = new System.Drawing.Point(82, 14);
             this.cBBuiltInTests.Name = "cBBuiltInTests";
             this.cBBuiltInTests.Size = new System.Drawing.Size(274, 21);
             this.cBBuiltInTests.TabIndex = 0;
-            // 
-            // lblTest
-            // 
-            this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(17, 99);
-            this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(68, 13);
-            this.lblTest.TabIndex = 1;
-            this.lblTest.Text = "Built-In Tests";
             // 
             // txtBxRequest
             // 
@@ -85,26 +82,16 @@
             this.lblRequest.TabIndex = 4;
             this.lblRequest.Text = "Request (to Study Admin API)";
             // 
-            // lblAccessKey
-            // 
-            this.lblAccessKey.AutoSize = true;
-            this.lblAccessKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAccessKey.Location = new System.Drawing.Point(17, 56);
-            this.lblAccessKey.Name = "lblAccessKey";
-            this.lblAccessKey.Size = new System.Drawing.Size(63, 13);
-            this.lblAccessKey.TabIndex = 5;
-            this.lblAccessKey.Text = "Access Key";
-            // 
             // txtBxAccessKey
             // 
-            this.txtBxAccessKey.Location = new System.Drawing.Point(117, 56);
+            this.txtBxAccessKey.Location = new System.Drawing.Point(82, 13);
             this.txtBxAccessKey.Name = "txtBxAccessKey";
-            this.txtBxAccessKey.Size = new System.Drawing.Size(208, 20);
+            this.txtBxAccessKey.Size = new System.Drawing.Size(231, 20);
             this.txtBxAccessKey.TabIndex = 6;
             // 
             // txtBxResponse
             // 
-            this.txtBxResponse.Location = new System.Drawing.Point(184, 372);
+            this.txtBxResponse.Location = new System.Drawing.Point(184, 381);
             this.txtBxResponse.Multiline = true;
             this.txtBxResponse.Name = "txtBxResponse";
             this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -114,7 +101,7 @@
             // lblResponse
             // 
             this.lblResponse.AutoSize = true;
-            this.lblResponse.Location = new System.Drawing.Point(12, 372);
+            this.lblResponse.Location = new System.Drawing.Point(12, 381);
             this.lblResponse.Name = "lblResponse";
             this.lblResponse.Size = new System.Drawing.Size(166, 13);
             this.lblResponse.TabIndex = 8;
@@ -123,7 +110,7 @@
             // lblBaseURI
             // 
             this.lblBaseURI.AutoSize = true;
-            this.lblBaseURI.Location = new System.Drawing.Point(17, 22);
+            this.lblBaseURI.Location = new System.Drawing.Point(17, 25);
             this.lblBaseURI.Name = "lblBaseURI";
             this.lblBaseURI.Size = new System.Drawing.Size(50, 13);
             this.lblBaseURI.TabIndex = 9;
@@ -132,34 +119,27 @@
             // cbBaseURI
             // 
             this.cbBaseURI.FormattingEnabled = true;
-            this.cbBaseURI.Location = new System.Drawing.Point(117, 22);
+            this.cbBaseURI.Location = new System.Drawing.Point(79, 10);
             this.cbBaseURI.Name = "cbBaseURI";
-            this.cbBaseURI.Size = new System.Drawing.Size(446, 21);
+            this.cbBaseURI.Size = new System.Drawing.Size(585, 21);
             this.cbBaseURI.TabIndex = 11;
             // 
             // btnExecute
             // 
+            this.btnExecute.Image = global::StudyAdminAPIAutomatedTest.Properties.Resources.mail;
+            this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.btnExecute.Location = new System.Drawing.Point(184, 300);
             this.btnExecute.Name = "btnExecute";
-            this.btnExecute.Size = new System.Drawing.Size(112, 23);
+            this.btnExecute.Size = new System.Drawing.Size(128, 23);
             this.btnExecute.TabIndex = 12;
-            this.btnExecute.Text = "Execute Test";
+            this.btnExecute.Text = "   Send Request";
             this.btnExecute.UseVisualStyleBackColor = true;
-            // 
-            // lblPrivateKey
-            // 
-            this.lblPrivateKey.AutoSize = true;
-            this.lblPrivateKey.Location = new System.Drawing.Point(356, 59);
-            this.lblPrivateKey.Name = "lblPrivateKey";
-            this.lblPrivateKey.Size = new System.Drawing.Size(59, 13);
-            this.lblPrivateKey.TabIndex = 13;
-            this.lblPrivateKey.Text = "Secret Key";
             // 
             // txtBxSecretKey
             // 
-            this.txtBxSecretKey.Location = new System.Drawing.Point(421, 56);
+            this.txtBxSecretKey.Location = new System.Drawing.Point(64, 16);
             this.txtBxSecretKey.Name = "txtBxSecretKey";
-            this.txtBxSecretKey.Size = new System.Drawing.Size(298, 20);
+            this.txtBxSecretKey.Size = new System.Drawing.Size(264, 20);
             this.txtBxSecretKey.TabIndex = 14;
             // 
             // lblBaseURIRequired
@@ -232,11 +212,68 @@
             this.lblValidationError.Size = new System.Drawing.Size(0, 17);
             this.lblValidationError.TabIndex = 24;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cBBuiltInTests);
+            this.groupBox1.Location = new System.Drawing.Point(12, 113);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(381, 41);
+            this.groupBox1.TabIndex = 25;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Built-In Tests";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtBxAccessKey);
+            this.groupBox2.Location = new System.Drawing.Point(12, 59);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(330, 39);
+            this.groupBox2.TabIndex = 26;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Access Key";
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtBxSecretKey);
+            this.groupBox3.Location = new System.Drawing.Point(348, 59);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(399, 39);
+            this.groupBox3.TabIndex = 27;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Secret Key";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cbBaseURI);
+            this.groupBox4.Location = new System.Drawing.Point(12, 14);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(732, 42);
+            this.groupBox4.TabIndex = 28;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Base URI";
+            // 
+            // lblStatusCode
+            // 
+            this.lblStatusCode.AutoSize = true;
+            this.lblStatusCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatusCode.Location = new System.Drawing.Point(113, 358);
+            this.lblStatusCode.Name = "lblStatusCode";
+            this.lblStatusCode.Size = new System.Drawing.Size(0, 13);
+            this.lblStatusCode.TabIndex = 29;
+            this.lblStatusCode.Click += new System.EventHandler(this.lblStatusCode_Click);
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(759, 561);
+            this.Controls.Add(this.lblStatusCode);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblValidationError);
             this.Controls.Add(this.lblTestRequired);
             this.Controls.Add(this.lblResponseRequired);
@@ -244,21 +281,20 @@
             this.Controls.Add(this.lblSecretKeyRequired);
             this.Controls.Add(this.lblAccessKeyRequired);
             this.Controls.Add(this.lblBaseURIRequired);
-            this.Controls.Add(this.txtBxSecretKey);
-            this.Controls.Add(this.lblPrivateKey);
             this.Controls.Add(this.btnExecute);
-            this.Controls.Add(this.cbBaseURI);
             this.Controls.Add(this.lblBaseURI);
             this.Controls.Add(this.lblResponse);
             this.Controls.Add(this.txtBxResponse);
-            this.Controls.Add(this.txtBxAccessKey);
-            this.Controls.Add(this.lblAccessKey);
             this.Controls.Add(this.lblRequest);
             this.Controls.Add(this.txtBxRequest);
-            this.Controls.Add(this.lblTest);
-            this.Controls.Add(this.cBBuiltInTests);
             this.Name = "TestForm";
             this.Text = "Study Admin API Tester";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,17 +303,14 @@
         #endregion
 
         private System.Windows.Forms.ComboBox cBBuiltInTests;
-        private System.Windows.Forms.Label lblTest;
         private System.Windows.Forms.TextBox txtBxRequest;
         private System.Windows.Forms.Label lblRequest;
-        private System.Windows.Forms.Label lblAccessKey;
         private System.Windows.Forms.TextBox txtBxAccessKey;
         private System.Windows.Forms.TextBox txtBxResponse;
         private System.Windows.Forms.Label lblResponse;
         private System.Windows.Forms.Label lblBaseURI;
         private System.Windows.Forms.ComboBox cbBaseURI;
         private System.Windows.Forms.Button btnExecute;
-        private System.Windows.Forms.Label lblPrivateKey;
         private System.Windows.Forms.TextBox txtBxSecretKey;
         private System.Windows.Forms.Label lblBaseURIRequired;
         private System.Windows.Forms.Label lblAccessKeyRequired;
@@ -286,6 +319,11 @@
         private System.Windows.Forms.Label lblResponseRequired;
         private System.Windows.Forms.Label lblTestRequired;
         private System.Windows.Forms.Label lblValidationError;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label lblStatusCode;
     }
 }
 

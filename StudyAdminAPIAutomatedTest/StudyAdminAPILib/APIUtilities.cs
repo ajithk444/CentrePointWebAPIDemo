@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Net.Http;
+using System.Net;
 using StudyAdminAPILib.JsonDTOs;
 using Newtonsoft.Json;
 
@@ -47,13 +48,13 @@ namespace StudyAdminAPILib
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
         }
 
-        public static string SendRequest(APIJsonDTO dto, string resourceEndpoint, HttpMethod httpVerb, string mediaType = "")
+        public static string SendRequest(APIJsonDTO dto, ref HttpStatusCode statusCode, string resourceEndpoint, HttpMethod httpVerb, string mediaType = "")
         {
             // Generate HttpRequestMessage
             HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
                    
             // If post or get request, serialize Data Transfer Object
-            if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put)) { 
+            if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put)) {
                 request.Content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8);
             }
            
@@ -67,8 +68,8 @@ namespace StudyAdminAPILib
             string responseBody = null;
 
             try {
-                
                 var response = ClientState.HttpClient.SendAsync(request).Result;
+                statusCode = response.StatusCode;
                 responseBody = response.Content.ReadAsStringAsync().Result;
             } 
             catch (Exception e)

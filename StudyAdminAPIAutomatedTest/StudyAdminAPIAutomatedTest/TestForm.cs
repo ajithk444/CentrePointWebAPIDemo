@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using StudyAdminAPILib;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StudyAdminAPILib.JsonDTOs;
 
 namespace StudyAdminAPIAutomatedTest
@@ -46,7 +47,8 @@ namespace StudyAdminAPIAutomatedTest
                 
                 // clear response box when selecting new built in test
                 txtBxResponse.Text = string.Empty;
-                
+                lblStatusCode.Text = string.Empty;
+
                 APITestCase apiTest = (
                 from i in TestCaseRepo.Instance.TestCases 
                 where i.Name.Equals(cBBuiltInTests.Text) 
@@ -65,40 +67,41 @@ namespace StudyAdminAPIAutomatedTest
                 cBBuiltInTests.SelectedIndex = 0;
                 cbBaseURI.Text = string.Empty;
                 txtBxResponse.Text = string.Empty;
+                lblStatusCode.Text = string.Empty;
             };
 
            
             // setting click action for execute button
             btnExecute.Click += (o,e) => {
-    
-                try {
-
-                    lblValidationError.Text = String.Empty;
+            APITestCase apiTest = null; 
+            
+                try
+                {
                     txtBxResponse.Text = String.Empty;
+                    lblValidationError.Text = String.Empty;
+                    lblStatusCode.Text = String.Empty;
+
 
                     if (!IsValidInput())
                         throw new Exception("** Required Fields Missing **");
+
                     
                     // Updating Client State Before Execution
                     ClientState.BaseURI = cbBaseURI.Text;
                     ClientState.AccessKey = txtBxAccessKey.Text;
                     ClientState.SecretKey = txtBxSecretKey.Text;
-                    APITestCase apiTest = (from i in TestCaseRepo.Instance.TestCases
-                                            where i.Name.Equals(cBBuiltInTests.Text)
-                                            select i).FirstOrDefault();
+                     apiTest = (from i in TestCaseRepo.Instance.TestCases
+                                           where i.Name.Equals(cBBuiltInTests.Text)
+                                           select i).FirstOrDefault();
 
                     string jsonResponse = apiTest.Run(txtBxRequest.Text);
-
-                    if (jsonResponse.Equals("Unauthorized")) {
-                        throw new Exception("Unauthorized Access. Please verify Base URI, Access Key and Private Key.");
-                    }
-
+                    ParseResponse(jsonResponse);
                     txtBxResponse.Text = jsonResponse;
 
-                }  catch (Exception ex) {
-             
-                    
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null && ex.InnerException.InnerException.Message.StartsWith("Unable to connect")) 
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null && ex.InnerException.InnerException != null && ex.InnerException.InnerException.Message.StartsWith("Unable to connect"))
                     {
                         lblValidationError.Text = "** Unable to connect to Study Admin API **";
                     }
@@ -107,11 +110,62 @@ namespace StudyAdminAPIAutomatedTest
                         lblValidationError.Text = ex.Message;
                     }
                 }
+                finally 
+                {
+                    if (apiTest != null && apiTest.responseStatusCode != null) 
+                    {          
+                        if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK)) 
+                        {
+                            lblStatusCode.ForeColor = Color.Green;
+                        } 
+                        else 
+                        {
+                            lblStatusCode.ForeColor = Color.Red;
+                        }
+                        lblStatusCode.Text = "HTTP Status Code: " + apiTest.responseStatusCode.ToString();         
+                    }
+                }
                 
             };
             
         }
 
+
+        private void ParseResponse(string jsonResponse)
+        {
+
+            if (jsonResponse.Equals("Unauthorized"))
+            {
+                throw new Exception("Unauthorized Access. Please verify Base URI, Access Key and Private Key.");
+            }
+
+            try
+            {
+                // Try Parsing Response to standard Jobject
+                JsonConvert.DeserializeObject<JObject>(jsonResponse);
+            }
+            catch (Exception) 
+            {
+                try
+                {
+                    // If JObject didn't work, then try Parsing Response to standard JArray
+                    JsonConvert.DeserializeObject<JArray>(jsonResponse);
+                }
+                catch (Exception) 
+                {
+                    try
+                    {
+                        // If JArray didn't work, then try Parsing Response to standard JRaw
+                        JsonConvert.DeserializeObject<JRaw>(jsonResponse);
+                    }
+                    catch (Exception) 
+                    {
+                        throw new Exception(jsonResponse);
+                    }
+                }
+            }
+          
+        }
 
         private Boolean IsValidInput()
         {
@@ -147,6 +201,26 @@ namespace StudyAdminAPIAutomatedTest
             }
 
             return isValid;
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblStatusCode_Click(object sender, EventArgs e)
+        {
 
         }
 
