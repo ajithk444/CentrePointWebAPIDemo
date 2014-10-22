@@ -84,7 +84,13 @@ namespace StudyAdminAPIAutomatedTest
                 cBBuiltInTests.SelectedIndex = 0;
                 txtBxResponse.Text = string.Empty;
                 lblStatusCode.Text = string.Empty;
+                lblValidationError.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
+                lblAccessKeyRequired.Text = string.Empty;
+                lblSecretKeyRequired.Text = string.Empty;
+                lblTestRequired.Text = string.Empty;
+                lblRequestRequired.Text = string.Empty;
+                lblBaseURIRequired.Text = string.Empty;
             };
 
             // setting click action for execute button
@@ -99,7 +105,7 @@ namespace StudyAdminAPIAutomatedTest
                     btnCompareResponse.Enabled = false;
 
                     if (!IsValidInput())
-                        throw new Exception("** Required Fields Missing **");
+                        throw new Exception("Required Fields Missing");
 
                     
                     // Updating Client State Before Execution
@@ -127,7 +133,7 @@ namespace StudyAdminAPIAutomatedTest
                     string errMsg = null;
                     if (current.Message.StartsWith("Unable to connect"))
                     {
-                        errMsg = "** Unable to connect to Study Admin API **";
+                        errMsg = "Unable to connect to Study Admin API";
                     }
                     else
                     {
@@ -152,7 +158,7 @@ namespace StudyAdminAPIAutomatedTest
                         {
                             lblStatusCode.ForeColor = Color.Red;
                         }
-                        lblStatusCode.Text = "HTTP Status Code: " + apiTest.responseStatusCode.ToString();         
+                        lblStatusCode.Text = string.Format("HTTP Status Code:   {0} ({1})", apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
                     }
                 }
                 
@@ -240,6 +246,7 @@ namespace StudyAdminAPIAutomatedTest
             return isValid;
 
         }
+
 
     }
 }

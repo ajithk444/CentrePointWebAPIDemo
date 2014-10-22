@@ -113,7 +113,9 @@
   <ItemGroup>
     <Content Include="download_converted.ico" />
     <Content Include="FodyWeavers.xml" />
+    <Content Include="Resources\cancel.jpg" />
     <Content Include="Resources\check.jpg" />
+    <Content Include="Resources\compare.jpg" />
     <Content Include="Resources\edit_clear.png" />
     <Content Include="Resources\mail.jpg" />
     <Content Include="Resources\tools.jpg" />
