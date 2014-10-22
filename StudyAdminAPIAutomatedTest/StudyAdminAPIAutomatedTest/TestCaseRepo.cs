@@ -47,7 +47,7 @@ namespace StudyAdminAPIAutomatedTest
         private void InitializeTestCases()
         {
 
-            string subjectId = ClientState.DefaultSubjectID;
+            string subjectId = "594";
             string inBed = "2014-05-27T16:40:00";
             string outBed = "2014-05-28T02:28:00";
             string day = "2014-05-27";

@@ -20,10 +20,10 @@ namespace StudyAdminAPIAutomatedTest
         {
             InitializeComponent();
 
-            // Initialize Client State Object
-            ClientState.AccessKey = "2f6507c9-f504-41cb-885f-601e507587b5";
-            ClientState.SecretKey = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
-            ClientState.DefaultSubjectID = "594";
+             //Initialize Client State Object
+             ClientState.AccessKey = "2f6507c9-f504-41cb-885f-601e507587b5";
+             ClientState.SecretKey = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
+             ClientState.DefaultSubjectID = "594";
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
@@ -66,7 +66,6 @@ namespace StudyAdminAPIAutomatedTest
             cbBaseURI.SelectedIndexChanged += (o, e) => {
                 txtBxRequest.Text = string.Empty;
                 cBBuiltInTests.SelectedIndex = 0;
-                cbBaseURI.Text = string.Empty;
                 txtBxResponse.Text = string.Empty;
                 lblStatusCode.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
@@ -78,7 +77,16 @@ namespace StudyAdminAPIAutomatedTest
                 CompareResponse compareResponse = new CompareResponse(txtBxResponse.Text);
                 compareResponse.ShowDialog();
             };
-           
+
+            btnReset.Click += (o, e) =>
+            {
+                txtBxRequest.Text = string.Empty;
+                cBBuiltInTests.SelectedIndex = 0;
+                txtBxResponse.Text = string.Empty;
+                lblStatusCode.Text = string.Empty;
+                btnCompareResponse.Enabled = false;
+            };
+
             // setting click action for execute button
             btnExecute.Click += (o,e) => {
             APITestCase apiTest = null; 
@@ -197,6 +205,7 @@ namespace StudyAdminAPIAutomatedTest
             lblSecretKeyRequired.Text = string.Empty;
             lblTestRequired.Text = string.Empty;
             lblRequestRequired.Text = string.Empty;
+            lblBaseURIRequired.Text = string.Empty;
 
             if (String.IsNullOrEmpty( txtBxAccessKey.Text )) 
             {
@@ -219,6 +228,12 @@ namespace StudyAdminAPIAutomatedTest
             if (String.IsNullOrEmpty( txtBxRequest.Text )) 
             {
                 lblRequestRequired.Text = "*";
+                isValid = false;
+            }
+
+            if (string.IsNullOrEmpty(cbBaseURI.Text)) 
+            {
+                lblBaseURIRequired.Text = "*";
                 isValid = false;
             }
 
