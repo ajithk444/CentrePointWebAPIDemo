@@ -7,10 +7,11 @@
     <ProjectGuid>{D788B87B-632D-486E-9920-24BBADBAA7A3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StudyAdminAPIAutomatedTest</RootNamespace>
-    <AssemblyName>StudyAdminAPIAutomatedTest</AssemblyName>
+    <RootNamespace>StudyAdminAPITester</RootNamespace>
+    <AssemblyName>StudyAdminAPITester</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <FodyPath>..\packages\Fody.1.14.0</FodyPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +31,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>Study Admin API Tester.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -51,6 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompareResponse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompareResponse.Designer.cs">
+      <DependentUpon>CompareResponse.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestCaseRepo.cs" />
     <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
@@ -60,6 +71,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CompareResponse.resx">
+      <DependentUpon>CompareResponse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -73,6 +87,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Fody.targets" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -95,9 +111,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="download_converted.ico" />
+    <Content Include="FodyWeavers.xml" />
     <Content Include="Resources\mail.jpg" />
+    <Content Include="Resources\tools.jpg" />
+    <Content Include="Study Admin API Tester.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="Fody.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

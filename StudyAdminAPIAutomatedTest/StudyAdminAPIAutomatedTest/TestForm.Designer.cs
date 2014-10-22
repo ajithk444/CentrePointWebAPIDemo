@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestForm));
             this.cBBuiltInTests = new System.Windows.Forms.ComboBox();
             this.txtBxRequest = new System.Windows.Forms.TextBox();
             this.lblRequest = new System.Windows.Forms.Label();
@@ -50,6 +51,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblStatusCode = new System.Windows.Forms.Label();
+            this.btnCompareResponse = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -126,9 +128,9 @@
             // 
             // btnExecute
             // 
-            this.btnExecute.Image = global::StudyAdminAPIAutomatedTest.Properties.Resources.mail;
+            this.btnExecute.Image = global::StudyAdminAPITester.Properties.Resources.mail;
             this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.btnExecute.Location = new System.Drawing.Point(184, 300);
+            this.btnExecute.Location = new System.Drawing.Point(184, 305);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(128, 23);
             this.btnExecute.TabIndex = 12;
@@ -207,7 +209,7 @@
             this.lblValidationError.AutoSize = true;
             this.lblValidationError.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblValidationError.ForeColor = System.Drawing.Color.Red;
-            this.lblValidationError.Location = new System.Drawing.Point(184, 281);
+            this.lblValidationError.Location = new System.Drawing.Point(331, 305);
             this.lblValidationError.Name = "lblValidationError";
             this.lblValidationError.Size = new System.Drawing.Size(0, 17);
             this.lblValidationError.TabIndex = 24;
@@ -231,7 +233,6 @@
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Access Key";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // groupBox3
             // 
@@ -242,7 +243,6 @@
             this.groupBox3.TabIndex = 27;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Secret Key";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // groupBox4
             // 
@@ -258,17 +258,27 @@
             // 
             this.lblStatusCode.AutoSize = true;
             this.lblStatusCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatusCode.Location = new System.Drawing.Point(113, 358);
+            this.lblStatusCode.Location = new System.Drawing.Point(181, 352);
             this.lblStatusCode.Name = "lblStatusCode";
             this.lblStatusCode.Size = new System.Drawing.Size(0, 13);
             this.lblStatusCode.TabIndex = 29;
-            this.lblStatusCode.Click += new System.EventHandler(this.lblStatusCode_Click);
+            // 
+            // btnCompareResponse
+            // 
+            this.btnCompareResponse.Enabled = false;
+            this.btnCompareResponse.Location = new System.Drawing.Point(595, 537);
+            this.btnCompareResponse.Name = "btnCompareResponse";
+            this.btnCompareResponse.Size = new System.Drawing.Size(124, 23);
+            this.btnCompareResponse.TabIndex = 30;
+            this.btnCompareResponse.Text = "Compare Response";
+            this.btnCompareResponse.UseVisualStyleBackColor = true;
             // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(759, 561);
+            this.ClientSize = new System.Drawing.Size(784, 611);
+            this.Controls.Add(this.btnCompareResponse);
             this.Controls.Add(this.lblStatusCode);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -287,6 +297,7 @@
             this.Controls.Add(this.txtBxResponse);
             this.Controls.Add(this.lblRequest);
             this.Controls.Add(this.txtBxRequest);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TestForm";
             this.Text = "Study Admin API Tester";
             this.groupBox1.ResumeLayout(false);
@@ -324,6 +335,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label lblStatusCode;
+        private System.Windows.Forms.Button btnCompareResponse;
     }
 }
 

@@ -27,7 +27,7 @@ namespace StudyAdminAPIAutomatedTest
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
-           // cbBaseURI.Items.Add("http://localhost:49248");
+            //cbBaseURI.Items.Add("http://localhost:49248");
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
@@ -48,6 +48,7 @@ namespace StudyAdminAPIAutomatedTest
                 // clear response box when selecting new built in test
                 txtBxResponse.Text = string.Empty;
                 lblStatusCode.Text = string.Empty;
+                btnCompareResponse.Enabled = false;
 
                 APITestCase apiTest = (
                 from i in TestCaseRepo.Instance.TestCases 
@@ -68,8 +69,15 @@ namespace StudyAdminAPIAutomatedTest
                 cbBaseURI.Text = string.Empty;
                 txtBxResponse.Text = string.Empty;
                 lblStatusCode.Text = string.Empty;
+                btnCompareResponse.Enabled = false;
             };
 
+            // Open Compare Response Form
+            btnCompareResponse.Click += (o, e) =>
+            {
+                CompareResponse compareResponse = new CompareResponse(txtBxResponse.Text);
+                compareResponse.ShowDialog();
+            };
            
             // setting click action for execute button
             btnExecute.Click += (o,e) => {
@@ -80,7 +88,7 @@ namespace StudyAdminAPIAutomatedTest
                     txtBxResponse.Text = String.Empty;
                     lblValidationError.Text = String.Empty;
                     lblStatusCode.Text = String.Empty;
-
+                    btnCompareResponse.Enabled = false;
 
                     if (!IsValidInput())
                         throw new Exception("** Required Fields Missing **");
@@ -90,25 +98,38 @@ namespace StudyAdminAPIAutomatedTest
                     ClientState.BaseURI = cbBaseURI.Text;
                     ClientState.AccessKey = txtBxAccessKey.Text;
                     ClientState.SecretKey = txtBxSecretKey.Text;
-                     apiTest = (from i in TestCaseRepo.Instance.TestCases
+                    apiTest = (from i in TestCaseRepo.Instance.TestCases
                                            where i.Name.Equals(cBBuiltInTests.Text)
                                            select i).FirstOrDefault();
 
                     string jsonResponse = apiTest.Run(txtBxRequest.Text);
-                    ParseResponse(jsonResponse);
+                    CheckForProblem(jsonResponse);
                     txtBxResponse.Text = jsonResponse;
 
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null && ex.InnerException.InnerException.Message.StartsWith("Unable to connect"))
+                    // retrieve the inner most exception
+                    Exception current = ex;
+                    while (current.InnerException != null) 
                     {
-                        lblValidationError.Text = "** Unable to connect to Study Admin API **";
+                        current = current.InnerException;
+                    }
+                    
+                    string errMsg = null;
+                    if (current.Message.StartsWith("Unable to connect"))
+                    {
+                        errMsg = "** Unable to connect to Study Admin API **";
                     }
                     else
                     {
-                        lblValidationError.Text = ex.Message;
+                        errMsg = current.Message;
                     }
+
+                    lblValidationError.Text = errMsg;
+                    lblValidationError.MaximumSize = new Size(375, 0);
+                    lblValidationError.AutoSize = true;
+
                 }
                 finally 
                 {
@@ -117,6 +138,7 @@ namespace StudyAdminAPIAutomatedTest
                         if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK)) 
                         {
                             lblStatusCode.ForeColor = Color.Green;
+                            btnCompareResponse.Enabled = true;
                         } 
                         else 
                         {
@@ -131,7 +153,7 @@ namespace StudyAdminAPIAutomatedTest
         }
 
 
-        private void ParseResponse(string jsonResponse)
+        private void CheckForProblem(string jsonResponse)
         {
 
             if (jsonResponse.Equals("Unauthorized"))
@@ -203,27 +225,6 @@ namespace StudyAdminAPIAutomatedTest
             return isValid;
 
         }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblStatusCode_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
     }
 }
