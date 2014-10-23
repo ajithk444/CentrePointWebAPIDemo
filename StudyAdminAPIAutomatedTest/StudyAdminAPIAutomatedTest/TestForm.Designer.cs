@@ -42,17 +42,17 @@
             this.lblRequestRequired = new System.Windows.Forms.Label();
             this.lblResponseRequired = new System.Windows.Forms.Label();
             this.lblTestRequired = new System.Windows.Forms.Label();
-            this.lblValidationError = new System.Windows.Forms.Label();
+            this.lblError = new System.Windows.Forms.Label();
             this.grpBxBuiltInTests = new System.Windows.Forms.GroupBox();
             this.grpBxAccessKey = new System.Windows.Forms.GroupBox();
             this.grpBxSecretKey = new System.Windows.Forms.GroupBox();
             this.grpBxBaseURI = new System.Windows.Forms.GroupBox();
             this.lblStatusCode = new System.Windows.Forms.Label();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.btnCompareResponse = new System.Windows.Forms.Button();
-            this.btnExecute = new System.Windows.Forms.Button();
             this.grpBxRequest = new System.Windows.Forms.GroupBox();
             this.grpBxResponse = new System.Windows.Forms.GroupBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnExecute = new System.Windows.Forms.Button();
+            this.btnCompareResponse = new System.Windows.Forms.Button();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -75,7 +75,7 @@
             this.txtBxRequest.Multiline = true;
             this.txtBxRequest.Name = "txtBxRequest";
             this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxRequest.Size = new System.Drawing.Size(623, 79);
+            this.txtBxRequest.Size = new System.Drawing.Size(623, 109);
             this.txtBxRequest.TabIndex = 2;
             // 
             // txtBxAccessKey
@@ -87,11 +87,11 @@
             // 
             // txtBxResponse
             // 
-            this.txtBxResponse.Location = new System.Drawing.Point(183, 20);
+            this.txtBxResponse.Location = new System.Drawing.Point(181, 25);
             this.txtBxResponse.Multiline = true;
             this.txtBxResponse.Name = "txtBxResponse";
             this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxResponse.Size = new System.Drawing.Size(623, 111);
+            this.txtBxResponse.Size = new System.Drawing.Size(623, 141);
             this.txtBxResponse.TabIndex = 7;
             // 
             // lblBaseURI
@@ -178,15 +178,17 @@
             this.lblTestRequired.Size = new System.Drawing.Size(0, 25);
             this.lblTestRequired.TabIndex = 23;
             // 
-            // lblValidationError
+            // lblError
             // 
-            this.lblValidationError.AutoSize = true;
-            this.lblValidationError.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblValidationError.ForeColor = System.Drawing.Color.Red;
-            this.lblValidationError.Location = new System.Drawing.Point(192, 340);
-            this.lblValidationError.Name = "lblValidationError";
-            this.lblValidationError.Size = new System.Drawing.Size(0, 18);
-            this.lblValidationError.TabIndex = 24;
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.ForeColor = System.Drawing.Color.Red;
+            this.lblError.Image = global::StudyAdminAPITester.Properties.Resources.cancel_small;
+            this.lblError.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblError.Location = new System.Drawing.Point(192, 583);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 18);
+            this.lblError.TabIndex = 24;
             // 
             // grpBxBuiltInTests
             // 
@@ -235,44 +237,11 @@
             // 
             this.lblStatusCode.AutoSize = true;
             this.lblStatusCode.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatusCode.Location = new System.Drawing.Point(192, 379);
+            this.lblStatusCode.Location = new System.Drawing.Point(192, 363);
+            this.lblStatusCode.MaximumSize = new System.Drawing.Size(0, 15);
             this.lblStatusCode.Name = "lblStatusCode";
             this.lblStatusCode.Size = new System.Drawing.Size(0, 14);
             this.lblStatusCode.TabIndex = 29;
-            // 
-            // btnReset
-            // 
-            this.btnReset.Image = global::StudyAdminAPITester.Properties.Resources.edit_clear;
-            this.btnReset.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.btnReset.Location = new System.Drawing.Point(536, 102);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(149, 32);
-            this.btnReset.TabIndex = 31;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
-            // 
-            // btnCompareResponse
-            // 
-            this.btnCompareResponse.Enabled = false;
-            this.btnCompareResponse.Image = global::StudyAdminAPITester.Properties.Resources.check;
-            this.btnCompareResponse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCompareResponse.Location = new System.Drawing.Point(705, 594);
-            this.btnCompareResponse.Name = "btnCompareResponse";
-            this.btnCompareResponse.Size = new System.Drawing.Size(149, 32);
-            this.btnCompareResponse.TabIndex = 30;
-            this.btnCompareResponse.Text = "Compare";
-            this.btnCompareResponse.UseVisualStyleBackColor = true;
-            // 
-            // btnExecute
-            // 
-            this.btnExecute.Image = global::StudyAdminAPITester.Properties.Resources.mail;
-            this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExecute.Location = new System.Drawing.Point(268, 102);
-            this.btnExecute.Name = "btnExecute";
-            this.btnExecute.Size = new System.Drawing.Size(149, 32);
-            this.btnExecute.TabIndex = 12;
-            this.btnExecute.Text = "   Send Request";
-            this.btnExecute.UseVisualStyleBackColor = true;
             // 
             // grpBxRequest
             // 
@@ -282,7 +251,7 @@
             this.grpBxRequest.Controls.Add(this.lblRequestRequired);
             this.grpBxRequest.Location = new System.Drawing.Point(12, 176);
             this.grpBxRequest.Name = "grpBxRequest";
-            this.grpBxRequest.Size = new System.Drawing.Size(856, 149);
+            this.grpBxRequest.Size = new System.Drawing.Size(856, 170);
             this.grpBxRequest.TabIndex = 32;
             this.grpBxRequest.TabStop = false;
             this.grpBxRequest.Text = "Request (to Study Admin API)";
@@ -291,12 +260,46 @@
             // 
             this.grpBxResponse.Controls.Add(this.txtBxResponse);
             this.grpBxResponse.Controls.Add(this.lblResponseRequired);
-            this.grpBxResponse.Location = new System.Drawing.Point(12, 418);
+            this.grpBxResponse.Location = new System.Drawing.Point(14, 396);
             this.grpBxResponse.Name = "grpBxResponse";
-            this.grpBxResponse.Size = new System.Drawing.Size(856, 154);
+            this.grpBxResponse.Size = new System.Drawing.Size(856, 172);
             this.grpBxResponse.TabIndex = 33;
             this.grpBxResponse.TabStop = false;
             this.grpBxResponse.Text = "Resposne (from Study Admin API)";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Image = global::StudyAdminAPITester.Properties.Resources.edit_clear;
+            this.btnReset.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.btnReset.Location = new System.Drawing.Point(535, 132);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(149, 32);
+            this.btnReset.TabIndex = 31;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            // 
+            // btnExecute
+            // 
+            this.btnExecute.Image = global::StudyAdminAPITester.Properties.Resources.mail;
+            this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExecute.Location = new System.Drawing.Point(268, 132);
+            this.btnExecute.Name = "btnExecute";
+            this.btnExecute.Size = new System.Drawing.Size(149, 32);
+            this.btnExecute.TabIndex = 12;
+            this.btnExecute.Text = "   Send Request";
+            this.btnExecute.UseVisualStyleBackColor = true;
+            // 
+            // btnCompareResponse
+            // 
+            this.btnCompareResponse.Enabled = false;
+            this.btnCompareResponse.Image = global::StudyAdminAPITester.Properties.Resources.compare;
+            this.btnCompareResponse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCompareResponse.Location = new System.Drawing.Point(705, 594);
+            this.btnCompareResponse.Name = "btnCompareResponse";
+            this.btnCompareResponse.Size = new System.Drawing.Size(149, 32);
+            this.btnCompareResponse.TabIndex = 30;
+            this.btnCompareResponse.Text = "Compare";
+            this.btnCompareResponse.UseVisualStyleBackColor = true;
             // 
             // TestForm
             // 
@@ -305,13 +308,13 @@
             this.ClientSize = new System.Drawing.Size(915, 658);
             this.Controls.Add(this.grpBxResponse);
             this.Controls.Add(this.grpBxRequest);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnCompareResponse);
             this.Controls.Add(this.lblStatusCode);
             this.Controls.Add(this.grpBxBaseURI);
             this.Controls.Add(this.grpBxSecretKey);
             this.Controls.Add(this.grpBxAccessKey);
             this.Controls.Add(this.grpBxBuiltInTests);
-            this.Controls.Add(this.lblValidationError);
             this.Controls.Add(this.lblTestRequired);
             this.Controls.Add(this.lblBaseURI);
             this.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -350,7 +353,7 @@
         private System.Windows.Forms.Label lblRequestRequired;
         private System.Windows.Forms.Label lblResponseRequired;
         private System.Windows.Forms.Label lblTestRequired;
-        private System.Windows.Forms.Label lblValidationError;
+        private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.GroupBox grpBxBuiltInTests;
         private System.Windows.Forms.GroupBox grpBxAccessKey;
         private System.Windows.Forms.GroupBox grpBxSecretKey;

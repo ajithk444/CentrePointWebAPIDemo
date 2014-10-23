@@ -33,13 +33,17 @@ namespace StudyAdminAPIAutomatedTest
 
              if (string.Compare(this.responseJson, compareTo) == 0) 
              {
-                 lblMatchStatus.Text = "Matched Successfully";
+                 lblMatchStatus.Text = "    Matched Successfully";
                  lblMatchStatus.ForeColor = Color.Green;
+                 lblMatchStatus.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
+                 lblMatchStatus.ImageAlign = ContentAlignment.TopLeft;
              }
              else
              {
-                 lblMatchStatus.Text = "No Match";
+                 lblMatchStatus.Text = "    No Match";
                  lblMatchStatus.ForeColor = Color.Red;
+                 lblMatchStatus.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
+                 lblMatchStatus.ImageAlign = ContentAlignment.TopLeft;
              }
 
             };

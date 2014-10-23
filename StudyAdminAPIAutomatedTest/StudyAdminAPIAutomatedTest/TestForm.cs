@@ -16,9 +16,14 @@ namespace StudyAdminAPIAutomatedTest
 {
     public partial class TestForm : Form
     {
+
+        private StringBuilder sbLog;
+        private String lastJsonResponse;
+
         public TestForm()
         {
             InitializeComponent();
+            sbLog = new StringBuilder();
 
              //Initialize Client State Object
              ClientState.AccessKey = "2f6507c9-f504-41cb-885f-601e507587b5";
@@ -74,7 +79,7 @@ namespace StudyAdminAPIAutomatedTest
             // Open Compare Response Form
             btnCompareResponse.Click += (o, e) =>
             {
-                CompareResponse compareResponse = new CompareResponse(txtBxResponse.Text);
+                CompareResponse compareResponse = new CompareResponse(lastJsonResponse);
                 compareResponse.ShowDialog();
             };
 
@@ -84,7 +89,7 @@ namespace StudyAdminAPIAutomatedTest
                 cBBuiltInTests.SelectedIndex = 0;
                 txtBxResponse.Text = string.Empty;
                 lblStatusCode.Text = string.Empty;
-                lblValidationError.Text = string.Empty;
+                lblError.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
                 lblAccessKeyRequired.Text = string.Empty;
                 lblSecretKeyRequired.Text = string.Empty;
@@ -95,12 +100,12 @@ namespace StudyAdminAPIAutomatedTest
 
             // setting click action for execute button
             btnExecute.Click += (o,e) => {
-            APITestCase apiTest = null; 
+            APITestCase apiTest = null;
             
                 try
                 {
                     txtBxResponse.Text = String.Empty;
-                    lblValidationError.Text = String.Empty;
+                    lblError.Text = String.Empty;
                     lblStatusCode.Text = String.Empty;
                     btnCompareResponse.Enabled = false;
 
@@ -118,7 +123,20 @@ namespace StudyAdminAPIAutomatedTest
 
                     string jsonResponse = apiTest.Run(txtBxRequest.Text);
                     CheckForProblem(jsonResponse);
-                    txtBxResponse.Text = jsonResponse;
+                    lastJsonResponse = jsonResponse;
+
+                    sbLog.Insert(0, Environment.NewLine);
+                    sbLog.Insert(0, Environment.NewLine);
+                    sbLog.Insert(0, Environment.NewLine);
+                    sbLog.Insert(0, jsonResponse);
+                    sbLog.Insert(0, "RESPONSE:" + Environment.NewLine);
+                    sbLog.Insert(0, Environment.NewLine);
+                    sbLog.Insert(0, Environment.NewLine);
+                    sbLog.Insert(0, txtBxRequest.Text);
+                    sbLog.Insert(0, Environment.NewLine);
+                    sbLog.Insert(0, string.Format("REQUEST ({0}):",DateTime.Now.ToString()));
+                    txtBxResponse.Text = sbLog.ToString();
+
 
                 }
                 catch (Exception ex)
@@ -140,9 +158,9 @@ namespace StudyAdminAPIAutomatedTest
                         errMsg = current.Message;
                     }
 
-                    lblValidationError.Text = errMsg;
-                    lblValidationError.MaximumSize = new Size(375, 0);
-                    lblValidationError.AutoSize = true;
+                    lblError.Text = string.Format("      {0}",errMsg);
+                    lblError.MaximumSize = new Size(495, 0);
+                    lblError.AutoSize = true;
 
                 }
                 finally 
@@ -152,13 +170,18 @@ namespace StudyAdminAPIAutomatedTest
                         if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK)) 
                         {
                             lblStatusCode.ForeColor = Color.Green;
+                            lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
+                            lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
                             btnCompareResponse.Enabled = true;
                         } 
                         else 
                         {
                             lblStatusCode.ForeColor = Color.Red;
+                            lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
+                            lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
+                            btnCompareResponse.Enabled = true;
                         }
-                        lblStatusCode.Text = string.Format("HTTP Status Code:   {0} ({1})", apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
+                        lblStatusCode.Text = string.Format("      HTTP Status Code  {0} - {1}",  (string)apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
                     }
                 }
                 
