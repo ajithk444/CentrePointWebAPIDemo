@@ -112,68 +112,74 @@ namespace StudyAdminAPIAutomatedTest
             // setting click action for execute button
             btnExecute.Click += (o,e) => {
             APITestCase apiTest = null;
-            
-                try
+
+            try
+            {
+
+                lblError.Text = String.Empty;
+                lblStatusCode.Text = String.Empty;
+                btnCompareResponse.Enabled = false;
+
+                if (!IsValidInput())
+                    throw new Exception("Required Fields Missing");
+
+
+                // Updating Client State Before Execution
+                ClientState.BaseURI = cbBaseURI.Text;
+                ClientState.AccessKey = txtBxAccessKey.Text;
+                ClientState.SecretKey = txtBxSecretKey.Text;
+                apiTest = (from i in TestCaseRepo.Instance.TestCases
+                           where i.Name.Equals(cBBuiltInTests.Text)
+                           select i).FirstOrDefault();
+
+                string jsonResponse = apiTest.Run(txtBxRequest.Text);
+                CheckForProblem(jsonResponse);
+                lastJsonResponse = jsonResponse;
+
+                sbLog.Insert(0, Environment.NewLine);
+                sbLog.Insert(0, Environment.NewLine);
+                sbLog.Insert(0, Environment.NewLine);
+                sbLog.Insert(0, jsonResponse);
+                sbLog.Insert(0, "RESPONSE:" + Environment.NewLine);
+                sbLog.Insert(0, Environment.NewLine);
+                sbLog.Insert(0, Environment.NewLine);
+                sbLog.Insert(0, txtBxRequest.Text);
+                sbLog.Insert(0, Environment.NewLine);
+                sbLog.Insert(0, string.Format("REQUEST ({0}):", DateTime.Now.ToString()));
+                txtBxResponse.Text = sbLog.ToString();
+
+
+            }
+            catch (JsonReaderException ex) 
+            {
+                lblError.Text = string.Format("      {0}", "Json format not valid");
+                lblError.MaximumSize = new Size(495, 0);
+                lblError.AutoSize = true;
+            }
+            catch (Exception ex)
+            {
+                // retrieve the inner most exception
+                Exception current = ex;
+                while (current.InnerException != null)
                 {
-               
-                    lblError.Text = String.Empty;
-                    lblStatusCode.Text = String.Empty;
-                    btnCompareResponse.Enabled = false;
-
-                    if (!IsValidInput())
-                        throw new Exception("Required Fields Missing");
-
-                    
-                    // Updating Client State Before Execution
-                    ClientState.BaseURI = cbBaseURI.Text;
-                    ClientState.AccessKey = txtBxAccessKey.Text;
-                    ClientState.SecretKey = txtBxSecretKey.Text;
-                    apiTest = (from i in TestCaseRepo.Instance.TestCases
-                                           where i.Name.Equals(cBBuiltInTests.Text)
-                                           select i).FirstOrDefault();
-
-                    string jsonResponse = apiTest.Run(txtBxRequest.Text);
-                    CheckForProblem(jsonResponse);
-                    lastJsonResponse = jsonResponse;
-
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, jsonResponse);
-                    sbLog.Insert(0, "RESPONSE:" + Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, txtBxRequest.Text);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, string.Format("REQUEST ({0}):",DateTime.Now.ToString()));
-                    txtBxResponse.Text = sbLog.ToString();
-
-
+                    current = current.InnerException;
                 }
-                catch (Exception ex)
+
+                string errMsg = null;
+                if (current.Message.StartsWith("Unable to connect"))
                 {
-                    // retrieve the inner most exception
-                    Exception current = ex;
-                    while (current.InnerException != null) 
-                    {
-                        current = current.InnerException;
-                    }
-                    
-                    string errMsg = null;
-                    if (current.Message.StartsWith("Unable to connect"))
-                    {
-                        errMsg = "Unable to connect to Study Admin API";
-                    }
-                    else
-                    {
-                        errMsg = current.Message;
-                    }
-
-                    lblError.Text = string.Format("      {0}",errMsg);
-                    lblError.MaximumSize = new Size(495, 0);
-                    lblError.AutoSize = true;
-
+                    errMsg = "Unable to connect to Study Admin API";
                 }
+                else
+                {
+                    errMsg = current.Message;
+                }
+
+                lblError.Text = string.Format("      {0}", errMsg);
+                lblError.MaximumSize = new Size(495, 0);
+                lblError.AutoSize = true;
+
+            }
                 finally 
                 {
                     if (apiTest != null && apiTest.responseStatusCode != null) 
