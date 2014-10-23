@@ -46,8 +46,6 @@ namespace StudyAdminAPIAutomatedTest
             cBBuiltInTests.DataSource = testCases;
           
             // Set defaults for access and secret keys
-           
-           
             defaultAccessKeyText = "<Enter Access Key>";
             txtBxAccessKey.Text = defaultAccessKeyText;
             txtBxAccessKey.MouseClick += (o, e) =>
@@ -194,7 +192,7 @@ namespace StudyAdminAPIAutomatedTest
                             lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
                             btnCompareResponse.Enabled = true;
                         }
-                        lblStatusCode.Text = string.Format("      HTTP Status Code  {0} - {1}",  (string)apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
+                        lblStatusCode.Text = string.Format("      HTTP Status Code  {0} : {1}",  (string)apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
                     }
                 }
                 
