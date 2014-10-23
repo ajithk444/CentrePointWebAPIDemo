@@ -46,10 +46,21 @@ namespace StudyAdminAPIAutomatedTest
             cBBuiltInTests.DataSource = testCases;
           
             // Set defaults for access and secret keys
+           
+           
             defaultAccessKeyText = "<Enter Access Key>";
-            defaultSecretKeyText = "<Enter Secret Key>";
             txtBxAccessKey.Text = defaultAccessKeyText;
+            txtBxAccessKey.MouseClick += (o, e) =>
+            {
+                txtBxAccessKey.Text = string.Empty;
+            };
+
+            defaultSecretKeyText = "<Enter Secret Key>";
             txtBxSecretKey.Text = defaultSecretKeyText;
+            txtBxSecretKey.MouseClick += (o, e) =>
+            {
+                txtBxSecretKey.Text = string.Empty;
+            };
 
             // Setting onselectedchage action for tests combo box
             cBBuiltInTests.SelectedIndexChanged += (o, e) => {

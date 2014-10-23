@@ -49,9 +49,9 @@
             this.grpBxBaseURI = new System.Windows.Forms.GroupBox();
             this.lblStatusCode = new System.Windows.Forms.Label();
             this.grpBxRequest = new System.Windows.Forms.GroupBox();
-            this.grpBxResponse = new System.Windows.Forms.GroupBox();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnExecute = new System.Windows.Forms.Button();
+            this.grpBxResponse = new System.Windows.Forms.GroupBox();
             this.btnCompareResponse = new System.Windows.Forms.Button();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
@@ -181,7 +181,7 @@
             // lblError
             // 
             this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.Red;
             this.lblError.Image = global::StudyAdminAPITester.Properties.Resources.cancel_small;
             this.lblError.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -256,17 +256,6 @@
             this.grpBxRequest.TabStop = false;
             this.grpBxRequest.Text = "Request (to Study Admin API)";
             // 
-            // grpBxResponse
-            // 
-            this.grpBxResponse.Controls.Add(this.txtBxResponse);
-            this.grpBxResponse.Controls.Add(this.lblResponseRequired);
-            this.grpBxResponse.Location = new System.Drawing.Point(14, 396);
-            this.grpBxResponse.Name = "grpBxResponse";
-            this.grpBxResponse.Size = new System.Drawing.Size(856, 172);
-            this.grpBxResponse.TabIndex = 33;
-            this.grpBxResponse.TabStop = false;
-            this.grpBxResponse.Text = "Resposne (from Study Admin API)";
-            // 
             // btnReset
             // 
             this.btnReset.Image = global::StudyAdminAPITester.Properties.Resources.edit_clear;
@@ -288,6 +277,17 @@
             this.btnExecute.TabIndex = 12;
             this.btnExecute.Text = "   Send Request";
             this.btnExecute.UseVisualStyleBackColor = true;
+            // 
+            // grpBxResponse
+            // 
+            this.grpBxResponse.Controls.Add(this.txtBxResponse);
+            this.grpBxResponse.Controls.Add(this.lblResponseRequired);
+            this.grpBxResponse.Location = new System.Drawing.Point(14, 396);
+            this.grpBxResponse.Name = "grpBxResponse";
+            this.grpBxResponse.Size = new System.Drawing.Size(856, 172);
+            this.grpBxResponse.TabIndex = 33;
+            this.grpBxResponse.TabStop = false;
+            this.grpBxResponse.Text = "Resposne (from Study Admin API)";
             // 
             // btnCompareResponse
             // 
