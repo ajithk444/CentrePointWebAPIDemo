@@ -19,6 +19,9 @@ namespace StudyAdminAPIAutomatedTest
 
         private StringBuilder sbLog;
         private String lastJsonResponse;
+        private String defaultAccessKeyText;
+        private String defaultSecretKeyText;
+
 
         public TestForm()
         {
@@ -26,13 +29,12 @@ namespace StudyAdminAPIAutomatedTest
             sbLog = new StringBuilder();
 
              //Initialize Client State Object
-             ClientState.AccessKey = "2f6507c9-f504-41cb-885f-601e507587b5";
-             ClientState.SecretKey = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
-             ClientState.DefaultSubjectID = "594";
+             //ClientState.AccessKey = "2f6507c9-f504-41cb-885f-601e507587b5";
+             //ClientState.SecretKey = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
+             //ClientState.DefaultSubjectID = "594";
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
-            //cbBaseURI.Items.Add("http://localhost:49248");
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
@@ -44,14 +46,15 @@ namespace StudyAdminAPIAutomatedTest
             cBBuiltInTests.DataSource = testCases;
           
             // Set defaults for access and secret keys
-            txtBxAccessKey.Text = ClientState.AccessKey;
-            txtBxSecretKey.Text = ClientState.SecretKey;
+            defaultAccessKeyText = "<Enter Access Key>";
+            defaultSecretKeyText = "<Enter Secret Key>";
+            txtBxAccessKey.Text = defaultAccessKeyText;
+            txtBxSecretKey.Text = defaultSecretKeyText;
 
             // Setting onselectedchage action for tests combo box
             cBBuiltInTests.SelectedIndexChanged += (o, e) => {
                 
                 // clear response box when selecting new built in test
-                txtBxResponse.Text = string.Empty;
                 lblStatusCode.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
 
@@ -87,7 +90,6 @@ namespace StudyAdminAPIAutomatedTest
             {
                 txtBxRequest.Text = string.Empty;
                 cBBuiltInTests.SelectedIndex = 0;
-                txtBxResponse.Text = string.Empty;
                 lblStatusCode.Text = string.Empty;
                 lblError.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
@@ -104,7 +106,7 @@ namespace StudyAdminAPIAutomatedTest
             
                 try
                 {
-                    txtBxResponse.Text = String.Empty;
+               
                     lblError.Text = String.Empty;
                     lblStatusCode.Text = String.Empty;
                     btnCompareResponse.Enabled = false;
@@ -236,13 +238,13 @@ namespace StudyAdminAPIAutomatedTest
             lblRequestRequired.Text = string.Empty;
             lblBaseURIRequired.Text = string.Empty;
 
-            if (String.IsNullOrEmpty( txtBxAccessKey.Text )) 
+            if (String.IsNullOrEmpty( txtBxAccessKey.Text ) || txtBxAccessKey.Text.Equals(defaultAccessKeyText)) 
             {
                 lblAccessKeyRequired.Text = "*";
                 isValid = false;
             }
 
-            if (String.IsNullOrEmpty( txtBxSecretKey.Text ))  
+            if (String.IsNullOrEmpty(txtBxSecretKey.Text) || txtBxSecretKey.Text.Equals(defaultSecretKeyText))  
             {
                 lblSecretKeyRequired.Text = "*";
                 isValid = false;
