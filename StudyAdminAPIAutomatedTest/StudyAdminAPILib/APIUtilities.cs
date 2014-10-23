@@ -48,41 +48,42 @@ namespace StudyAdminAPILib
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
         }
 
-        public static string SendRequest(APIJsonDTO dto, ref HttpStatusCode statusCode, string resourceEndpoint, HttpMethod httpVerb, string mediaType = "")
+
+        public static async Task<HttpResponseMessage> SendRequestAsync(APIJsonDTO dto, string resourceEndpoint, HttpMethod httpVerb, string mediaType = "")
         {
             // Generate HttpRequestMessage
             HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
-                   
+
             // If post or get request, serialize Data Transfer Object
-            if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put)) {
+            if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put))
+            {
                 request.Content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8);
             }
-           
-            if (!(String.IsNullOrEmpty(mediaType))) { 
+
+            if (!(String.IsNullOrEmpty(mediaType)))
+            {
                 request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mediaType);
             }
 
             // Build Auth Header
             APIUtilities.BuildAuthHeader(ref request);
 
-            string responseBody = null;
+            try
+            {
+                Task<HttpResponseMessage> response = ClientState.HttpClient.SendAsync(request);
+                await response;
 
-            try {
-                var response = ClientState.HttpClient.SendAsync(request).Result;
-                statusCode = response.StatusCode;
-                responseBody = response.Content.ReadAsStringAsync().Result;
-            } 
+                return response.Result;
+            }
             catch (Exception e)
             {
                 throw e;
             }
             finally
             {
-                 request.Dispose();
+                request.Dispose();
             }
-           
 
-            return responseBody;
         }
 
 

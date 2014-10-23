@@ -110,7 +110,8 @@ namespace StudyAdminAPIAutomatedTest
             };
 
             // setting click action for execute button
-            btnExecute.Click += (o,e) => {
+            btnExecute.Click += async (o,e) => {
+           
             APITestCase apiTest = null;
 
             try
@@ -128,11 +129,17 @@ namespace StudyAdminAPIAutomatedTest
                 ClientState.BaseURI = cbBaseURI.Text;
                 ClientState.AccessKey = txtBxAccessKey.Text;
                 ClientState.SecretKey = txtBxSecretKey.Text;
+                
                 apiTest = (from i in TestCaseRepo.Instance.TestCases
                            where i.Name.Equals(cBBuiltInTests.Text)
                            select i).FirstOrDefault();
 
-                string jsonResponse = apiTest.Run(txtBxRequest.Text);
+                Task<string> jsonResponseTask = apiTest.Run(txtBxRequest.Text);
+                await jsonResponseTask;
+
+                string jsonResponse = jsonResponseTask.Result;
+       
+
                 CheckForProblem(jsonResponse);
                 lastJsonResponse = jsonResponse;
 
@@ -180,27 +187,27 @@ namespace StudyAdminAPIAutomatedTest
                 lblError.AutoSize = true;
 
             }
-                finally 
-                {
-                    if (apiTest != null && apiTest.responseStatusCode != null) 
-                    {          
-                        if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK)) 
-                        {
-                            lblStatusCode.ForeColor = Color.Green;
-                            lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
-                            lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
-                            btnCompareResponse.Enabled = true;
-                        } 
-                        else 
-                        {
-                            lblStatusCode.ForeColor = Color.Red;
-                            lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
-                            lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
-                            btnCompareResponse.Enabled = true;
-                        }
-                        lblStatusCode.Text = string.Format("      HTTP Status Code  {0} : {1}",  (string)apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
+            finally 
+            {
+                if (apiTest != null && apiTest.responseStatusCode != null) 
+                {          
+                    if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK)) 
+                    {
+                        lblStatusCode.ForeColor = Color.Green;
+                        lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
+                        lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
+                        btnCompareResponse.Enabled = true;
+                    } 
+                    else 
+                    {
+                        lblStatusCode.ForeColor = Color.Red;
+                        lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
+                        lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
+                        btnCompareResponse.Enabled = true;
                     }
+                    lblStatusCode.Text = string.Format("      HTTP Status Code  {0} : {1}",  (string)apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
                 }
+            }
                 
             };
             
