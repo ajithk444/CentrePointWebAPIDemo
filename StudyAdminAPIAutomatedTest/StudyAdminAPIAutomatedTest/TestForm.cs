@@ -159,6 +159,8 @@ namespace StudyAdminAPIAutomatedTest
                 try
                 {
 
+      
+
                     lblStatusCode.Text = String.Empty;
                     btnCompareResponse.Enabled = false;
 
@@ -178,10 +180,22 @@ namespace StudyAdminAPIAutomatedTest
                     apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
 
                     requestTime = DateTime.Now;
+                  
+                    // Hide "Waiting For Response..." label
+                    lblWaitingForResponse.Visible = true;
+
+                    // disable send request button while text is running
+                    btnExecute.Enabled = false;
 
                     jsonResponseTask = apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
 
                     await jsonResponseTask;
+
+                    // re-enable send request button after request is complete
+                    btnExecute.Enabled = true;
+
+                    // Hide "Waiting For Response..." label
+                    lblWaitingForResponse.Visible = false;
 
                     jsonResponse = jsonResponseTask.Result;
                     lastJsonResponse = jsonResponse;
@@ -235,7 +249,12 @@ namespace StudyAdminAPIAutomatedTest
                         sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, txtBxURI.Text, jsonRequestRaw, requestTime));
                         txtBxResponse.Text = sbLog.ToString();
 
-                    }
+                        // re-enable send request button after request is complete (incase exception was thrown)
+                        btnExecute.Enabled = true;
+
+                        // Hide waiting for response label (in case xception was thrown)
+                        lblWaitingForResponse.Visible = false;
+                    }     
 
                 }
                 
@@ -243,8 +262,16 @@ namespace StudyAdminAPIAutomatedTest
 
             #region response right click menu
 
+            toolStripMenuItemClearLog.Click += (obj, sender) => { 
+                txtBxResponse.Clear();
+                lblStatusCode.Text = string.Empty; 
+                lblError.Text = string.Empty;
+                lblUriRequired.Text = string.Empty;
+                lblAccessKeyRequired.Text = string.Empty;
+                lblSecretKeyRequired.Text = string.Empty;
+                lblRequestRequired.Text = string.Empty;
+            };
 
-            toolStripMenuItemClearLog.Click += (obj, sender) => { txtBxResponse.Clear(); lblStatusCode.Text = string.Empty; };
             toolStripMenuItemSaveLog.Click += (obj, sender) =>
             {
                 using (var saveFileDialog = new SaveFileDialog())
@@ -315,31 +342,31 @@ namespace StudyAdminAPIAutomatedTest
             lblBaseURIRequired.Text = string.Empty;
 
 
-            if (String.IsNullOrEmpty( txtBxAccessKey.Text ) || txtBxAccessKey.Text.Equals(defaultAccessKeyText)) 
+            if (String.IsNullOrEmpty(txtBxAccessKey.Text) || txtBxAccessKey.Text.Equals(defaultAccessKeyText))
             {
                 lblAccessKeyRequired.Text = "*";
                 isValid = false;
             }
 
-            if (String.IsNullOrEmpty(txtBxSecretKey.Text) || txtBxSecretKey.Text.Equals(defaultSecretKeyText))  
+            if (String.IsNullOrEmpty(txtBxSecretKey.Text) || txtBxSecretKey.Text.Equals(defaultSecretKeyText))
             {
                 lblSecretKeyRequired.Text = "*";
                 isValid = false;
             }
 
-            if (String.IsNullOrEmpty( txtBxURI.Text)) 
+            if (String.IsNullOrEmpty(txtBxURI.Text))
             {
                 lblUriRequired.Text = "*";
                 isValid = false;
             }
 
-            if (txtBxRequest.Enabled && String.IsNullOrEmpty( txtBxRequest.Text )) 
+            if (txtBxRequest.Enabled && String.IsNullOrEmpty(txtBxRequest.Text))
             {
                 lblRequestRequired.Text = "*";
                 isValid = false;
             }
 
-            if (string.IsNullOrEmpty(cbBaseURI.Text)) 
+            if (string.IsNullOrEmpty(cbBaseURI.Text))
             {
                 lblBaseURIRequired.Text = "*";
                 isValid = false;

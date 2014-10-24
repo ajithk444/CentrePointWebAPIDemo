@@ -62,10 +62,11 @@
             this.lblResponseRequired = new System.Windows.Forms.Label();
             this.linkLabelHelp = new System.Windows.Forms.LinkLabel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.lblWaitingForResponse = new System.Windows.Forms.Label();
+            this.lblError = new System.Windows.Forms.Label();
             this.grpBxContent = new System.Windows.Forms.GroupBox();
             this.btnCompareResponse = new System.Windows.Forms.Button();
             this.btnExecute = new System.Windows.Forms.Button();
-            this.lblError = new System.Windows.Forms.Label();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -194,7 +195,7 @@
             this.lblSecretKeyRequired.AutoSize = true;
             this.lblSecretKeyRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSecretKeyRequired.ForeColor = System.Drawing.Color.Red;
-            this.lblSecretKeyRequired.Location = new System.Drawing.Point(433, 9);
+            this.lblSecretKeyRequired.Location = new System.Drawing.Point(433, 14);
             this.lblSecretKeyRequired.Name = "lblSecretKeyRequired";
             this.lblSecretKeyRequired.Size = new System.Drawing.Size(0, 25);
             this.lblSecretKeyRequired.TabIndex = 20;
@@ -269,7 +270,6 @@
             this.lblUriRequired.Name = "lblUriRequired";
             this.lblUriRequired.Size = new System.Drawing.Size(0, 25);
             this.lblUriRequired.TabIndex = 35;
-          //  this.lblUriRequired.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtBxURI
             // 
@@ -369,6 +369,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.lblWaitingForResponse);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.lblError);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.grpBxContent);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.linkLabelHelp);
@@ -392,6 +393,25 @@
             this.toolStripContainer1.TabIndex = 36;
             this.toolStripContainer1.Text = "toolStripContainer1";
             this.toolStripContainer1.TopToolStripPanelVisible = false;
+            // 
+            // lblWaitingForResponse
+            // 
+            this.lblWaitingForResponse.AutoSize = true;
+            this.lblWaitingForResponse.Location = new System.Drawing.Point(535, 343);
+            this.lblWaitingForResponse.Name = "lblWaitingForResponse";
+            this.lblWaitingForResponse.Size = new System.Drawing.Size(136, 14);
+            this.lblWaitingForResponse.TabIndex = 38;
+            this.lblWaitingForResponse.Text = "Waiting For Response...";
+            this.lblWaitingForResponse.Visible = false;
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.ForeColor = System.Drawing.Color.Red;
+            this.lblError.Location = new System.Drawing.Point(20, 587);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 14);
+            this.lblError.TabIndex = 37;
             // 
             // grpBxContent
             // 
@@ -426,16 +446,6 @@
             this.btnExecute.TabIndex = 12;
             this.btnExecute.Text = "   Send Request";
             this.btnExecute.UseVisualStyleBackColor = true;
-            // 
-            // lblError
-            // 
-            this.lblError.AutoSize = true;
-            this.lblError.ForeColor = System.Drawing.Color.Red;
-            this.lblError.Location = new System.Drawing.Point(20, 587);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(0, 14);
-            this.lblError.TabIndex = 37;
-           // this.lblError.Click += new System.EventHandler(this.label1_Click);
             // 
             // TestForm
             // 
@@ -507,6 +517,7 @@
         private System.Windows.Forms.Button btnPopualte;
         private System.Windows.Forms.ComboBox cbHttpMethod;
         private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.Label lblWaitingForResponse;
 
     }
 }
