@@ -8,7 +8,6 @@ namespace StudyAdminAPILib
 {
     public interface IAPITestCase
     {
-         Task<string> Run(string jsonRequest);
          string GetJsonRequestText();
     }
 }

@@ -12,8 +12,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StudyAdminAPILib.JsonDTOs;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace StudyAdminAPIAutomatedTest
 {
@@ -46,7 +48,6 @@ namespace StudyAdminAPIAutomatedTest
             cbHttpMethod.Items.Add(HttpMethod.Get);
             cbHttpMethod.Items.Add(HttpMethod.Post);
             cbHttpMethod.Items.Add(HttpMethod.Put);
-            cbHttpMethod.Items.Add(HttpMethod.Delete);
             cbHttpMethod.SelectedIndex = 0;
             txtBxRequest.Enabled = false;
 
@@ -95,8 +96,7 @@ namespace StudyAdminAPIAutomatedTest
 
             // btnPopulate click action for button
             btnPopualte.Click += (o, e) => 
-            {
-                
+            {                
                 // clear response box when selecting new built in test
                 lblStatusCode.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
@@ -149,20 +149,24 @@ namespace StudyAdminAPIAutomatedTest
             btnExecute.Click += async (o,e) => {
            
                 APITestCase apiTest = null;
-                string jsonResponse = string.Empty;
                 Task<string> jsonResponseTask;
-                string jsonRequest = txtBxRequest.Text;
+                string jsonResponse = string.Empty;
+                string jsonRequestRaw = txtBxRequest.Text;    
+                
+                DateTime requestTime = DateTime.Now;
+                string errorMessage = string.Empty;
 
                 try
                 {
 
-                   // lblError.Text = String.Empty;
                     lblStatusCode.Text = String.Empty;
                     btnCompareResponse.Enabled = false;
 
-                    if (!IsValidInput())
-                        throw new Exception("Required Fields Missing");
-
+                    lblError.Text = string.Empty;
+                    if (!IsValidInput()) { 
+                       lblError.Text = "Required Fields Missing";
+                       return;
+                    }
                     // Updating Client State Before Execution
                     ClientState.BaseURI = cbBaseURI.Text;
                     ClientState.AccessKey = txtBxAccessKey.Text;
@@ -170,30 +174,20 @@ namespace StudyAdminAPIAutomatedTest
                     
                     // Update Endpoint
                     apiTest = new APITestCase();
-                    apiTest.CurrentEndpoint = ClientState.BaseURI + txtBxURI.Text;
+                    apiTest.CurrentEndpoint = string.Format("{0}{1}",ClientState.BaseURI,txtBxURI.Text);
                     apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
-                    apiTest.dto = !apiTest.HttpVerb.Equals(HttpMethod.Get) ? GetJsonDTO(txtBxURI.Text, apiTest.HttpVerb, jsonRequest) : null;
-                    jsonResponseTask = apiTest.HttpVerb.Equals(HttpMethod.Get) ? apiTest.Run() : apiTest.Run(jsonRequest);
-                    InsertRequestToLog(apiTest.HttpVerb, txtBxURI.Text, jsonRequest);
+
+                    requestTime = DateTime.Now;
+
+                    jsonResponseTask = apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
 
                     await jsonResponseTask;
 
                     jsonResponse = jsonResponseTask.Result;
-       
-                    CheckForProblem(jsonResponse);
-                    lastJsonResponse = jsonResponse; // Used for Compare Dialog Box
-
-                    InsertResponseToLog(apiTest.HttpVerb, txtBxURI.Text, jsonResponse);
-
+                    lastJsonResponse = jsonResponse;
 
                 }
-                catch (JsonReaderException ex) 
-                {
-                    //lblError.Text = string.Format("      {0}", "Json format not valid");
-                    //lblError.MaximumSize = new Size(495, 0);
-                    //lblError.AutoSize = true;
-                }
-                catch (Exception ex)
+                catch (Exception ex) // Catch All
                 {
                     // retrieve the inner most exception
                     Exception current = ex;
@@ -212,16 +206,15 @@ namespace StudyAdminAPIAutomatedTest
                         errMsg = current.Message;
                     }
 
-                    //lblError.Text = string.Format("      {0}", errMsg);
-                    //lblError.MaximumSize = new Size(495, 0);
-                    //lblError.AutoSize = true;
+                    lblError.Text = errMsg;
 
                 }
                 finally 
                 {
+                    // Update Response Status Code
                     if (apiTest != null && apiTest.responseStatusCode != null) 
-                    {          
-                        if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK)) 
+                    {
+                        if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.Created)) 
                         {
                             lblStatusCode.ForeColor = Color.Green;
                             lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
@@ -235,8 +228,15 @@ namespace StudyAdminAPIAutomatedTest
                             lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
                             btnCompareResponse.Enabled = true;
                         }
-                        lblStatusCode.Text = string.Format("      HTTP Status Code {0}  {1}",  (int)apiTest.responseStatusCode,  (string)apiTest.responseStatusCode.ToString());         
+                        lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}",  (int)apiTest.responseStatusCode,  (string)apiTest.responseStatusCode.ToString());
+
+                        // Update Log
+                        sbLog.Insert(0, GetResponseLog(jsonResponse, apiTest.responseStatusCode));
+                        sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, txtBxURI.Text, jsonRequestRaw, requestTime));
+                        txtBxResponse.Text = sbLog.ToString();
+
                     }
+
                 }
                 
             };
@@ -269,96 +269,41 @@ namespace StudyAdminAPIAutomatedTest
         }
 
 
-        private void InsertRequestToLog(HttpMethod requestVerb, string uri, String jsonRequest)
+        private string GetRequestLog(HttpMethod requestVerb, string uri, String jsonRequest, DateTime requestTime)
         {
 
             StringBuilder sb = new StringBuilder();
             
             // If GET Request, show it in request
-            sb.Append(string.Format("REQUEST ({0}):", DateTime.Now.ToString()));
-            sb.Append(requestVerb.Equals(HttpMethod.Get) ? "    " + uri : "");
+            sb.Append(string.Format("REQUEST ({0}):", requestTime.ToString()));
+            sb.Append(string.Format("    {0}   {1}",requestVerb.ToString(),uri));
             sb.Append(Environment.NewLine);
             sb.Append(jsonRequest);
-            sb.Append(Environment.NewLine);
-            sb.Append(Environment.NewLine);
-
-            sbLog.Insert(0, sb.ToString());
-            txtBxResponse.Text = sbLog.ToString();
+            return sb.ToString();
 
         }
 
 
-        private void InsertResponseToLog(HttpMethod requestVerb, string uri, string jsonResponse)
+        private string GetResponseLog(string jsonResponse, HttpStatusCode statusCode)
         {
 
-
             StringBuilder sb = new StringBuilder();
-
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
-            sb.Append("RESPONSE:" + Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            sb.Append(String.Format("RESPONSE: (Status Code: {0} - {1}){2}",(int) statusCode, statusCode.ToString(), Environment.NewLine));
             sb.Append(jsonResponse);
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append("-------------------------------------------------------------------------------------------------");
-            sbLog.Insert(0, sb.ToString());            
-            txtBxResponse.Text = sbLog.ToString();
+            sb.Append(Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            return sb.ToString();
+
         }
 
-
-        private APIJsonDTO GetJsonDTO(string uri, HttpMethod verb, String request) 
-        {
-
-            if (verb.Equals(HttpMethod.Put) && uri.Contains("subjects")) // Update Subject
-            {
-                return (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(request);
-            }
-            else if (verb.Equals(HttpMethod.Post) && uri.Contains("subjects")) // Add Subject
-            {
-                return (APIJsonDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(request);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private void CheckForProblem(string jsonResponse)
-        {
-
-            if (jsonResponse.Equals("Unauthorized"))
-            {
-                throw new Exception("Unauthorized Access. Please verify Base URI, Access Key and Private Key.");
-            }
-
-            try
-            {
-                // Try Parsing Response to standard Jobject
-                JsonConvert.DeserializeObject<JObject>(jsonResponse);
-            }
-            catch (Exception) 
-            {
-                try
-                {
-                    // If JObject didn't work, then try Parsing Response to standard JArray
-                    JsonConvert.DeserializeObject<JArray>(jsonResponse);
-                }
-                catch (Exception) 
-                {
-                    try
-                    {
-                        // If JArray didn't work, then try Parsing Response to standard JRaw
-                        JsonConvert.DeserializeObject<JRaw>(jsonResponse);
-                    }
-                    catch (Exception) 
-                    {
-                        throw new Exception(jsonResponse);
-                    }
-                }
-            }
-          
-        }
 
         private Boolean IsValidInput()
         {
@@ -403,18 +348,6 @@ namespace StudyAdminAPIAutomatedTest
             return isValid;
 
         }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
 
     }
 }

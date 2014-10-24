@@ -49,7 +49,7 @@ namespace StudyAdminAPILib
         }
 
 
-        public static async Task<HttpResponseMessage> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, APIJsonDTO dto = null)
+        public static async Task<HttpResponseMessage> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson = "")
         {
             // Generate HttpRequestMessage
             HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
@@ -57,7 +57,7 @@ namespace StudyAdminAPILib
             // If post or get request, serialize Data Transfer Object
             if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put))
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8);
+                request.Content = new StringContent(requestJson, Encoding.UTF8);
                 request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             }
 
@@ -80,6 +80,22 @@ namespace StudyAdminAPILib
                 request.Dispose();
             }
 
+        }
+
+        public static APIJsonDTO GetJsonDTO(string uri, HttpMethod verb, String request)
+        {
+            if (verb.Equals(HttpMethod.Put) && uri.Contains("subjects")) // Update Subject
+            {
+                return (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(request);
+            }
+            else if (verb.Equals(HttpMethod.Post) && uri.Contains("subjects")) // Add Subject
+            {
+                return (APIJsonDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(request);
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

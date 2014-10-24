@@ -65,6 +65,7 @@
             this.grpBxContent = new System.Windows.Forms.GroupBox();
             this.btnCompareResponse = new System.Windows.Forms.Button();
             this.btnExecute = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -268,7 +269,7 @@
             this.lblUriRequired.Name = "lblUriRequired";
             this.lblUriRequired.Size = new System.Drawing.Size(0, 25);
             this.lblUriRequired.TabIndex = 35;
-            this.lblUriRequired.Click += new System.EventHandler(this.label2_Click);
+          //  this.lblUriRequired.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtBxURI
             // 
@@ -368,6 +369,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.lblError);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.grpBxContent);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.linkLabelHelp);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.grpBxResponse);
@@ -424,6 +426,16 @@
             this.btnExecute.TabIndex = 12;
             this.btnExecute.Text = "   Send Request";
             this.btnExecute.UseVisualStyleBackColor = true;
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.ForeColor = System.Drawing.Color.Red;
+            this.lblError.Location = new System.Drawing.Point(20, 587);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 14);
+            this.lblError.TabIndex = 37;
+           // this.lblError.Click += new System.EventHandler(this.label1_Click);
             // 
             // TestForm
             // 
@@ -494,6 +506,7 @@
         private System.Windows.Forms.GroupBox grpBxContent;
         private System.Windows.Forms.Button btnPopualte;
         private System.Windows.Forms.ComboBox cbHttpMethod;
+        private System.Windows.Forms.Label lblError;
 
     }
 }

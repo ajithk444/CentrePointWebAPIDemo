@@ -26,17 +26,14 @@ namespace StudyAdminAPILib
         public HttpStatusCode responseStatusCode;
         public HttpMethod HttpVerb { get; set; }
 
-        public virtual async Task<string> Run(string jsonRequest)
-        {
-            throw new Exception("The function: \"Run( String )\" cannot be run from abstract base class.");
-            return null;
-        }
 
-        public virtual async Task<string> Run()
+        public virtual async Task<string> Run(string requestJson = "")
         {
 
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.CurrentEndpoint,
-                HttpMethod.Get, this.dto);
+            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
+                this.CurrentEndpoint,
+                this.HttpVerb,
+                requestJson);
 
             await message;
 
@@ -221,28 +218,28 @@ namespace StudyAdminAPILib
         }
 
 
-        public override async Task<string> Run(string jsonRequest)
-        {
+        //public override async Task<string> Run(string jsonRequest)
+        //{
 
-            // Deserialize Json request from user & set it to DTO object          
-            this.dto = (AddSubjectDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(jsonRequest);
+        //    // Deserialize Json request from user & set it to DTO object          
+        //    this.dto = (AddSubjectDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(jsonRequest);
          
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
-                                            this.CurrentEndpoint,
-                                            HttpMethod.Post,
-                                            this.dto);
+        //    Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
+        //                                    this.CurrentEndpoint,
+        //                                    HttpMethod.Post,
+        //                                    this.dto);
 
-            await message;
+        //    await message;
 
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
+        //    HttpResponseMessage response = message.Result;
+        //    this.responseStatusCode = response.StatusCode;
 
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
+        //    Task<String> responseTextTask = response.Content.ReadAsStringAsync();
+        //    await responseTextTask;
 
-            return responseTextTask.Result;
+        //    return responseTextTask.Result;
 
-        }
+        //}
 
     }
 
@@ -267,28 +264,28 @@ namespace StudyAdminAPILib
             };
         }
 
-        public override async Task<string> Run(string jsonRequest)
-        {
+        //public override async Task<string> Run(string jsonRequest)
+        //{
 
-            // Deserialize Json request from user & set it to DTO object          
-            this.dto = (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(jsonRequest);
+        //    // Deserialize Json request from user & set it to DTO object          
+        //    this.dto = (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(jsonRequest);
 
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
-                                                this.CurrentEndpoint,
-                                                HttpMethod.Put,
-                                                this.dto);
+        //    Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
+        //                                        this.CurrentEndpoint,
+        //                                        HttpMethod.Put,
+        //                                        this.dto);
 
-            await message;
+        //    await message;
 
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
+        //    HttpResponseMessage response = message.Result;
+        //    this.responseStatusCode = response.StatusCode;
 
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
+        //    Task<String> responseTextTask = response.Content.ReadAsStringAsync();
+        //    await responseTextTask;
 
-            return responseTextTask.Result;
+        //    return responseTextTask.Result;
 
-        }
+        //}
 
     }
     #endregion
