@@ -129,15 +129,18 @@
             // 
             // btnPopualte
             // 
+            this.btnPopualte.Image = global::StudyAdminAPITester.Properties.Resources.wand;
+            this.btnPopualte.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPopualte.Location = new System.Drawing.Point(429, 15);
             this.btnPopualte.Name = "btnPopualte";
-            this.btnPopualte.Size = new System.Drawing.Size(75, 23);
+            this.btnPopualte.Size = new System.Drawing.Size(95, 23);
             this.btnPopualte.TabIndex = 1;
             this.btnPopualte.Text = "Populate";
             this.btnPopualte.UseVisualStyleBackColor = true;
             // 
             // cBBuiltInTests
             // 
+            this.cBBuiltInTests.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cBBuiltInTests.FormattingEnabled = true;
             this.cBBuiltInTests.Location = new System.Drawing.Point(92, 16);
             this.cBBuiltInTests.Name = "cBBuiltInTests";

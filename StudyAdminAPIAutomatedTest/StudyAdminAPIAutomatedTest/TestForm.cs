@@ -213,7 +213,6 @@ namespace StudyAdminAPIAutomatedTest
                     }
 
                     lblError.Text = errMsg;
-
                 }
                 finally 
                 {
@@ -302,7 +301,6 @@ namespace StudyAdminAPIAutomatedTest
         {
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append(String.Format("RESPONSE: (Status Code: {0} - {1}){2}",(int) statusCode, statusCode.ToString(), Environment.NewLine));
