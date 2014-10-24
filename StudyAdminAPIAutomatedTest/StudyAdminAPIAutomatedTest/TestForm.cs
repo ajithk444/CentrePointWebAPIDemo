@@ -33,15 +33,9 @@ namespace StudyAdminAPIAutomatedTest
             InitializeComponent();
             sbLog = new StringBuilder();
 
-             //Initialize Client State Object
-             //ClientState.AccessKey = "2f6507c9-f504-41cb-885f-601e507587b5";
-             //ClientState.SecretKey = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
-             //ClientState.DefaultSubjectID = "594";
-
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
             cbBaseURI.Items.Add(ClientState.BaseURI);
-            //cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
 
             // Populate HttpMethod Dropdown list and default it to "GET" request type
@@ -158,9 +152,6 @@ namespace StudyAdminAPIAutomatedTest
 
                 try
                 {
-
-      
-
                     lblStatusCode.Text = String.Empty;
                     btnCompareResponse.Enabled = false;
 
@@ -169,6 +160,7 @@ namespace StudyAdminAPIAutomatedTest
                        lblError.Text = "Required Fields Missing";
                        return;
                     }
+
                     // Updating Client State Before Execution
                     ClientState.BaseURI = cbBaseURI.Text;
                     ClientState.AccessKey = txtBxAccessKey.Text;
@@ -255,9 +247,7 @@ namespace StudyAdminAPIAutomatedTest
                         // Hide waiting for response label (in case xception was thrown)
                         lblWaitingForResponse.Visible = false;
                     }     
-
                 }
-                
             };
 
             #region response right click menu
@@ -289,10 +279,7 @@ namespace StudyAdminAPIAutomatedTest
                 }
             };
 
-
-            #endregion response right click menu
-
-            
+            #endregion response right click menu      
         }
 
 

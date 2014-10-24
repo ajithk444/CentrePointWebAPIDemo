@@ -7,10 +7,7 @@ using Newtonsoft.Json;
 
 namespace StudyAdminAPILib.JsonDTOs
 {
-    public abstract class APIJsonDTO 
-    {
-       
-    }
+    public abstract class APIJsonDTO  { }
 
     #region Subject DTOs
     
