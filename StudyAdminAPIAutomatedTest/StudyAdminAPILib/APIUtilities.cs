@@ -49,7 +49,7 @@ namespace StudyAdminAPILib
         }
 
 
-        public static async Task<HttpResponseMessage> SendRequestAsync(APIJsonDTO dto, string resourceEndpoint, HttpMethod httpVerb, string mediaType = "")
+        public static async Task<HttpResponseMessage> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, APIJsonDTO dto = null)
         {
             // Generate HttpRequestMessage
             HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
@@ -58,11 +58,7 @@ namespace StudyAdminAPILib
             if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put))
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8);
-            }
-
-            if (!(String.IsNullOrEmpty(mediaType)))
-            {
-                request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mediaType);
+                request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             }
 
             // Build Auth Header

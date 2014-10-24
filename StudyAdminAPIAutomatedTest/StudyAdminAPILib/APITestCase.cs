@@ -19,16 +19,36 @@ namespace StudyAdminAPILib
     {
 
         public string Name { get; set; }
-        public String Endpoint { get; set; }
+        public String CurrentEndpoint { get; set; }
+        public String DefaultResourceURI { get; set; }
         public string UriFormat {get; set; }
         public APIJsonDTO dto;
         public HttpStatusCode responseStatusCode;
+        public HttpMethod HttpVerb { get; set; }
 
         public virtual async Task<string> Run(string jsonRequest)
         {
-            throw new Exception("The function: \"Run\" cannot be run from abstract base class.");
+            throw new Exception("The function: \"Run( String )\" cannot be run from abstract base class.");
             return null;
         }
+
+        public virtual async Task<string> Run(HttpMethod verb = null)
+        {
+
+            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.CurrentEndpoint,
+                (verb == null ? HttpMethod.Get : verb), this.dto);
+
+            await message;
+
+            HttpResponseMessage response = message.Result;
+            this.responseStatusCode = response.StatusCode;
+
+            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
+            await responseTextTask;
+
+            return responseTextTask.Result;
+        }
+
 
         public string GetJsonRequestText()
         {
@@ -43,11 +63,6 @@ namespace StudyAdminAPILib
 
         }
 
-        public virtual void CheckResponse(string jsonResponse)
-        {
-            throw new Exception("The function: \"CheckResponse\" cannot be run from abstract base class.");
-        }
-
     }
 
     #region SubjectEndpoints
@@ -55,37 +70,13 @@ namespace StudyAdminAPILib
     {
 
         
-        public GetSubjectTest(string name, string subjectID) 
+        public GetSubjectTest(string name, string subjectId) 
         {
             this.UriFormat = "{0}/v1/subjects/{1}";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}", subjectId);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectID);
-            this.dto = new StudyAdminAPILib.JsonDTOs.GetSubjectDTO() {
-                SubjectID = subjectID
-            };
-        }
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDTO)this.dto).SubjectID);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto, 
-                                                this.Endpoint,
-                                                HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
-
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
         }
 
     }
@@ -97,35 +88,10 @@ namespace StudyAdminAPILib
         public GetSubjectStatsTest(string name, string subjectId)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/stats";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/stats", subjectId);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
-            this.dto = new GetSubjectStatsDTO()
-            {
-                SubjectID = subjectId
-            };
-        }
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectStatsDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectStatsDTO)this.dto).SubjectID);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
+            this.HttpVerb = HttpMethod.Get;
         }
 
     }
@@ -133,42 +99,15 @@ namespace StudyAdminAPILib
     public class GetSubjectDayStatsTest : APITestCase, IAPITestCase
     {
 
-
         public GetSubjectDayStatsTest(string name, string subjectId)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/daystats";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/daystats", subjectId);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
-            this.dto = new GetSubjectStatsDTO() {
-                SubjectID = subjectId
-            };
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
+      
         }
-
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectDayStatsDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayStatsDTO)this.dto).SubjectID);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
-
-        }
-
 
     }
 
@@ -178,35 +117,10 @@ namespace StudyAdminAPILib
         public GetSubjectDayMinutesTest(string name, string subjectID, string day)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/dayminutes/{2}";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/dayminutes/{1}", subjectID, day);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectID, day);
-            this.dto = new GetSubjectDayMinutesDTO()
-            {
-                subjectId = subjectID,
-                day = day
-            };
-        }
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectDayMinutesDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectDayMinutesDTO)this.dto).subjectId, ((GetSubjectDayMinutesDTO)this.dto).day);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectID, day);
 
         }
 
@@ -219,41 +133,10 @@ namespace StudyAdminAPILib
         public GetSubjectSleepEpochsTest(string name, string subjectId, string inBed, string outBed)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/sleepepochs?inbed={2}&outbed={3}";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/sleepepochs?inbed={1}&outbed={2}", subjectId, inBed, outBed);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, inBed, outBed);
-            this.dto = new GetSubjectSleepEpochsDTO()
-            {
-                subjectId = subjectId,
-                inBed = inBed,
-                outBed = outBed
-            };
-        }
-
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectSleepEpochsDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectSleepEpochsDTO)this.dto).subjectId,
-                                                    ((GetSubjectSleepEpochsDTO)this.dto).inBed, ((GetSubjectSleepEpochsDTO)this.dto).outBed);
-
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
-
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, inBed, outBed);
         }
 
     }
@@ -264,40 +147,10 @@ namespace StudyAdminAPILib
         public GetSubjectSleepScoreTest(string name, string subjectId, string inBed, string outBed)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/sleepscore?inbed={2}&outbed={3}";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/sleepscore?inbed={1}&outbed={2}", subjectId, inBed, outBed);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, inBed, outBed);
-            this.dto = new GetSubjectSleepScoreDTO()
-            {
-                subjectId = subjectId,
-                inBed = inBed,
-                outBed = outBed
-            };
-        }
-
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectSleepScoreDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectSleepScoreDTO)this.dto).subjectId,
-                                                ((GetSubjectSleepScoreDTO)this.dto).inBed, ((GetSubjectSleepScoreDTO)this.dto).outBed);
-
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, inBed, outBed);
 
         }
 
@@ -310,40 +163,10 @@ namespace StudyAdminAPILib
         public GetSubjectBoutsTest(string name, string subjectId, string start, string stop)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/bouts?start={2}&stop={3}";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/bouts?start={1}&stop={2}", subjectId, start, stop);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, start, stop);
-            this.dto = new GetSubjectBoutsDTO()
-            {
-                subjectId = subjectId,
-                start = start,
-                stop = stop
-            };
-        }
-
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectBoutsDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectBoutsDTO)this.dto).subjectId,
-                                                ((GetSubjectBoutsDTO)this.dto).start, ((GetSubjectBoutsDTO)this.dto).stop);
-
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, start, stop);
         }
 
     }
@@ -354,45 +177,12 @@ namespace StudyAdminAPILib
         public GetSubjectBedTimesTest(string name, string subjectId, string start, string stop)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/bedtimes?start={2}&stop={3}";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/bedtimes?start={1}&stop={2}", subjectId, start, stop);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, start, stop);
-            this.dto = new GetSubjectBedTimesDTO()
-            {
-                subjectId = subjectId,
-                start = start,
-                stop = stop
-            };
-        }
-
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object
-            this.dto = JsonConvert.DeserializeObject<GetSubjectBedTimesDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectBedTimesDTO)this.dto).subjectId,
-                                            ((GetSubjectBedTimesDTO)this.dto).start, ((GetSubjectBedTimesDTO)this.dto).stop);
-
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, start, stop);
 
         }
-
-
-     
 
     }
 
@@ -402,36 +192,10 @@ namespace StudyAdminAPILib
         public GetSubjectWeightHistoryTest(string name, string subjectId)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/weighthistory";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/weighthistory", subjectId);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
-            this.dto = new GetSubjectWeightHistoryDTO()
-            {
-                subjectId = subjectId
-            };
-        }
-
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object          
-            this.dto = (GetSubjectWeightHistoryDTO)JsonConvert.DeserializeObject<GetSubjectWeightHistoryDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetSubjectWeightHistoryDTO)this.dto).subjectId);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
-                                            HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
         }
 
     }
@@ -443,7 +207,9 @@ namespace StudyAdminAPILib
         {
             this.UriFormat = "{0}/v1/subjects";
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
+            this.HttpVerb = HttpMethod.Post;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI);
+            this.DefaultResourceURI = "/v1/subjects";
             this.dto = new StudyAdminAPILib.JsonDTOs.AddSubjectDTO() {
                 Gender = "Male",
                 SiteID = "001",
@@ -460,12 +226,11 @@ namespace StudyAdminAPILib
 
             // Deserialize Json request from user & set it to DTO object          
             this.dto = (AddSubjectDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                            this.Endpoint,
+         
+            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
+                                            this.CurrentEndpoint,
                                             HttpMethod.Post,
-                                            "application/json");
+                                            this.dto);
 
             await message;
 
@@ -486,9 +251,11 @@ namespace StudyAdminAPILib
 
         public UpdateSubjectTest(string name, string subjectid)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}";
+            this.UriFormat = "{0}/v1/subjects";
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, subjectid);
+            this.HttpVerb = HttpMethod.Put;
+            this.DefaultResourceURI = "/v1/subjects";
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectid);
             this.dto = new StudyAdminAPILib.JsonDTOs.UpdateSubjectDTO() {
                 SubjectId = subjectid,
                 Gender = "Male",
@@ -505,12 +272,11 @@ namespace StudyAdminAPILib
 
             // Deserialize Json request from user & set it to DTO object          
             this.dto = (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((UpdateSubjectDTO)this.dto).SubjectId);
 
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                                this.Endpoint,
+            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
+                                                this.CurrentEndpoint,
                                                 HttpMethod.Put,
-                                                "application/json");
+                                                this.dto);
 
             await message;
 
@@ -534,33 +300,11 @@ namespace StudyAdminAPILib
         public GetSitesTest(string name)
         {
             this.UriFormat = "{0}/v1/sites";
+            this.DefaultResourceURI = "/v1/sites";
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
-            this.dto = new StudyAdminAPILib.JsonDTOs.GetSitesDTO();
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI);
         }
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                                this.Endpoint,
-                                                HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
-        }
-
 
     }       
     #endregion
@@ -572,36 +316,9 @@ namespace StudyAdminAPILib
         {
             this.UriFormat = "{0}/v1/studies/{1}";
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, studyId);
-            this.dto = new StudyAdminAPILib.JsonDTOs.GetStudyDTO()
-            {
-                StudyId = studyId
-            };
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, studyId);
         }
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-
-            this.dto = JsonConvert.DeserializeObject<GetStudyDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetStudyDTO)this.dto).StudyId);  
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                                this.Endpoint,
-                                                HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
-        }
-
 
     }
 
@@ -610,34 +327,11 @@ namespace StudyAdminAPILib
         public GetStudiesTest(string name)
         {
             this.UriFormat = "{0}/v1/studies";
+            this.DefaultResourceURI = "/v1/studies";
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
-            this.dto = new StudyAdminAPILib.JsonDTOs.GetStudiesDTO();
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI);
         }
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object     
-            this.dto = JsonConvert.DeserializeObject<GetStudiesDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                                this.Endpoint,
-                                                HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
-        }
-
 
     }
 
@@ -646,37 +340,11 @@ namespace StudyAdminAPILib
         public GetStudySubjectsTest(string name, string studyId)
         {
             this.UriFormat = "{0}/v1/studies/{1}/subjects";
+            this.DefaultResourceURI = string.Format("/v1/studies/{0}/subjects", studyId);
             this.Name = name;
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, studyId);
-            this.dto = new StudyAdminAPILib.JsonDTOs.GetStudySubjectsDTO() { 
-                StudyId = studyId
-            };
+            this.HttpVerb = HttpMethod.Get;
+            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, studyId);
         }
-
-
-        public override async Task<string> Run(string jsonRequest)
-        {
-
-            // Deserialize Json request from user & set it to DTO object     
-            this.dto = JsonConvert.DeserializeObject<GetStudySubjectsDTO>(jsonRequest);
-            this.Endpoint = string.Format(UriFormat, ClientState.BaseURI, ((GetStudySubjectsDTO)this.dto).StudyId);
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.dto,
-                                                this.Endpoint,
-                                                HttpMethod.Get);
-
-            await message;
-
-            HttpResponseMessage response = message.Result;
-            this.responseStatusCode = response.StatusCode;
-
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
-
-        }
-
 
     }
     #endregion StudyEndpoints
