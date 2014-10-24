@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 namespace StudyAdminAPILib
 {
 
-    public abstract class APITestCase : IAPITestCase
+    public class APITestCase : IAPITestCase
     {
 
         public string Name { get; set; }
@@ -32,11 +32,11 @@ namespace StudyAdminAPILib
             return null;
         }
 
-        public virtual async Task<string> Run(HttpMethod verb = null)
+        public virtual async Task<string> Run()
         {
 
             Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(this.CurrentEndpoint,
-                (verb == null ? HttpMethod.Get : verb), this.dto);
+                HttpMethod.Get, this.dto);
 
             await message;
 
@@ -315,6 +315,7 @@ namespace StudyAdminAPILib
         public GetStudyTest(string name, string studyId)
         {
             this.UriFormat = "{0}/v1/studies/{1}";
+            this.DefaultResourceURI = string.Format("/v1/studies/{0}",studyId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
             this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, studyId);

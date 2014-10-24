@@ -42,23 +42,28 @@ namespace StudyAdminAPIAutomatedTest
             //cbBaseURI.Items.Add("https://studyadmin-api.actigraphcorp.com"); // add production option
             cbBaseURI.SelectedIndex = 0;
 
-            // Default cbMethod
+            // Populate HttpMethod Dropdown list and default it to "GET" request type
+            cbHttpMethod.Items.Add(HttpMethod.Get);
+            cbHttpMethod.Items.Add(HttpMethod.Post);
+            cbHttpMethod.Items.Add(HttpMethod.Put);
+            cbHttpMethod.Items.Add(HttpMethod.Delete);
             cbHttpMethod.SelectedIndex = 0;
+            txtBxRequest.Enabled = false;
 
             // Populate Built-In Tests Combo Box
             List<string> testCases = (from i in TestCaseRepo.Instance.TestCases
                                       select i.Name).ToList();
             testCases.Insert(0, "");
             cBBuiltInTests.DataSource = testCases;
-          
-            // Setting Help LInk
-            linkLabelHelp.Links.Add(new LinkLabel.Link() { LinkData = "https://github.com/actigraph/ActiLifeAPIDemoCSharp" });
 
+            // Setting Help LInk
+            linkLabelHelp.Links.Add(new LinkLabel.Link());
             linkLabelHelp.Click += (o,e) => {  Process.Start("https://github.com/actigraph/StudyAdminAPIDocumentation"); };
 
             // Set defaults for access and secret keys
             defaultAccessKeyText = "<Enter Access Key>";
             txtBxAccessKey.Text = "2f6507c9-f504-41cb-885f-601e507587b5";
+
            // txtBxAccessKey.Text = defaultAccessKeyText;
             txtBxAccessKey.MouseClick += (o, e) =>
             {
@@ -70,14 +75,27 @@ namespace StudyAdminAPIAutomatedTest
             defaultSecretKeyText = "<Enter Secret Key>";
             txtBxSecretKey.Text = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
             //txtBxSecretKey.Text = defaultSecretKeyText;
-            txtBxSecretKey.MouseClick += (o, e) => {
+            txtBxSecretKey.MouseClick += (o, e) => 
+            {
                 if (txtBxSecretKey.Text.Equals(defaultSecretKeyText)) {
                     txtBxSecretKey.Text = string.Empty;
                 }
             };
 
+
+            cbHttpMethod.SelectedIndexChanged += (o, e) => 
+            {
+                txtBxRequest.Enabled = true;
+                if (((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))
+                {
+                    txtBxRequest.Clear();
+                    txtBxRequest.Enabled = false;
+                }    
+            };
+
             // btnPopulate click action for button
-            btnPopualte.Click += (o, e) => {
+            btnPopualte.Click += (o, e) => 
+            {
                 
                 // clear response box when selecting new built in test
                 lblStatusCode.Text = string.Empty;
@@ -91,24 +109,28 @@ namespace StudyAdminAPIAutomatedTest
                 if (apiTest != null) 
                 {
                     txtBxURI.Text = apiTest.DefaultResourceURI;
-
-                    for (int i=0; i < cbHttpMethod.Items.Count; i++)
-                    { 
-                        if (((string)cbHttpMethod.Items[i]).Equals(apiTest.HttpVerb.ToString().ToUpper())) 
-                        {
-                            cbHttpMethod.SelectedIndex = i;
-                            break;
-                        }
+                    cbHttpMethod.SelectedItem = apiTest.HttpVerb;
+                    
+                    if (((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))
+                    {
+                        txtBxRequest.Enabled = false;
+                        txtBxRequest.Clear();
+                    }
+                    else 
+                    {
+                        txtBxRequest.Enabled = true;
+                        txtBxRequest.Text = apiTest.GetJsonRequestText(); ;
                     }
                 } 
                 else 
                 {
-                    txtBxRequest.Text = string.Empty;
+                    txtBxRequest.Clear();
                 }
             };
 
             // setting onselectedchange action for baseURI combo box
-            cbBaseURI.SelectedIndexChanged += (o, e) => {
+            cbBaseURI.SelectedIndexChanged += (o, e) => 
+            {
                 txtBxRequest.Text = string.Empty;
                 cBBuiltInTests.SelectedIndex = 0;
                 txtBxResponse.Text = string.Empty;
@@ -116,8 +138,8 @@ namespace StudyAdminAPIAutomatedTest
                 btnCompareResponse.Enabled = false;
             };
 
-            // Open Compare Response Form
-            btnCompareResponse.Click += (o, e) =>
+            // Open Compare Response Form in Dialog Box
+            btnCompareResponse.Click += (o, e) => 
             {
                 CompareResponse compareResponse = new CompareResponse(lastJsonResponse);
                 compareResponse.ShowDialog();
@@ -129,6 +151,7 @@ namespace StudyAdminAPIAutomatedTest
                 APITestCase apiTest = null;
                 string jsonResponse = string.Empty;
                 Task<string> jsonResponseTask;
+                string jsonRequest = txtBxRequest.Text;
 
                 try
                 {
@@ -140,47 +163,27 @@ namespace StudyAdminAPIAutomatedTest
                     if (!IsValidInput())
                         throw new Exception("Required Fields Missing");
 
-
                     // Updating Client State Before Execution
                     ClientState.BaseURI = cbBaseURI.Text;
                     ClientState.AccessKey = txtBxAccessKey.Text;
                     ClientState.SecretKey = txtBxSecretKey.Text;
-                
-                    apiTest = (from i in TestCaseRepo.Instance.TestCases
-                               where i.Name.Equals(cBBuiltInTests.Text)
-                               select i).FirstOrDefault();
-
+                    
                     // Update Endpoint
+                    apiTest = new APITestCase();
                     apiTest.CurrentEndpoint = ClientState.BaseURI + txtBxURI.Text;
-
-                    jsonResponseTask = apiTest.HttpVerb.Equals(System.Net.Http.HttpMethod.Get) ? apiTest.Run() : apiTest.Run(txtBxRequest.Text);
+                    apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
+                    apiTest.dto = !apiTest.HttpVerb.Equals(HttpMethod.Get) ? GetJsonDTO(txtBxURI.Text, apiTest.HttpVerb, jsonRequest) : null;
+                    jsonResponseTask = apiTest.HttpVerb.Equals(HttpMethod.Get) ? apiTest.Run() : apiTest.Run(jsonRequest);
+                    InsertRequestToLog(apiTest.HttpVerb, txtBxURI.Text, jsonRequest);
 
                     await jsonResponseTask;
 
                     jsonResponse = jsonResponseTask.Result;
        
                     CheckForProblem(jsonResponse);
-                    lastJsonResponse = jsonResponse;
+                    lastJsonResponse = jsonResponse; // Used for Compare Dialog Box
 
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0,"-------------------------------------------------------------------------------------------------");
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, jsonResponse);
-                    sbLog.Insert(0, "RESPONSE:" + Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, Environment.NewLine);
-                    sbLog.Insert(0, txtBxRequest.Text);
-                    sbLog.Insert(0, Environment.NewLine);
-                
-                    // If Get Request, show it in request
-                    sbLog.Insert(0, apiTest.HttpVerb.Equals(HttpMethod.Get) ? "    " + txtBxURI.Text : "");
-                    sbLog.Insert(0, string.Format("REQUEST ({0}):", DateTime.Now.ToString()));
-                
-                    txtBxResponse.Text = sbLog.ToString();
+                    InsertResponseToLog(apiTest.HttpVerb, txtBxURI.Text, jsonResponse);
 
 
                 }
@@ -232,7 +235,7 @@ namespace StudyAdminAPIAutomatedTest
                             lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
                             btnCompareResponse.Enabled = true;
                         }
-                        lblStatusCode.Text = string.Format("      HTTP Status Code  {0} : {1}",  (string)apiTest.responseStatusCode.ToString(), (int)apiTest.responseStatusCode);         
+                        lblStatusCode.Text = string.Format("      HTTP Status Code {0}  {1}",  (int)apiTest.responseStatusCode,  (string)apiTest.responseStatusCode.ToString());         
                     }
                 }
                 
@@ -265,6 +268,61 @@ namespace StudyAdminAPIAutomatedTest
             
         }
 
+
+        private void InsertRequestToLog(HttpMethod requestVerb, string uri, String jsonRequest)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            
+            // If GET Request, show it in request
+            sb.Append(string.Format("REQUEST ({0}):", DateTime.Now.ToString()));
+            sb.Append(requestVerb.Equals(HttpMethod.Get) ? "    " + uri : "");
+            sb.Append(Environment.NewLine);
+            sb.Append(jsonRequest);
+            sb.Append(Environment.NewLine);
+            sb.Append(Environment.NewLine);
+
+            sbLog.Insert(0, sb.ToString());
+            txtBxResponse.Text = sbLog.ToString();
+
+        }
+
+
+        private void InsertResponseToLog(HttpMethod requestVerb, string uri, string jsonResponse)
+        {
+
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            sb.Append("RESPONSE:" + Environment.NewLine);
+            sb.Append(jsonResponse);
+            sb.Append(Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            sb.Append("-------------------------------------------------------------------------------------------------");
+            sbLog.Insert(0, sb.ToString());            
+            txtBxResponse.Text = sbLog.ToString();
+        }
+
+
+        private APIJsonDTO GetJsonDTO(string uri, HttpMethod verb, String request) 
+        {
+
+            if (verb.Equals(HttpMethod.Put) && uri.Contains("subjects")) // Update Subject
+            {
+                return (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(request);
+            }
+            else if (verb.Equals(HttpMethod.Post) && uri.Contains("subjects")) // Add Subject
+            {
+                return (APIJsonDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(request);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         private void CheckForProblem(string jsonResponse)
         {
