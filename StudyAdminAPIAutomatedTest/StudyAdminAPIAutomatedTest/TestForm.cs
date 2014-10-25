@@ -292,8 +292,6 @@ namespace StudyAdminAPIAutomatedTest
         {
 
             StringBuilder sb = new StringBuilder();
-            
-            // If GET Request, show it in request
             sb.Append(string.Format("REQUEST ({0}):", requestTime.ToString()));
             sb.Append(string.Format("    {0}   {1}",requestVerb.ToString(),uri));
             sb.Append(Environment.NewLine);
