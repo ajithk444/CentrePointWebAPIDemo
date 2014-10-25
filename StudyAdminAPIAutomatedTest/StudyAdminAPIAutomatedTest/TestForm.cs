@@ -260,6 +260,7 @@ namespace StudyAdminAPIAutomatedTest
 
             toolStripMenuItemClearLog.Click += (obj, sender) => { 
                 txtBxResponse.Clear();
+                sbLog.Clear();
                 lblStatusCode.Text = string.Empty; 
                 lblError.Text = string.Empty;
                 lblUriRequired.Text = string.Empty;

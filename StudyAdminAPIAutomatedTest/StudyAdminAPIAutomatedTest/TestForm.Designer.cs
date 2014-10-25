@@ -323,13 +323,14 @@
             // 
             // txtBxResponse
             // 
-            this.txtBxResponse.BackColor = System.Drawing.Color.Gainsboro;
+            this.txtBxResponse.BackColor = System.Drawing.SystemColors.Window;
             this.txtBxResponse.ContextMenuStrip = this.contextMenuStrip1;
             this.txtBxResponse.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBxResponse.ForeColor = System.Drawing.Color.Black;
+            this.txtBxResponse.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtBxResponse.Location = new System.Drawing.Point(3, 17);
             this.txtBxResponse.Multiline = true;
             this.txtBxResponse.Name = "txtBxResponse";
+            this.txtBxResponse.ReadOnly = true;
             this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtBxResponse.Size = new System.Drawing.Size(892, 188);
             this.txtBxResponse.TabIndex = 7;
