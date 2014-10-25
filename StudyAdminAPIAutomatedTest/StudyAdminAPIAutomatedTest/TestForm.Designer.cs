@@ -52,7 +52,6 @@
             this.cbHttpMethod = new System.Windows.Forms.ComboBox();
             this.lblUriRequired = new System.Windows.Forms.Label();
             this.txtBxURI = new System.Windows.Forms.TextBox();
-            this.lblRequestRequired = new System.Windows.Forms.Label();
             this.txtBxRequest = new System.Windows.Forms.TextBox();
             this.grpBxResponse = new System.Windows.Forms.GroupBox();
             this.txtBxResponse = new System.Windows.Forms.TextBox();
@@ -118,6 +117,8 @@
             // 
             // grpBxBuiltInTests
             // 
+            this.grpBxBuiltInTests.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxBuiltInTests.Controls.Add(this.btnPopualte);
             this.grpBxBuiltInTests.Controls.Add(this.cBBuiltInTests);
             this.grpBxBuiltInTests.Location = new System.Drawing.Point(14, 112);
@@ -205,6 +206,8 @@
             // 
             // grpBxBaseURI
             // 
+            this.grpBxBaseURI.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxBaseURI.Controls.Add(this.cbBaseURI);
             this.grpBxBaseURI.Controls.Add(this.lblBaseURIRequired);
             this.grpBxBaseURI.Location = new System.Drawing.Point(14, 15);
@@ -216,6 +219,8 @@
             // 
             // cbBaseURI
             // 
+            this.cbBaseURI.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cbBaseURI.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBaseURI.FormattingEnabled = true;
             this.cbBaseURI.Location = new System.Drawing.Point(92, 11);
@@ -237,14 +242,20 @@
             // 
             this.lblStatusCode.AutoSize = true;
             this.lblStatusCode.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatusCode.ForeColor = System.Drawing.Color.Green;
+            this.lblStatusCode.Image = global::StudyAdminAPITester.Properties.Resources.check_smaller;
+            this.lblStatusCode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblStatusCode.Location = new System.Drawing.Point(17, 343);
             this.lblStatusCode.MaximumSize = new System.Drawing.Size(0, 15);
             this.lblStatusCode.Name = "lblStatusCode";
-            this.lblStatusCode.Size = new System.Drawing.Size(0, 14);
+            this.lblStatusCode.Size = new System.Drawing.Size(178, 14);
             this.lblStatusCode.TabIndex = 29;
+            this.lblStatusCode.Text = "     HTTP Status Code 200 OK";
             // 
             // grpBxRequest
             // 
+            this.grpBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxRequest.Controls.Add(this.cbHttpMethod);
             this.grpBxRequest.Controls.Add(this.lblUriRequired);
             this.grpBxRequest.Controls.Add(this.txtBxURI);
@@ -266,6 +277,7 @@
             // 
             // lblUriRequired
             // 
+            this.lblUriRequired.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblUriRequired.AutoSize = true;
             this.lblUriRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUriRequired.ForeColor = System.Drawing.Color.Red;
@@ -276,32 +288,30 @@
             // 
             // txtBxURI
             // 
+            this.txtBxURI.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBxURI.Location = new System.Drawing.Point(92, 17);
             this.txtBxURI.Name = "txtBxURI";
             this.txtBxURI.Size = new System.Drawing.Size(742, 21);
             this.txtBxURI.TabIndex = 33;
             // 
-            // lblRequestRequired
-            // 
-            this.lblRequestRequired.AutoSize = true;
-            this.lblRequestRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRequestRequired.ForeColor = System.Drawing.Color.Red;
-            this.lblRequestRequired.Location = new System.Drawing.Point(878, 20);
-            this.lblRequestRequired.Name = "lblRequestRequired";
-            this.lblRequestRequired.Size = new System.Drawing.Size(0, 25);
-            this.lblRequestRequired.TabIndex = 21;
-            // 
             // txtBxRequest
             // 
-            this.txtBxRequest.Location = new System.Drawing.Point(6, 20);
+            this.txtBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBxRequest.Location = new System.Drawing.Point(3, 17);
             this.txtBxRequest.Multiline = true;
             this.txtBxRequest.Name = "txtBxRequest";
             this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxRequest.Size = new System.Drawing.Size(866, 88);
+            this.txtBxRequest.Size = new System.Drawing.Size(892, 94);
             this.txtBxRequest.TabIndex = 2;
             // 
             // grpBxResponse
             // 
+            this.grpBxResponse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxResponse.Controls.Add(this.txtBxResponse);
             this.grpBxResponse.Controls.Add(this.lblResponseRequired);
             this.grpBxResponse.Location = new System.Drawing.Point(14, 372);
@@ -315,12 +325,13 @@
             // 
             this.txtBxResponse.BackColor = System.Drawing.Color.Gainsboro;
             this.txtBxResponse.ContextMenuStrip = this.contextMenuStrip1;
+            this.txtBxResponse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtBxResponse.ForeColor = System.Drawing.Color.Black;
-            this.txtBxResponse.Location = new System.Drawing.Point(6, 20);
+            this.txtBxResponse.Location = new System.Drawing.Point(3, 17);
             this.txtBxResponse.Multiline = true;
             this.txtBxResponse.Name = "txtBxResponse";
             this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxResponse.Size = new System.Drawing.Size(866, 182);
+            this.txtBxResponse.Size = new System.Drawing.Size(892, 188);
             this.txtBxResponse.TabIndex = 7;
             // 
             // contextMenuStrip1
@@ -357,7 +368,7 @@
             // 
             // linkLabelHelp
             // 
-            this.linkLabelHelp.AutoSize = true;
+            this.linkLabelHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelHelp.Location = new System.Drawing.Point(803, 0);
             this.linkLabelHelp.Name = "linkLabelHelp";
             this.linkLabelHelp.Size = new System.Drawing.Size(112, 14);
@@ -374,8 +385,8 @@
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.lblWaitingForResponse);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.lblError);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.grpBxContent);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.linkLabelHelp);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.grpBxContent);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.grpBxResponse);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.grpBxRequest);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.btnCompareResponse);
@@ -399,6 +410,7 @@
             // 
             // lblWaitingForResponse
             // 
+            this.lblWaitingForResponse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWaitingForResponse.AutoSize = true;
             this.lblWaitingForResponse.Location = new System.Drawing.Point(535, 343);
             this.lblWaitingForResponse.Name = "lblWaitingForResponse";
@@ -409,6 +421,7 @@
             // 
             // lblError
             // 
+            this.lblError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblError.AutoSize = true;
             this.lblError.ForeColor = System.Drawing.Color.Red;
             this.lblError.Location = new System.Drawing.Point(20, 587);
@@ -418,8 +431,9 @@
             // 
             // grpBxContent
             // 
+            this.grpBxContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxContent.Controls.Add(this.txtBxRequest);
-            this.grpBxContent.Controls.Add(this.lblRequestRequired);
             this.grpBxContent.Location = new System.Drawing.Point(14, 214);
             this.grpBxContent.Name = "grpBxContent";
             this.grpBxContent.Size = new System.Drawing.Size(898, 114);
@@ -429,6 +443,7 @@
             // 
             // btnCompareResponse
             // 
+            this.btnCompareResponse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCompareResponse.Enabled = false;
             this.btnCompareResponse.Image = global::StudyAdminAPITester.Properties.Resources.compare;
             this.btnCompareResponse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -441,6 +456,8 @@
             // 
             // btnExecute
             // 
+            this.btnExecute.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExecute.Image = global::StudyAdminAPITester.Properties.Resources.mail;
             this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnExecute.Location = new System.Drawing.Point(379, 334);
@@ -454,10 +471,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(915, 628);
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(931, 667);
             this.Name = "TestForm";
             this.Text = "Study Admin API Tester";
             this.grpBxBuiltInTests.ResumeLayout(false);
@@ -502,7 +521,6 @@
         private System.Windows.Forms.TextBox txtBxURI;
         private System.Windows.Forms.TextBox txtBxRequest;
         private System.Windows.Forms.Button btnExecute;
-        private System.Windows.Forms.Label lblRequestRequired;
         private System.Windows.Forms.GroupBox grpBxResponse;
         private System.Windows.Forms.TextBox txtBxResponse;
         private System.Windows.Forms.Label lblResponseRequired;

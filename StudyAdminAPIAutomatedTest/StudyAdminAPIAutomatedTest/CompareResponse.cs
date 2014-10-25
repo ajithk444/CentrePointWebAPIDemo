@@ -31,7 +31,7 @@ namespace StudyAdminAPIAutomatedTest
                  if (string.IsNullOrEmpty(txtResponseCompare.Text)) {
                      lblMatchStatus.Text = "    Missing Compare Field";
                      lblMatchStatus.ForeColor = Color.Red;
-                     lblMatchStatus.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
+                //     lblMatchStatus.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
                      lblMatchStatus.ImageAlign = ContentAlignment.TopLeft;
                      return;
                  }

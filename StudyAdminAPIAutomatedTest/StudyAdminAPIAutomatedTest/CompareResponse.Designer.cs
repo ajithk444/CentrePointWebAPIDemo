@@ -81,7 +81,7 @@
             // btnCancel
             // 
             this.btnCancel.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Image = global::StudyAdminAPITester.Properties.Resources.cancel;
+            this.btnCancel.Image = global::StudyAdminAPITester.Properties.Resources.cancel_black;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCancel.Location = new System.Drawing.Point(265, 178);
             this.btnCancel.Name = "btnCancel";
@@ -100,6 +100,7 @@
             this.Controls.Add(this.grpBoxCompare);
             this.Controls.Add(this.btnCompare);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(500, 300);
             this.Name = "CompareResponse";
             this.Text = "Compare Response";
             this.grpBoxCompare.ResumeLayout(false);

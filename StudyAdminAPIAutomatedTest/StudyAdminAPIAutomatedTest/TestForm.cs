@@ -45,6 +45,9 @@ namespace StudyAdminAPIAutomatedTest
             cbHttpMethod.SelectedIndex = 0;
             txtBxRequest.Enabled = false;
 
+            lblStatusCode.Text = string.Empty;
+            btnExecute.Enabled = false;
+           
             // Populate Built-In Tests Combo Box
             List<string> testCases = (from i in TestCaseRepo.Instance.TestCases
                                       select i.Name).ToList();
@@ -57,9 +60,7 @@ namespace StudyAdminAPIAutomatedTest
 
             // Set defaults for access and secret keys
             defaultAccessKeyText = "<Enter Access Key>";
-            txtBxAccessKey.Text = "2f6507c9-f504-41cb-885f-601e507587b5";
-
-           // txtBxAccessKey.Text = defaultAccessKeyText;
+            txtBxAccessKey.Text = defaultAccessKeyText;
             txtBxAccessKey.MouseClick += (o, e) =>
             {
                 if (txtBxAccessKey.Text.Equals(defaultAccessKeyText)) { 
@@ -68,8 +69,7 @@ namespace StudyAdminAPIAutomatedTest
             };
 
             defaultSecretKeyText = "<Enter Secret Key>";
-            txtBxSecretKey.Text = "71f6cde3-cd43-4a2b-9207-8c657424a48b";
-            //txtBxSecretKey.Text = defaultSecretKeyText;
+            txtBxSecretKey.Text = defaultSecretKeyText;
             txtBxSecretKey.MouseClick += (o, e) => 
             {
                 if (txtBxSecretKey.Text.Equals(defaultSecretKeyText)) {
@@ -85,7 +85,10 @@ namespace StudyAdminAPIAutomatedTest
                 {
                     txtBxRequest.Clear();
                     txtBxRequest.Enabled = false;
-                }    
+                }
+
+                btnExecute.Enabled = (txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+                        (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));      
             };
 
             // btnPopulate click action for button
@@ -107,6 +110,7 @@ namespace StudyAdminAPIAutomatedTest
                     
                     if (((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))
                     {
+                        btnExecute.Enabled = true;
                         txtBxRequest.Enabled = false;
                         txtBxRequest.Clear();
                     }
@@ -122,16 +126,7 @@ namespace StudyAdminAPIAutomatedTest
                 }
             };
 
-            // setting onselectedchange action for baseURI combo box
-            cbBaseURI.SelectedIndexChanged += (o, e) => 
-            {
-                txtBxRequest.Text = string.Empty;
-                cBBuiltInTests.SelectedIndex = 0;
-                txtBxResponse.Text = string.Empty;
-                lblStatusCode.Text = string.Empty;
-                btnCompareResponse.Enabled = false;
-            };
-
+           
             // Open Compare Response Form in Dialog Box
             btnCompareResponse.Click += (o, e) => 
             {
@@ -139,9 +134,21 @@ namespace StudyAdminAPIAutomatedTest
                 compareResponse.ShowDialog();
             };
 
+            txtBxRequest.TextChanged += (o, e) => {
+                btnExecute.Enabled = (txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+                           (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));  
+
+            };
+
+            txtBxURI.TextChanged += (o, e) => 
+            {
+                btnExecute.Enabled = (txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+                    (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));   
+            };
+
             // setting click action for execute button
             btnExecute.Click += async (o,e) => {
-           
+            
                 APITestCase apiTest = null;
                 Task<string> jsonResponseTask;
                 string jsonResponse = string.Empty;
@@ -258,7 +265,6 @@ namespace StudyAdminAPIAutomatedTest
                 lblUriRequired.Text = string.Empty;
                 lblAccessKeyRequired.Text = string.Empty;
                 lblSecretKeyRequired.Text = string.Empty;
-                lblRequestRequired.Text = string.Empty;
             };
 
             toolStripMenuItemSaveLog.Click += (obj, sender) =>
@@ -323,9 +329,8 @@ namespace StudyAdminAPIAutomatedTest
 
             lblAccessKeyRequired.Text = string.Empty;
             lblSecretKeyRequired.Text = string.Empty;
-            lblRequestRequired.Text = string.Empty;
             lblBaseURIRequired.Text = string.Empty;
-
+            lblUriRequired.Text = string.Empty;
 
             if (String.IsNullOrEmpty(txtBxAccessKey.Text) || txtBxAccessKey.Text.Equals(defaultAccessKeyText))
             {
@@ -345,12 +350,6 @@ namespace StudyAdminAPIAutomatedTest
                 isValid = false;
             }
 
-            if (txtBxRequest.Enabled && String.IsNullOrEmpty(txtBxRequest.Text))
-            {
-                lblRequestRequired.Text = "*";
-                isValid = false;
-            }
-
             if (string.IsNullOrEmpty(cbBaseURI.Text))
             {
                 lblBaseURIRequired.Text = "*";
@@ -360,6 +359,5 @@ namespace StudyAdminAPIAutomatedTest
             return isValid;
 
         }
-
     }
 }
