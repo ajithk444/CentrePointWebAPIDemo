@@ -47,7 +47,10 @@ namespace StudyAdminAPIAutomatedTest
 
             lblStatusCode.Text = string.Empty;
             btnExecute.Enabled = false;
-           
+            lblError.Text = string.Empty;
+            lblAccessKeyRequired.Text = string.Empty;
+            lblSecretKeyRequired.Text = string.Empty;
+
             // Populate Built-In Tests Combo Box
             List<string> testCases = (from i in TestCaseRepo.Instance.TestCases
                                       select i.Name).ToList();

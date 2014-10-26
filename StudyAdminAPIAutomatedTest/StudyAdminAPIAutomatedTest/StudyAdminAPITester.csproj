@@ -115,6 +115,7 @@
     <Content Include="Resources\cancel.jpg" />
     <Content Include="Resources\cancel_black.png" />
     <Content Include="Resources\cancel_small.jpg" />
+    <None Include="Resources\compare_smaller.jpg" />
     <Content Include="Resources\Study Admin API Tester.ico" />
     <Content Include="Resources\wand.png" />
     <Content Include="Study Admin API Tester.ico" />
