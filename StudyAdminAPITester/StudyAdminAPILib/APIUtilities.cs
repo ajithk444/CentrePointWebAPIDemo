@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using StudyAdminAPILib.JsonDTOs;
 using Newtonsoft.Json;
 
@@ -49,7 +50,7 @@ namespace StudyAdminAPILib
         }
 
 
-        public static async Task<HttpResponseMessage> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson = "")
+        public static async Task<HttpResponseMessage> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson)
         {
             // Generate HttpRequestMessage
             HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
@@ -63,6 +64,7 @@ namespace StudyAdminAPILib
 
             // Build Auth Header
             APIUtilities.BuildAuthHeader(ref request);
+            ClientState.AuthenticationHeaderValue = request.Headers.Authorization;
 
             try
             {

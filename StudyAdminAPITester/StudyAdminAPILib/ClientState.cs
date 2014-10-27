@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace StudyAdminAPILib
 {
@@ -77,6 +78,19 @@ namespace StudyAdminAPILib
             set 
             { 
                 _client = value; 
+            }
+        }
+
+        private static AuthenticationHeaderValue _httpAuth;
+        public static AuthenticationHeaderValue AuthenticationHeaderValue 
+        {
+            get
+            {
+                 return _httpAuth;
+            }
+            set
+            {
+                _httpAuth = value;
             }
         }
 

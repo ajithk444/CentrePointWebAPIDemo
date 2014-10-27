@@ -481,6 +481,7 @@
             this.MinimumSize = new System.Drawing.Size(931, 550);
             this.Name = "TestForm";
             this.Text = "Study Admin API Tester";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestForm_Closing);
             this.grpBxBuiltInTests.ResumeLayout(false);
             this.grpBxAccessKey.ResumeLayout(false);
             this.grpBxAccessKey.PerformLayout();

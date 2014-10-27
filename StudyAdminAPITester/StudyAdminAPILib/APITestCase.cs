@@ -9,7 +9,7 @@ using System.Net.Http;
 using StudyAdminAPILib.JsonDTOs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+using System.Net.Http.Headers;
 
 
 namespace StudyAdminAPILib
@@ -27,7 +27,7 @@ namespace StudyAdminAPILib
         public HttpMethod HttpVerb { get; set; }
 
 
-        public async Task<string> Run(string requestJson = "")
+        public async Task<string> Run(string requestJson)
         {
 
             Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(

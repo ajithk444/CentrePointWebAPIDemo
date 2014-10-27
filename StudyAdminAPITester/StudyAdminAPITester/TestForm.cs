@@ -247,7 +247,7 @@ namespace StudyAdminAPIAutomatedTest
 
                         // Update Log
                         sbLog.Insert(0, GetResponseLog(jsonResponse, apiTest.responseStatusCode));
-                        sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, txtBxURI.Text, jsonRequestRaw, requestTime));
+                        sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime));
                         txtBxResponse.Text = sbLog.ToString();
 
                         // re-enable send request button after request is complete (incase exception was thrown)
@@ -289,6 +289,7 @@ namespace StudyAdminAPIAutomatedTest
             };
 
             #endregion response right click menu      
+
         }
 
 
@@ -296,10 +297,11 @@ namespace StudyAdminAPIAutomatedTest
         {
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(string.Format("REQUEST ({0}):", requestTime.ToString()));
-            sb.Append(string.Format("    {0}   {1}",requestVerb.ToString(),uri));
-            sb.Append(Environment.NewLine);
-            sb.Append(jsonRequest);
+            sb.Append(string.Format("REQUEST:{0}",Environment.NewLine));
+            sb.Append(string.Format("{0}  {1}{2}", requestVerb.ToString(), uri, Environment.NewLine));
+            sb.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
+            sb.Append(string.Format("Authorization: {0}{1}", ClientState.AuthenticationHeaderValue.ToString(),  Environment.NewLine));
+            sb.Append(string.Format("Content:{0}{1}",Environment.NewLine,jsonRequest));
             return sb.ToString();
 
         }
@@ -311,7 +313,7 @@ namespace StudyAdminAPIAutomatedTest
             StringBuilder sb = new StringBuilder();
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
-            sb.Append(String.Format("RESPONSE: (Status Code: {0} - {1}){2}",(int) statusCode, statusCode.ToString(), Environment.NewLine));
+            sb.Append(String.Format("RESPONSE: {0} {1}{2}", (int)statusCode, statusCode.ToString(), Environment.NewLine));
             sb.Append(jsonResponse);
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
@@ -320,6 +322,7 @@ namespace StudyAdminAPIAutomatedTest
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
+
             return sb.ToString();
 
         }
@@ -360,6 +363,16 @@ namespace StudyAdminAPIAutomatedTest
 
             return isValid;
 
+        }
+
+        private void TestForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            if (ClientState.HttpClient != null)
+            {
+                ClientState.HttpClient.Dispose();
+            }
+            ClientState.AuthenticationHeaderValue = null;
+            ClientState.HttpClient = null;
         }
     }
 }
