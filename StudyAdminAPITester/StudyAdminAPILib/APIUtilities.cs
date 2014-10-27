@@ -84,22 +84,5 @@ namespace StudyAdminAPILib
 
         }
 
-        public static APIJsonDTO GetJsonDTO(string uri, HttpMethod verb, String request)
-        {
-            if (verb.Equals(HttpMethod.Put) && uri.Contains("subjects")) // Update Subject
-            {
-                return (APIJsonDTO)JsonConvert.DeserializeObject<UpdateSubjectDTO>(request);
-            }
-            else if (verb.Equals(HttpMethod.Post) && uri.Contains("subjects")) // Add Subject
-            {
-                return (APIJsonDTO)JsonConvert.DeserializeObject<AddSubjectDTO>(request);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
     }
 }
