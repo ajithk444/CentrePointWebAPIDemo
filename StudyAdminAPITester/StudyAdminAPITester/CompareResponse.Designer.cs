@@ -43,6 +43,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtResponseCompare.Location = new System.Drawing.Point(30, 19);
+            this.txtResponseCompare.MaxLength = 200000;
             this.txtResponseCompare.Multiline = true;
             this.txtResponseCompare.Name = "txtResponseCompare";
             this.txtResponseCompare.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
