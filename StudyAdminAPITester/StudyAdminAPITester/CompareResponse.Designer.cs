@@ -39,6 +39,9 @@
             // 
             // txtResponseCompare
             // 
+            this.txtResponseCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtResponseCompare.Location = new System.Drawing.Point(30, 19);
             this.txtResponseCompare.Multiline = true;
             this.txtResponseCompare.Name = "txtResponseCompare";
@@ -48,6 +51,7 @@
             // 
             // btnCompare
             // 
+            this.btnCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCompare.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCompare.Image = global::StudyAdminAPITester.Properties.Resources.compare;
             this.btnCompare.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -60,6 +64,9 @@
             // 
             // grpBoxCompare
             // 
+            this.grpBoxCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBoxCompare.Controls.Add(this.txtResponseCompare);
             this.grpBoxCompare.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBoxCompare.Location = new System.Drawing.Point(12, 12);
@@ -71,6 +78,7 @@
             // 
             // lblMatchStatus
             // 
+            this.lblMatchStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblMatchStatus.AutoSize = true;
             this.lblMatchStatus.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMatchStatus.Location = new System.Drawing.Point(9, 221);
@@ -80,6 +88,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.Image = global::StudyAdminAPITester.Properties.Resources.cancel_black;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
