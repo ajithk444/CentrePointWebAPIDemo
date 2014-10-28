@@ -250,6 +250,9 @@ namespace StudyAdminAPIAutomatedTest
                         sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime));
                         txtBxResponse.Text = sbLog.ToString();
 
+                        // Focus on Response text box
+                        txtBxResponse.Focus();
+
                         // re-enable send request button after request is complete (incase exception was thrown)
                         btnExecute.Enabled = true;
 
@@ -318,7 +321,10 @@ namespace StudyAdminAPIAutomatedTest
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
-            sb.Append("-------------------------------------------------------------------------------------------------");
+
+            for (int i = 0; i < 8; i++)
+              sb.Append("--------------------");
+          
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);

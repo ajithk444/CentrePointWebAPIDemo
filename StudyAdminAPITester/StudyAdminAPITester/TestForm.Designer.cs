@@ -135,7 +135,7 @@
             this.btnPopualte.Name = "btnPopualte";
             this.btnPopualte.Size = new System.Drawing.Size(89, 23);
             this.btnPopualte.TabIndex = 1;
-            this.btnPopualte.Text = "Populate";
+            this.btnPopualte.Text = "  Populate";
             this.btnPopualte.UseVisualStyleBackColor = true;
             // 
             // cBBuiltInTests
