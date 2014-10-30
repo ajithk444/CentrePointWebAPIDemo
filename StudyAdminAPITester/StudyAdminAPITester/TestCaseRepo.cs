@@ -58,7 +58,7 @@ namespace StudyAdminAPIAutomatedTest
                 // Subject Endpoints
                new GetSubjectTest("GetSubject", defaultSubjectID),
                new AddSubjectTest("AddSubject"), 
-               new UpdateSubjectTest("UpdateSubject", defaultSubjectID),
+               new EditSubjectTest("EditSubject", defaultSubjectID),
                new GetSubjectStatsTest("GetSubjectStats", defaultSubjectID),
                new GetSubjectDayStatsTest("GetSubjectDayStats", defaultSubjectID),
                new GetSubjectDayMinutesTest("GetSubjectDayMinutes", defaultSubjectID,   defaultDay),

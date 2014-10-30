@@ -209,10 +209,10 @@ namespace StudyAdminAPILib
 
     }
 
-    public class UpdateSubjectTest : APITestCase, IAPITestCase
+    public class EditSubjectTest : APITestCase, IAPITestCase
     {
 
-        public UpdateSubjectTest(string name, string subjectid)
+        public EditSubjectTest(string name, string subjectid)
         {
             this.UriFormat = "{0}/v1/subjects";
             this.Name = name;
