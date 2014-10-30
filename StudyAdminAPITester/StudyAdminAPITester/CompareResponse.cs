@@ -45,8 +45,8 @@ namespace StudyAdminAPIAutomatedTest
                      return;
                  }
      
-                 this.responseJson = new Regex("(\r\n|\r|\n)").Replace(this.responseJson, "");
-                 string compareTo = new Regex("(\r\n|\r|\n)").Replace(txtResponseCompare.Text, "");
+                 this.responseJson = new Regex(@"(\r\n|\r|\n|\s)").Replace(this.responseJson, "");
+                 string compareTo = new Regex(@"(\r\n|\r|\n|\s)").Replace(txtResponseCompare.Text, "");
 
                  if (string.Compare(this.responseJson, compareTo) == 0) 
                  {
