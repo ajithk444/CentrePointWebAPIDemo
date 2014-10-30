@@ -29,21 +29,14 @@ namespace StudyAdminAPILib
 
         public async Task<string> Run(string requestJson)
         {
-
-            Task<HttpResponseMessage> message = APIUtilities.SendRequestAsync(
+            HttpResponseMessage response = await APIUtilities.SendRequestAsync(
                 this.CurrentEndpoint,
                 this.HttpVerb,
                 requestJson);
 
-            await message;
-
-            HttpResponseMessage response = message.Result;
             this.responseStatusCode = response.StatusCode;
 
-            Task<String> responseTextTask = response.Content.ReadAsStringAsync();
-            await responseTextTask;
-
-            return responseTextTask.Result;
+            return await response.Content.ReadAsStringAsync();
         }
 
 
@@ -66,7 +59,6 @@ namespace StudyAdminAPILib
     public class GetSubjectTest : APITestCase, IAPITestCase
     {
 
-        
         public GetSubjectTest(string name, string subjectId) 
         {
             this.UriFormat = "{0}/v1/subjects/{1}";
@@ -80,7 +72,6 @@ namespace StudyAdminAPILib
 
     public class GetSubjectStatsTest : APITestCase, IAPITestCase
     {
-
 
         public GetSubjectStatsTest(string name, string subjectId)
         {
@@ -120,7 +111,6 @@ namespace StudyAdminAPILib
             this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectID, day);
 
         }
-
 
     }
 

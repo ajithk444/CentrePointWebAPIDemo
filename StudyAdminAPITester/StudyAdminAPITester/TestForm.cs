@@ -66,7 +66,8 @@ namespace StudyAdminAPIAutomatedTest
             txtBxAccessKey.Text = defaultAccessKeyText;
             txtBxAccessKey.MouseClick += (o, e) =>
             {
-                if (txtBxAccessKey.Text.Equals(defaultAccessKeyText)) { 
+                if (txtBxAccessKey.Text.Equals(defaultAccessKeyText)) 
+                { 
                     txtBxAccessKey.Text = string.Empty;
                 }
             };
@@ -75,7 +76,8 @@ namespace StudyAdminAPIAutomatedTest
             txtBxSecretKey.Text = defaultSecretKeyText;
             txtBxSecretKey.MouseClick += (o, e) => 
             {
-                if (txtBxSecretKey.Text.Equals(defaultSecretKeyText)) {
+                if (txtBxSecretKey.Text.Equals(defaultSecretKeyText)) 
+                {
                     txtBxSecretKey.Text = string.Empty;
                 }
             };
@@ -189,19 +191,18 @@ namespace StudyAdminAPIAutomatedTest
                     // disable send request button while text is running
                     btnExecute.Enabled = false;
 
-                    jsonResponseTask = apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
-
-                    await jsonResponseTask;
-
+                    // await for async method to finish
+                    jsonResponse = await apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
+                    
+                    // Set last Json response for tool
+                    lastJsonResponse = jsonResponse;
+                    
                     // re-enable send request button after request is complete
                     btnExecute.Enabled = true;
 
                     // Hide "Waiting For Response..." label
                     lblWaitingForResponse.Visible = false;
-
-                    jsonResponse = jsonResponseTask.Result;
-                    lastJsonResponse = jsonResponse;
-
+                    
                 }
                 catch (Exception ex) // Catch All
                 {

@@ -47,37 +47,34 @@ namespace StudyAdminAPIAutomatedTest
         private void InitializeTestCases()
         {
 
-
-            ClientState.DefaultSubjectID = "594";
-            ClientState.DefaultInBed = "2014-05-27T16:40:00";
-            ClientState.DefaultOutBed = "2014-05-28T02:28:00";
-            ClientState.DefaultDay = "2014-05-27";
-            ClientState.DefaultStudyId = "1";
+            string defaultSubjectID = "594";
+            string defaultInBed = "2014-05-27T16:40:00";
+            string defaultOutBed = "2014-05-28T02:28:00";
+            string defaultDay = "2014-05-27";
+            string defaultStudyId = "1";
 
             _testCaseList = new List<APITestCase>()
             {
                 // Subject Endpoints
-               new GetSubjectTest("GetSubject", ClientState.DefaultSubjectID),
-               new UpdateSubjectTest("UpdateSubject", ClientState.DefaultSubjectID),
+               new GetSubjectTest("GetSubject", defaultSubjectID),
                new AddSubjectTest("AddSubject"), 
-               new GetSubjectStatsTest("GetSubjectStats", ClientState.DefaultSubjectID),
-               new GetSubjectDayStatsTest("GetSubjectDayStats", ClientState.DefaultSubjectID),
-               new GetSubjectDayMinutesTest("GetSubjectDayMinutes", ClientState.DefaultSubjectID,   ClientState.DefaultDay),
-               new GetSubjectSleepEpochsTest("GetSubjectSleepEpochs", ClientState.DefaultSubjectID, ClientState.DefaultInBed,  ClientState.DefaultOutBed),
-               new GetSubjectSleepScoreTest("GetSubjectSleepScore", ClientState.DefaultSubjectID, ClientState.DefaultInBed,  ClientState.DefaultOutBed),
-               new GetSubjectBoutsTest("GetSubjectBouts", ClientState.DefaultSubjectID, ClientState.DefaultInBed,  ClientState.DefaultOutBed),
-               new GetSubjectBedTimesTest("GetSubjectBedTimes", ClientState.DefaultSubjectID, ClientState.DefaultInBed,  ClientState.DefaultOutBed),
-               new GetSubjectWeightHistoryTest("GetSubjectWeightHistory", ClientState.DefaultSubjectID),
+               new UpdateSubjectTest("UpdateSubject", defaultSubjectID),
+               new GetSubjectStatsTest("GetSubjectStats", defaultSubjectID),
+               new GetSubjectDayStatsTest("GetSubjectDayStats", defaultSubjectID),
+               new GetSubjectDayMinutesTest("GetSubjectDayMinutes", defaultSubjectID,   defaultDay),
+               new GetSubjectSleepEpochsTest("GetSubjectSleepEpochs", defaultSubjectID, defaultInBed,  defaultOutBed),
+               new GetSubjectSleepScoreTest("GetSubjectSleepScore", defaultSubjectID, defaultInBed,  defaultOutBed),
+               new GetSubjectBoutsTest("GetSubjectBouts", defaultSubjectID, defaultInBed,  defaultOutBed),
+               new GetSubjectBedTimesTest("GetSubjectBedTimes", defaultSubjectID, defaultInBed,  defaultOutBed),
+               new GetSubjectWeightHistoryTest("GetSubjectWeightHistory", defaultSubjectID),
                
-
                // Site Endpoints
                new GetSitesTest("GetSites"),
 
-
                // Study Endpoints
                new GetStudiesTest("GetStudies"),
-               new GetStudyTest("GetStudy",  ClientState.DefaultStudyId),
-               new GetStudySubjectsTest("GetStudySubjects",  ClientState.DefaultStudyId)
+               new GetStudyTest("GetStudy",  defaultStudyId),
+               new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId)
             };
         }
 
