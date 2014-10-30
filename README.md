@@ -21,7 +21,7 @@ the URI. For PUT, POST, & DELETE requests, the user will be able to modify both 
 When a request is formulated, the user will click the "Send Request" button to submit the request to the api. The user
 will be able to view the http response along with the status code in the response log.
 
-![2014-10-30_07-48-33](https://www.dropbox.com/s/if6anyiluqcikwo/studyAdminAPITesterSceenShot.png?dl=0)
+![2014-10-30_07-48-33](https://www.dropbox.com/s/if6anyiluqcikwo/studyAdminAPITesterSceenShot.png)
 
 
 
