@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using StudyAdminAPILib;
 
 
-namespace StudyAdminAPIAutomatedTest
+namespace StudyAdminAPITester
 {
    /**
     * Acts as a wrapper for the data structure that holds all tests

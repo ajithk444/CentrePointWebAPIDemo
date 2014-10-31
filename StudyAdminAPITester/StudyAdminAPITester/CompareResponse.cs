@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace StudyAdminAPIAutomatedTest
+namespace StudyAdminAPITester
 {
     public partial class CompareResponse : Form
     {
@@ -19,7 +19,8 @@ namespace StudyAdminAPIAutomatedTest
         public CompareResponse(string responseJson)
         {
             InitializeComponent();
-           
+
+            lblMatchStatus.Text = string.Empty;
             this.responseJson = responseJson;
             
             btnCancel.Click += (o, e) => {

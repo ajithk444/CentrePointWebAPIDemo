@@ -59,28 +59,6 @@ namespace StudyAdminAPILib
             }
         }
 
-        /// <summary>
-        /// HttpClient for application
-        /// </summary>
-        private static HttpClient _client;
-        public static HttpClient HttpClient
-        {
-            get 
-            {
-                if (_client == null) 
-                {
-                    _client = new HttpClient();
-                    _client.BaseAddress = new Uri(ClientState.BaseURI);
-                }
-
-                return _client; 
-            }
-            set 
-            { 
-                _client = value; 
-            }
-        }
-
         private static AuthenticationHeaderValue _httpAuth;
         public static AuthenticationHeaderValue AuthenticationHeaderValue 
         {

@@ -41,7 +41,10 @@ namespace StudyAdminAPILib
             var hash = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
             return Convert.ToBase64String(hash.ComputeHash(Encoding.UTF8.GetBytes(message)));
         }
-
+        /// <summary>
+        /// The method builds the authentication header
+        /// </summary>
+        /// <param name="requestMessage"></param>
         public static void BuildAuthHeader(ref HttpRequestMessage requestMessage)
         {
             requestMessage.Headers.Date = DateTime.UtcNow;
@@ -52,26 +55,30 @@ namespace StudyAdminAPILib
 
         public static async Task<HttpResponseMessage> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson)
         {
-            // Generate HttpRequestMessage
-            HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
 
-            // If post or get request, serialize Data Transfer Object
-            if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put))
-            {
-                request.Content = new StringContent(requestJson, Encoding.UTF8);
-                request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            }
+            // Generate HttpClient   
+             HttpClient client = client = new HttpClient()
+             {
+                 BaseAddress = new Uri(ClientState.BaseURI)
+             };
 
-            // Build Auth Header
-            APIUtilities.BuildAuthHeader(ref request);
-            ClientState.AuthenticationHeaderValue = request.Headers.Authorization;
-
+             // Generate HttpRequestMessage
+             HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
+            
             try
-            {
-                Task<HttpResponseMessage> response = ClientState.HttpClient.SendAsync(request);
-                await response;
+            {   
+                // If post or get request, serialize Data Transfer Object
+                if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put))
+                {
+                    request.Content = new StringContent(requestJson, Encoding.UTF8);
+                    request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                }
 
-                return response.Result;
+                // Build Auth Header
+                APIUtilities.BuildAuthHeader(ref request);
+                ClientState.AuthenticationHeaderValue = request.Headers.Authorization;
+                
+                return await client.SendAsync(request);
             }
             catch (Exception e)
             {
@@ -80,6 +87,7 @@ namespace StudyAdminAPILib
             finally
             {
                 request.Dispose();
+                client.Dispose();
             }
 
         }

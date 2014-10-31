@@ -17,7 +17,7 @@ using System.Net.Http;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace StudyAdminAPIAutomatedTest
+namespace StudyAdminAPITester
 {
     public partial class TestForm : Form
     {
@@ -34,7 +34,7 @@ namespace StudyAdminAPIAutomatedTest
             sbLog = new StringBuilder();
 
             // Add items to Base URI combo box
-            ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
+            ClientState.BaseURI ="https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.SelectedIndex = 0;
 
@@ -50,6 +50,7 @@ namespace StudyAdminAPIAutomatedTest
             lblError.Text = string.Empty;
             lblAccessKeyRequired.Text = string.Empty;
             lblSecretKeyRequired.Text = string.Empty;
+            lblError.Text = string.Empty;
 
             // Populate Built-In Tests Combo Box
             List<string> testCases = (from i in TestCaseRepo.Instance.TestCases
@@ -139,7 +140,8 @@ namespace StudyAdminAPIAutomatedTest
                 compareResponse.ShowDialog();
             };
 
-            txtBxRequest.TextChanged += (o, e) => {
+            txtBxRequest.TextChanged += (o, e) => 
+            {
                 btnExecute.Enabled = (txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
                            (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));  
 
@@ -151,16 +153,27 @@ namespace StudyAdminAPIAutomatedTest
                     (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));   
             };
 
+
+            int previousSplitterDisatnace = splitContainer1.SplitterDistance;
+            splitContainer1.SplitterMoved += (o, e) => {
+                if (grpBxContent.Height <= 20 || grpBxResponse.Height <= 20)
+                {
+                    splitContainer1.SplitterDistance = previousSplitterDisatnace;
+                }
+                else
+                {
+                    previousSplitterDisatnace = splitContainer1.SplitterDistance;
+                }
+            };
+
+
             // setting click action for execute button
             btnExecute.Click += async (o,e) => {
             
                 APITestCase apiTest = null;
-                Task<string> jsonResponseTask;
                 string jsonResponse = string.Empty;
                 string jsonRequestRaw = txtBxRequest.Text;    
-                
                 DateTime requestTime = DateTime.Now;
-                string errorMessage = string.Empty;
 
                 try
                 {
@@ -182,7 +195,8 @@ namespace StudyAdminAPIAutomatedTest
                     apiTest = new APITestCase();
                     apiTest.CurrentEndpoint = string.Format("{0}{1}",ClientState.BaseURI,txtBxURI.Text);
                     apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
-
+                    
+                    // Request Message Time Stamp
                     requestTime = DateTime.Now;
                   
                     // Hide "Waiting For Response..." label
@@ -202,64 +216,41 @@ namespace StudyAdminAPIAutomatedTest
 
                     // Hide "Waiting For Response..." label
                     lblWaitingForResponse.Visible = false;
-                    
-                }
-                catch (Exception ex) // Catch All
-                {
-                    // retrieve the inner most exception
-                    Exception current = ex;
-                    while (current.InnerException != null)
-                    {
-                        current = current.InnerException;
-                    }
 
-                    string errMsg = null;
-                    if (current.Message.StartsWith("Unable to connect"))
+                    // Enable Compare Button
+                    btnCompareResponse.Enabled = true;
+
+                    // Update Response Status Code     
+                    if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.Created))
                     {
-                        errMsg = "Unable to connect to Study Admin API";
+                        lblStatusCode.ForeColor = Color.Green;
+                        lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;                 
                     }
                     else
                     {
-                        errMsg = current.Message;
+                        lblStatusCode.ForeColor = Color.Red;
+                        lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
                     }
 
-                    lblError.Text = errMsg;
+                    lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
+                    lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}", (int)apiTest.responseStatusCode, (string)apiTest.responseStatusCode.ToString());
+
+                    // Update Log
+                    sbLog.Insert(0, GetResponseLog(jsonResponse, apiTest.responseStatusCode));
+                    sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime));
+                    txtBxResponse.Text = sbLog.ToString();
+
+                    // Focus on Response text box
+                    txtBxResponse.Focus();
+                    
                 }
-                finally 
+                catch (HttpRequestException) 
                 {
-                    // Update Response Status Code
-                    if (apiTest != null && apiTest.responseStatusCode != null) 
-                    {
-                        if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.Created)) 
-                        {
-                            lblStatusCode.ForeColor = Color.Green;
-                            lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
-                            lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
-                            btnCompareResponse.Enabled = true;
-                        } 
-                        else 
-                        {
-                            lblStatusCode.ForeColor = Color.Red;
-                            lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
-                            lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
-                            btnCompareResponse.Enabled = true;
-                        }
-                        lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}",  (int)apiTest.responseStatusCode,  (string)apiTest.responseStatusCode.ToString());
-
-                        // Update Log
-                        sbLog.Insert(0, GetResponseLog(jsonResponse, apiTest.responseStatusCode));
-                        sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime));
-                        txtBxResponse.Text = sbLog.ToString();
-
-                        // Focus on Response text box
-                        txtBxResponse.Focus();
-
-                        // re-enable send request button after request is complete (incase exception was thrown)
-                        btnExecute.Enabled = true;
-
-                        // Hide waiting for response label (in case xception was thrown)
-                        lblWaitingForResponse.Visible = false;
-                    }     
+                    lblError.Text = string.Format("A problem occured while sending request to {0}", apiTest.CurrentEndpoint);
+                }
+                catch (Exception) // Catch Everything else
+                {
+                    lblError.Text = "A problem has occured. Please contact the Study Admin Team.";              
                 }
             };
 
@@ -323,7 +314,7 @@ namespace StudyAdminAPIAutomatedTest
             sb.Append(Environment.NewLine);
             sb.Append(Environment.NewLine);
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 7; i++)
               sb.Append("--------------------");
           
             sb.Append(Environment.NewLine);
@@ -372,14 +363,5 @@ namespace StudyAdminAPIAutomatedTest
 
         }
 
-        private void TestForm_Closing(object sender, FormClosingEventArgs e)
-        {
-            if (ClientState.HttpClient != null)
-            {
-                ClientState.HttpClient.Dispose();
-            }
-            ClientState.AuthenticationHeaderValue = null;
-            ClientState.HttpClient = null;
-        }
     }
 }
