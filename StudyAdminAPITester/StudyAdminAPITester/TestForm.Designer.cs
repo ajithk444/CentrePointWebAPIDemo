@@ -223,9 +223,9 @@
             // 
             // txtBxSecretKey
             // 
-            this.txtBxSecretKey.Location = new System.Drawing.Point(82, 15);
+            this.txtBxSecretKey.Location = new System.Drawing.Point(85, 13);
             this.txtBxSecretKey.Name = "txtBxSecretKey";
-            this.txtBxSecretKey.Size = new System.Drawing.Size(359, 21);
+            this.txtBxSecretKey.Size = new System.Drawing.Size(356, 21);
             this.txtBxSecretKey.TabIndex = 14;
             // 
             // lblSecretKeyRequired
@@ -339,7 +339,7 @@
             this.txtBxRequest.Multiline = true;
             this.txtBxRequest.Name = "txtBxRequest";
             this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxRequest.Size = new System.Drawing.Size(876, 73);
+            this.txtBxRequest.Size = new System.Drawing.Size(876, 67);
             this.txtBxRequest.TabIndex = 2;
             // 
             // grpBxResponse
@@ -351,7 +351,7 @@
             this.grpBxResponse.Controls.Add(this.lblResponseRequired);
             this.grpBxResponse.Location = new System.Drawing.Point(9, 26);
             this.grpBxResponse.Name = "grpBxResponse";
-            this.grpBxResponse.Size = new System.Drawing.Size(882, 134);
+            this.grpBxResponse.Size = new System.Drawing.Size(882, 131);
             this.grpBxResponse.TabIndex = 33;
             this.grpBxResponse.TabStop = false;
             this.grpBxResponse.Text = "Resposne (from Study Admin API)";
@@ -370,7 +370,7 @@
             this.txtBxResponse.Name = "txtBxResponse";
             this.txtBxResponse.ReadOnly = true;
             this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxResponse.Size = new System.Drawing.Size(876, 108);
+            this.txtBxResponse.Size = new System.Drawing.Size(876, 105);
             this.txtBxResponse.TabIndex = 7;
             // 
             // contextMenuStrip1
@@ -424,13 +424,13 @@
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControl1);
             this.toolStripContainer1.ContentPanel.ForeColor = System.Drawing.Color.Black;
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(915, 535);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(915, 526);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(915, 535);
+            this.toolStripContainer1.Size = new System.Drawing.Size(915, 526);
             this.toolStripContainer1.TabIndex = 36;
             this.toolStripContainer1.Text = "toolStripContainer1";
             this.toolStripContainer1.TopToolStripPanelVisible = false;
@@ -445,7 +445,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(912, 532);
+            this.tabControl1.Size = new System.Drawing.Size(912, 523);
             this.tabControl1.TabIndex = 39;
             // 
             // tabPageSingleTest
@@ -454,7 +454,7 @@
             this.tabPageSingleTest.Location = new System.Drawing.Point(4, 23);
             this.tabPageSingleTest.Name = "tabPageSingleTest";
             this.tabPageSingleTest.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSingleTest.Size = new System.Drawing.Size(904, 505);
+            this.tabPageSingleTest.Size = new System.Drawing.Size(904, 496);
             this.tabPageSingleTest.TabIndex = 0;
             this.tabPageSingleTest.Text = "Singe Test Mode";
             this.tabPageSingleTest.UseVisualStyleBackColor = true;
@@ -485,8 +485,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.lblError);
             this.splitContainer1.Panel2.Controls.Add(this.btnCompareResponse);
             this.splitContainer1.Panel2.Controls.Add(this.lblStatusCode);
-            this.splitContainer1.Size = new System.Drawing.Size(898, 499);
-            this.splitContainer1.SplitterDistance = 292;
+            this.splitContainer1.Size = new System.Drawing.Size(898, 490);
+            this.splitContainer1.SplitterDistance = 286;
             this.splitContainer1.TabIndex = 39;
             // 
             // btnExecute
@@ -494,7 +494,7 @@
             this.btnExecute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnExecute.Image = global::StudyAdminAPITester.Properties.Resources.mail;
             this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExecute.Location = new System.Drawing.Point(362, 254);
+            this.btnExecute.Location = new System.Drawing.Point(362, 248);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(156, 23);
             this.btnExecute.TabIndex = 12;
@@ -505,7 +505,7 @@
             // 
             this.lblWaitingForResponse.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblWaitingForResponse.AutoSize = true;
-            this.lblWaitingForResponse.Location = new System.Drawing.Point(524, 258);
+            this.lblWaitingForResponse.Location = new System.Drawing.Point(524, 252);
             this.lblWaitingForResponse.Name = "lblWaitingForResponse";
             this.lblWaitingForResponse.Size = new System.Drawing.Size(136, 14);
             this.lblWaitingForResponse.TabIndex = 38;
@@ -520,7 +520,7 @@
             this.grpBxContent.Controls.Add(this.txtBxRequest);
             this.grpBxContent.Location = new System.Drawing.Point(9, 149);
             this.grpBxContent.Name = "grpBxContent";
-            this.grpBxContent.Size = new System.Drawing.Size(882, 99);
+            this.grpBxContent.Size = new System.Drawing.Size(882, 93);
             this.grpBxContent.TabIndex = 36;
             this.grpBxContent.TabStop = false;
             this.grpBxContent.Text = "Content";
@@ -530,7 +530,7 @@
             this.lblError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblError.AutoSize = true;
             this.lblError.ForeColor = System.Drawing.Color.Red;
-            this.lblError.Location = new System.Drawing.Point(14, 163);
+            this.lblError.Location = new System.Drawing.Point(14, 160);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(133, 14);
             this.lblError.TabIndex = 37;
@@ -542,7 +542,7 @@
             this.btnCompareResponse.Enabled = false;
             this.btnCompareResponse.Image = global::StudyAdminAPITester.Properties.Resources.compare_smaller;
             this.btnCompareResponse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCompareResponse.Location = new System.Drawing.Point(738, 163);
+            this.btnCompareResponse.Location = new System.Drawing.Point(738, 160);
             this.btnCompareResponse.Name = "btnCompareResponse";
             this.btnCompareResponse.Size = new System.Drawing.Size(149, 27);
             this.btnCompareResponse.TabIndex = 30;
@@ -564,7 +564,7 @@
             this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 505);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 496);
             this.tabPageBatchForm.TabIndex = 1;
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
@@ -759,11 +759,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(915, 535);
+            this.ClientSize = new System.Drawing.Size(915, 526);
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(931, 530);
+            this.MinimumSize = new System.Drawing.Size(931, 565);
             this.Name = "TestForm";
             this.Text = "Study Admin API Tester";
             this.grpBxBuiltInTests.ResumeLayout(false);

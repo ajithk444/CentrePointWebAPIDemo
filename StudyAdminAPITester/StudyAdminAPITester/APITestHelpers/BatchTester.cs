@@ -53,17 +53,16 @@ namespace StudyAdminAPITester
         public KeyValuePair<string, string> RetrieveAPIKeyPar(XNamespace dns, string apiKeyPairId)
         {
             var doc = this.xmlConfig;
-            string accessKey = (from a in doc.Root.Descendants(dns + "ApiKeyPair")
-                    where a.Attribute("id").Value.Equals(apiKeyPairId)
-                    select a.Attribute("accessKey").Value
-                    ).FirstOrDefault();
+            XElement apiKeyElement = (
+                                      from a in doc.Root.Descendants(dns + "ApiKeyPair") 
+                                      where a.Attribute("id").Value.Equals(apiKeyPairId) 
+                                      select a
+                                      ).FirstOrDefault();
 
-            string secretKey = (from a in doc.Root.Descendants(dns + "ApiKeyPair")
-                                where a.Attribute("id").Value.Equals(apiKeyPairId)
-                                select a.Attribute("secretKey").Value
-                   ).FirstOrDefault();
+            if (apiKeyElement == null)
+                throw new Exception(string.Format("API Key Pair '{0}' not found", apiKeyPairId));
 
-            return new KeyValuePair<string, string>(accessKey, secretKey);
+            return new KeyValuePair<string, string>(apiKeyElement.Attribute("accessKey").Value, apiKeyElement.Attribute("secretKey").Value);
         }
 
         public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
@@ -82,9 +81,7 @@ namespace StudyAdminAPITester
                                       select b;
 
             foreach (var t in apiTestsQuery)
-            {
-                await RunApiTest(t, XmlNamespace, resultsListBox);
-            }
+                await RunApiTest(t, XmlNamespace, resultsListBox);       
         }
 
         public async Task RunApiTest(XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
@@ -153,9 +150,7 @@ namespace StudyAdminAPITester
                                  select a;
 
             foreach (var ele in TestSuiteQuery)
-            {
                 await RunSuite(ele, xmlNamespace, resultsListBox);
-            }
 
         }
 
@@ -186,12 +181,6 @@ namespace StudyAdminAPITester
                 
             }
 
-        }
-
-        public void RunBatch()
-        { 
-        
-        
         }
     }
 }

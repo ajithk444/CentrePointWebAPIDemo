@@ -160,7 +160,6 @@ namespace StudyAdminAPITester
                     (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));
             };
 
-
             int previousSplitterDisatnace = splitContainer1.SplitterDistance;
             splitContainer1.SplitterMoved += (o, e) =>
             {
@@ -260,7 +259,12 @@ namespace StudyAdminAPITester
                 }
                 catch (Exception) // Catch Everything else
                 {
-                    lblError.Text = "A problem has occured. Please contact the Study Admin Team.";
+                    lblError.Text = "A problem has occured. Please contact the Study Admin Team."; 
+                }
+                finally
+                {
+                    btnExecute.Enabled = true;
+                    lblWaitingForResponse.Visible = false;
                 }
             };
 
@@ -435,12 +439,25 @@ namespace StudyAdminAPITester
         {
             btnRunBatch.Enabled = false;
             ClientState.BaseURI = cbBatchBaseUri.Text;
-            await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
+            
+            try
+            {
+                await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
 
-            grpResults.Visible = true;
-            lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
-            lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
-            lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalTests;  
+                grpResults.Visible = true;
+                lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
+                lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
+                lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalTests;  
+            } 
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("API Key"))
+                    MessageBox.Show(ex.Message, "Problem");
+                else
+                    MessageBox.Show("A problem occured with batch tester.", "Problem");
+            }
+
+       
         }
 
         private void lstBxBatchResults_DrawItem(object sender, DrawItemEventArgs e)

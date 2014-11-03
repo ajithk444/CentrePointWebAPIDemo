@@ -59,7 +59,8 @@ namespace StudyAdminAPILib
             // Generate HttpClient   
              HttpClient client = client = new HttpClient()
              {
-                 BaseAddress = new Uri(ClientState.BaseURI)
+                 BaseAddress = new Uri(ClientState.BaseURI),
+                 Timeout = new TimeSpan(1500)
              };
 
              // Generate HttpRequestMessage
