@@ -61,12 +61,23 @@
             this.lblResponseRequired = new System.Windows.Forms.Label();
             this.linkLabelHelp = new System.Windows.Forms.LinkLabel();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPageSingleTest = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnExecute = new System.Windows.Forms.Button();
             this.lblWaitingForResponse = new System.Windows.Forms.Label();
             this.grpBxContent = new System.Windows.Forms.GroupBox();
             this.lblError = new System.Windows.Forms.Label();
             this.btnCompareResponse = new System.Windows.Forms.Button();
+            this.tabPageBatchForm = new System.Windows.Forms.TabPage();
+            this.btnRunBatch = new System.Windows.Forms.Button();
+            this.lstBxBatchResults = new System.Windows.Forms.ListBox();
+            this.lstBxImportTests = new System.Windows.Forms.ListBox();
+            this.lnkSchema = new System.Windows.Forms.LinkLabel();
+            this.btnImportBatchConfig = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.lnkSampeXML = new System.Windows.Forms.LinkLabel();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -76,11 +87,14 @@
             this.contextMenuStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPageSingleTest.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.grpBxContent.SuspendLayout();
+            this.tabPageBatchForm.SuspendLayout();
             this.SuspendLayout();
             // 
             // BottomToolStripPanel
@@ -125,7 +139,7 @@
             this.grpBxBuiltInTests.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxBuiltInTests.Controls.Add(this.btnPopualte);
             this.grpBxBuiltInTests.Controls.Add(this.cBBuiltInTests);
-            this.grpBxBuiltInTests.Location = new System.Drawing.Point(438, 13);
+            this.grpBxBuiltInTests.Location = new System.Drawing.Point(424, 13);
             this.grpBxBuiltInTests.Name = "grpBxBuiltInTests";
             this.grpBxBuiltInTests.Size = new System.Drawing.Size(467, 44);
             this.grpBxBuiltInTests.TabIndex = 25;
@@ -186,7 +200,7 @@
             this.grpBxSecretKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxSecretKey.Controls.Add(this.txtBxSecretKey);
             this.grpBxSecretKey.Controls.Add(this.lblSecretKeyRequired);
-            this.grpBxSecretKey.Location = new System.Drawing.Point(438, 57);
+            this.grpBxSecretKey.Location = new System.Drawing.Point(424, 57);
             this.grpBxSecretKey.Name = "grpBxSecretKey";
             this.grpBxSecretKey.Size = new System.Drawing.Size(467, 41);
             this.grpBxSecretKey.TabIndex = 27;
@@ -266,7 +280,7 @@
             this.grpBxRequest.Controls.Add(this.txtBxURI);
             this.grpBxRequest.Location = new System.Drawing.Point(9, 104);
             this.grpBxRequest.Name = "grpBxRequest";
-            this.grpBxRequest.Size = new System.Drawing.Size(896, 46);
+            this.grpBxRequest.Size = new System.Drawing.Size(882, 46);
             this.grpBxRequest.TabIndex = 32;
             this.grpBxRequest.TabStop = false;
             this.grpBxRequest.Text = "Request (to Study Admin API)";
@@ -286,7 +300,7 @@
             this.lblUriRequired.AutoSize = true;
             this.lblUriRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUriRequired.ForeColor = System.Drawing.Color.Red;
-            this.lblUriRequired.Location = new System.Drawing.Point(864, 17);
+            this.lblUriRequired.Location = new System.Drawing.Point(850, 17);
             this.lblUriRequired.Name = "lblUriRequired";
             this.lblUriRequired.Size = new System.Drawing.Size(0, 25);
             this.lblUriRequired.TabIndex = 35;
@@ -298,7 +312,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBxURI.Location = new System.Drawing.Point(92, 17);
             this.txtBxURI.Name = "txtBxURI";
-            this.txtBxURI.Size = new System.Drawing.Size(778, 21);
+            this.txtBxURI.Size = new System.Drawing.Size(764, 21);
             this.txtBxURI.TabIndex = 33;
             // 
             // txtBxRequest
@@ -311,7 +325,7 @@
             this.txtBxRequest.Multiline = true;
             this.txtBxRequest.Name = "txtBxRequest";
             this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxRequest.Size = new System.Drawing.Size(890, 93);
+            this.txtBxRequest.Size = new System.Drawing.Size(876, 73);
             this.txtBxRequest.TabIndex = 2;
             // 
             // grpBxResponse
@@ -323,7 +337,7 @@
             this.grpBxResponse.Controls.Add(this.lblResponseRequired);
             this.grpBxResponse.Location = new System.Drawing.Point(9, 26);
             this.grpBxResponse.Name = "grpBxResponse";
-            this.grpBxResponse.Size = new System.Drawing.Size(896, 147);
+            this.grpBxResponse.Size = new System.Drawing.Size(882, 134);
             this.grpBxResponse.TabIndex = 33;
             this.grpBxResponse.TabStop = false;
             this.grpBxResponse.Text = "Resposne (from Study Admin API)";
@@ -342,7 +356,7 @@
             this.txtBxResponse.Name = "txtBxResponse";
             this.txtBxResponse.ReadOnly = true;
             this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBxResponse.Size = new System.Drawing.Size(890, 121);
+            this.txtBxResponse.Size = new System.Drawing.Size(876, 108);
             this.txtBxResponse.TabIndex = 7;
             // 
             // contextMenuStrip1
@@ -380,7 +394,7 @@
             // linkLabelHelp
             // 
             this.linkLabelHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabelHelp.Location = new System.Drawing.Point(795, 0);
+            this.linkLabelHelp.Location = new System.Drawing.Point(781, 0);
             this.linkLabelHelp.Name = "linkLabelHelp";
             this.linkLabelHelp.Size = new System.Drawing.Size(112, 14);
             this.linkLabelHelp.TabIndex = 34;
@@ -394,7 +408,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControl1);
             this.toolStripContainer1.ContentPanel.ForeColor = System.Drawing.Color.Black;
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(915, 535);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -407,12 +421,34 @@
             this.toolStripContainer1.Text = "toolStripContainer1";
             this.toolStripContainer1.TopToolStripPanelVisible = false;
             // 
-            // splitContainer1
+            // tabControl1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPageSingleTest);
+            this.tabControl1.Controls.Add(this.tabPageBatchForm);
+            this.tabControl1.Location = new System.Drawing.Point(3, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(912, 532);
+            this.tabControl1.TabIndex = 39;
+            // 
+            // tabPageSingleTest
+            // 
+            this.tabPageSingleTest.Controls.Add(this.splitContainer1);
+            this.tabPageSingleTest.Location = new System.Drawing.Point(4, 23);
+            this.tabPageSingleTest.Name = "tabPageSingleTest";
+            this.tabPageSingleTest.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSingleTest.Size = new System.Drawing.Size(904, 505);
+            this.tabPageSingleTest.TabIndex = 0;
+            this.tabPageSingleTest.Text = "Singe Test Mode";
+            this.tabPageSingleTest.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(3, 3);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -435,8 +471,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.lblError);
             this.splitContainer1.Panel2.Controls.Add(this.btnCompareResponse);
             this.splitContainer1.Panel2.Controls.Add(this.lblStatusCode);
-            this.splitContainer1.Size = new System.Drawing.Size(912, 532);
-            this.splitContainer1.SplitterDistance = 312;
+            this.splitContainer1.Size = new System.Drawing.Size(898, 499);
+            this.splitContainer1.SplitterDistance = 292;
             this.splitContainer1.TabIndex = 39;
             // 
             // btnExecute
@@ -444,7 +480,7 @@
             this.btnExecute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnExecute.Image = global::StudyAdminAPITester.Properties.Resources.mail;
             this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExecute.Location = new System.Drawing.Point(369, 274);
+            this.btnExecute.Location = new System.Drawing.Point(362, 254);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(156, 23);
             this.btnExecute.TabIndex = 12;
@@ -455,7 +491,7 @@
             // 
             this.lblWaitingForResponse.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblWaitingForResponse.AutoSize = true;
-            this.lblWaitingForResponse.Location = new System.Drawing.Point(531, 278);
+            this.lblWaitingForResponse.Location = new System.Drawing.Point(524, 258);
             this.lblWaitingForResponse.Name = "lblWaitingForResponse";
             this.lblWaitingForResponse.Size = new System.Drawing.Size(136, 14);
             this.lblWaitingForResponse.TabIndex = 38;
@@ -470,7 +506,7 @@
             this.grpBxContent.Controls.Add(this.txtBxRequest);
             this.grpBxContent.Location = new System.Drawing.Point(9, 149);
             this.grpBxContent.Name = "grpBxContent";
-            this.grpBxContent.Size = new System.Drawing.Size(896, 119);
+            this.grpBxContent.Size = new System.Drawing.Size(882, 99);
             this.grpBxContent.TabIndex = 36;
             this.grpBxContent.TabStop = false;
             this.grpBxContent.Text = "Content";
@@ -480,7 +516,7 @@
             this.lblError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblError.AutoSize = true;
             this.lblError.ForeColor = System.Drawing.Color.Red;
-            this.lblError.Location = new System.Drawing.Point(14, 176);
+            this.lblError.Location = new System.Drawing.Point(14, 163);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(133, 14);
             this.lblError.TabIndex = 37;
@@ -492,12 +528,106 @@
             this.btnCompareResponse.Enabled = false;
             this.btnCompareResponse.Image = global::StudyAdminAPITester.Properties.Resources.compare_smaller;
             this.btnCompareResponse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCompareResponse.Location = new System.Drawing.Point(752, 176);
+            this.btnCompareResponse.Location = new System.Drawing.Point(738, 163);
             this.btnCompareResponse.Name = "btnCompareResponse";
             this.btnCompareResponse.Size = new System.Drawing.Size(149, 27);
             this.btnCompareResponse.TabIndex = 30;
             this.btnCompareResponse.Text = "Compare";
             this.btnCompareResponse.UseVisualStyleBackColor = true;
+            // 
+            // tabPageBatchForm
+            // 
+            this.tabPageBatchForm.Controls.Add(this.lnkSampeXML);
+            this.tabPageBatchForm.Controls.Add(this.btnRunBatch);
+            this.tabPageBatchForm.Controls.Add(this.lstBxBatchResults);
+            this.tabPageBatchForm.Controls.Add(this.lstBxImportTests);
+            this.tabPageBatchForm.Controls.Add(this.lnkSchema);
+            this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
+            this.tabPageBatchForm.Controls.Add(this.label1);
+            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
+            this.tabPageBatchForm.Name = "tabPageBatchForm";
+            this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 505);
+            this.tabPageBatchForm.TabIndex = 1;
+            this.tabPageBatchForm.Text = "Batch Mode";
+            this.tabPageBatchForm.UseVisualStyleBackColor = true;
+            // 
+            // btnRunBatch
+            // 
+            this.btnRunBatch.Enabled = false;
+            this.btnRunBatch.Location = new System.Drawing.Point(417, 216);
+            this.btnRunBatch.Name = "btnRunBatch";
+            this.btnRunBatch.Size = new System.Drawing.Size(75, 23);
+            this.btnRunBatch.TabIndex = 5;
+            this.btnRunBatch.Text = "Run Batch";
+            this.btnRunBatch.UseVisualStyleBackColor = true;
+            this.btnRunBatch.Click += new System.EventHandler(this.btnRunBatch_Click);
+            // 
+            // lstBxBatchResults
+            // 
+            this.lstBxBatchResults.FormattingEnabled = true;
+            this.lstBxBatchResults.ItemHeight = 14;
+            this.lstBxBatchResults.Location = new System.Drawing.Point(523, 97);
+            this.lstBxBatchResults.Name = "lstBxBatchResults";
+            this.lstBxBatchResults.ScrollAlwaysVisible = true;
+            this.lstBxBatchResults.Size = new System.Drawing.Size(363, 284);
+            this.lstBxBatchResults.TabIndex = 4;
+            // 
+            // lstBxImportTests
+            // 
+            this.lstBxImportTests.FormattingEnabled = true;
+            this.lstBxImportTests.ItemHeight = 14;
+            this.lstBxImportTests.Location = new System.Drawing.Point(24, 97);
+            this.lstBxImportTests.Name = "lstBxImportTests";
+            this.lstBxImportTests.ScrollAlwaysVisible = true;
+            this.lstBxImportTests.Size = new System.Drawing.Size(363, 284);
+            this.lstBxImportTests.TabIndex = 3;
+            // 
+            // lnkSchema
+            // 
+            this.lnkSchema.AutoSize = true;
+            this.lnkSchema.Location = new System.Drawing.Point(230, 42);
+            this.lnkSchema.Name = "lnkSchema";
+            this.lnkSchema.Size = new System.Drawing.Size(106, 14);
+            this.lnkSchema.TabIndex = 2;
+            this.lnkSchema.TabStop = true;
+            this.lnkSchema.Text = "View XML Schema";
+            this.lnkSchema.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkXmlSchema_Click);
+            // 
+            // btnImportBatchConfig
+            // 
+            this.btnImportBatchConfig.Location = new System.Drawing.Point(24, 68);
+            this.btnImportBatchConfig.Name = "btnImportBatchConfig";
+            this.btnImportBatchConfig.Size = new System.Drawing.Size(165, 23);
+            this.btnImportBatchConfig.TabIndex = 1;
+            this.btnImportBatchConfig.Text = "Import Batch Config XML";
+            this.btnImportBatchConfig.UseVisualStyleBackColor = true;
+            this.btnImportBatchConfig.Click += new System.EventHandler(this.btnImportConfig_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(21, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(865, 14);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Instructions: To run API Tests is batch mode, you will have to import an API Test" +
+    "er Config XML File. To view the schema click \"View XML Schema\" link below.";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // lnkSampeXML
+            // 
+            this.lnkSampeXML.AutoSize = true;
+            this.lnkSampeXML.Location = new System.Drawing.Point(36, 42);
+            this.lnkSampeXML.Name = "lnkSampeXML";
+            this.lnkSampeXML.Size = new System.Drawing.Size(176, 14);
+            this.lnkSampeXML.TabIndex = 6;
+            this.lnkSampeXML.TabStop = true;
+            this.lnkSampeXML.Text = "View Sample XML Batch Config";
+            this.lnkSampeXML.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSampeXML_LinkClicked);
             // 
             // TestForm
             // 
@@ -526,6 +656,8 @@
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPageSingleTest.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -534,6 +666,8 @@
             this.splitContainer1.ResumeLayout(false);
             this.grpBxContent.ResumeLayout(false);
             this.grpBxContent.PerformLayout();
+            this.tabPageBatchForm.ResumeLayout(false);
+            this.tabPageBatchForm.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -577,6 +711,18 @@
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.Label lblWaitingForResponse;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPageSingleTest;
+        private System.Windows.Forms.TabPage tabPageBatchForm;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button btnImportBatchConfig;
+        private System.Windows.Forms.LinkLabel lnkSchema;
+        private System.Windows.Forms.Button btnRunBatch;
+        private System.Windows.Forms.ListBox lstBxBatchResults;
+        private System.Windows.Forms.ListBox lstBxImportTests;
+        private System.Windows.Forms.LinkLabel lnkSampeXML;
+        
 
     }
 }

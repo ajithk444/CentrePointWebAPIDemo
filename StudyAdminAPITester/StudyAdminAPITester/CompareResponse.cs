@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using StudyAdminAPILib;
 
 
 namespace StudyAdminAPITester
@@ -46,8 +47,8 @@ namespace StudyAdminAPITester
                      return;
                  }
      
-                 this.responseJson = new Regex(@"(\r\n|\r|\n|\s)").Replace(this.responseJson, "");
-                 string compareTo = new Regex(@"(\r\n|\r|\n|\s)").Replace(txtResponseCompare.Text, "");
+                 this.responseJson = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(this.responseJson, "");
+                 string compareTo = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(txtResponseCompare.Text, "");
 
                  if (string.Compare(this.responseJson, compareTo) == 0) 
                  {

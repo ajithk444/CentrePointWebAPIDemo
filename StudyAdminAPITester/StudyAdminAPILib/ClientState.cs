@@ -72,5 +72,23 @@ namespace StudyAdminAPILib
             }
         }
 
+        private static string _removeNewLineRegEx = "(\r\n|\r|\n)";
+        public static String RemoveNewLineRegEx
+        {
+            get
+            {
+                return _removeNewLineRegEx;
+            }
+        }
+
+        private static string _removeNewLineAndWhiteSpaceRegEx = @"(\r\n|\r|\n|\s)";
+        public static String RemoveNewLineAndWhiteSpaceRegEx
+        {
+            get
+            {
+                return _removeNewLineAndWhiteSpaceRegEx;
+            }
+        }
+
     }
 }

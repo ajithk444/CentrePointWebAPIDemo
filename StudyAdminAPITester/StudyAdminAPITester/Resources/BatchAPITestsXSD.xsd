@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.w3schools.com" xmlns:tns="http://www.w3schools.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">  
+  <xs:element name="BatchTest">  
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ApiKeyPairs">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" minOccurs="1" name="ApiKeyPair">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" use="required" />
+                  <xs:attribute name="accessKey" type="xs:string" use="required" />
+                  <xs:attribute name="secretKey" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TestSuites">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TestSuite" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="ApiTest">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="RequestContent" type="xs:string" minOccurs="0" maxOccurs="1" />
+                          <xs:element name="ExpectedStatusCode" type="xs:integer" minOccurs="1" maxOccurs="1" />
+                          <xs:element name="ExpectedResponse" type="xs:string" minOccurs="1" maxOccurs="1" />
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:string" use="required" />
+                        <xs:attribute name="Uri" type="xs:string" use="required" />
+                        <xs:attribute name="HttpMethod" type="tns:HttpVerb" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="suiteId" type="xs:string" use="required" />
+                  <xs:attribute name="apiKeyPairId" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="HttpVerb" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GET" />
+      <xs:enumeration value="POST" />
+      <xs:enumeration value="PUT" />
+      <xs:enumeration value="DELETE" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

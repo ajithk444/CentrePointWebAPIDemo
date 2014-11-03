@@ -61,6 +61,38 @@ namespace StudyAdminAPITester.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///&lt;BatchTest xmlns=&quot;http://www.w3schools.com&quot;&gt;
+        ///  &lt;ApiKeyPairs&gt;
+        ///    &lt;ApiKeyPair id=&quot;SystemAdministrator&quot; accessKey=&quot;330141f1-9874-4519-ae83-6bde87574e0d&quot; secretKey=&quot;330141f1-9874-4519-ae83-6bde87574e0d&quot; /&gt;
+        ///    &lt;ApiKeyPair id=&quot;StudyCoordinator&quot; accessKey=&quot;ab17fa6d-60b0-452d-914d-0579d4cfe7e7&quot; secretKey=&quot;520cf5a7-683a-4e81-a268-4d8d81da25ca&quot; /&gt;
+        ///    &lt;ApiKeyPair id=&quot;StudyViewer&quot; accessKey=&quot;ce189886-43bf-4abc-a3f5-21a56f3c9422&quot; secretKey=&quot;88d3b558-894c-4a16-ab4d-37ddf0f76509&quot; /&gt;
+        ///    &lt;Api [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BatchAPITestsXML {
+            get {
+                return ResourceManager.GetString("BatchAPITestsXML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;Windows-1252&quot;?&gt;
+        ///&lt;xs:schema xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; targetNamespace=&quot;http://www.w3schools.com&quot; xmlns:tns=&quot;http://www.w3schools.com&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;  
+        ///  &lt;xs:element name=&quot;BatchTest&quot;&gt;  
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element name=&quot;ApiKeyPairs&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///            &lt;xs:sequence&gt;
+        ///              &lt;xs:element maxOcc [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BatchAPITestsXSD {
+            get {
+                return ResourceManager.GetString("BatchAPITestsXSD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap cancel {
