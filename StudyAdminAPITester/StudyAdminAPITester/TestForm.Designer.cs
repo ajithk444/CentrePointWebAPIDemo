@@ -70,14 +70,24 @@
             this.lblError = new System.Windows.Forms.Label();
             this.btnCompareResponse = new System.Windows.Forms.Button();
             this.tabPageBatchForm = new System.Windows.Forms.TabPage();
-            this.btnRunBatch = new System.Windows.Forms.Button();
+            this.grpBaseURI = new System.Windows.Forms.GroupBox();
+            this.cbBatchBaseUri = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lstBxBatchResults = new System.Windows.Forms.ListBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstBxImportTests = new System.Windows.Forms.ListBox();
+            this.grpResults = new System.Windows.Forms.GroupBox();
+            this.lblTestsPassed = new System.Windows.Forms.Label();
+            this.lblTestsFailed = new System.Windows.Forms.Label();
+            this.lblTotalTests = new System.Windows.Forms.Label();
+            this.btnViewLog = new System.Windows.Forms.Button();
+            this.lnkSampeXML = new System.Windows.Forms.LinkLabel();
+            this.btnRunBatch = new System.Windows.Forms.Button();
             this.lnkSchema = new System.Windows.Forms.LinkLabel();
             this.btnImportBatchConfig = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.lnkSampeXML = new System.Windows.Forms.LinkLabel();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -95,6 +105,10 @@
             this.splitContainer1.SuspendLayout();
             this.grpBxContent.SuspendLayout();
             this.tabPageBatchForm.SuspendLayout();
+            this.grpBaseURI.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.grpResults.SuspendLayout();
             this.SuspendLayout();
             // 
             // BottomToolStripPanel
@@ -537,10 +551,13 @@
             // 
             // tabPageBatchForm
             // 
+            this.tabPageBatchForm.Controls.Add(this.grpBaseURI);
+            this.tabPageBatchForm.Controls.Add(this.groupBox2);
+            this.tabPageBatchForm.Controls.Add(this.groupBox1);
+            this.tabPageBatchForm.Controls.Add(this.grpResults);
+            this.tabPageBatchForm.Controls.Add(this.btnViewLog);
             this.tabPageBatchForm.Controls.Add(this.lnkSampeXML);
             this.tabPageBatchForm.Controls.Add(this.btnRunBatch);
-            this.tabPageBatchForm.Controls.Add(this.lstBxBatchResults);
-            this.tabPageBatchForm.Controls.Add(this.lstBxImportTests);
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
             this.tabPageBatchForm.Controls.Add(this.label1);
@@ -552,41 +569,159 @@
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
             // 
-            // btnRunBatch
+            // grpBaseURI
             // 
-            this.btnRunBatch.Enabled = false;
-            this.btnRunBatch.Location = new System.Drawing.Point(417, 216);
-            this.btnRunBatch.Name = "btnRunBatch";
-            this.btnRunBatch.Size = new System.Drawing.Size(75, 23);
-            this.btnRunBatch.TabIndex = 5;
-            this.btnRunBatch.Text = "Run Batch";
-            this.btnRunBatch.UseVisualStyleBackColor = true;
-            this.btnRunBatch.Click += new System.EventHandler(this.btnRunBatch_Click);
+            this.grpBaseURI.Controls.Add(this.cbBatchBaseUri);
+            this.grpBaseURI.Controls.Add(this.label2);
+            this.grpBaseURI.Location = new System.Drawing.Point(490, 60);
+            this.grpBaseURI.Name = "grpBaseURI";
+            this.grpBaseURI.Size = new System.Drawing.Size(383, 45);
+            this.grpBaseURI.TabIndex = 29;
+            this.grpBaseURI.TabStop = false;
+            this.grpBaseURI.Text = "Base URI";
+            // 
+            // cbBatchBaseUri
+            // 
+            this.cbBatchBaseUri.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbBatchBaseUri.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBatchBaseUri.FormattingEnabled = true;
+            this.cbBatchBaseUri.Location = new System.Drawing.Point(70, 17);
+            this.cbBatchBaseUri.Name = "cbBatchBaseUri";
+            this.cbBatchBaseUri.Size = new System.Drawing.Size(299, 22);
+            this.cbBatchBaseUri.TabIndex = 11;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(810, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 25);
+            this.label2.TabIndex = 18;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.lstBxBatchResults);
+            this.groupBox2.Location = new System.Drawing.Point(490, 113);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(383, 303);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Results";
             // 
             // lstBxBatchResults
             // 
+            this.lstBxBatchResults.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstBxBatchResults.FormattingEnabled = true;
             this.lstBxBatchResults.ItemHeight = 14;
-            this.lstBxBatchResults.Location = new System.Drawing.Point(523, 97);
+            this.lstBxBatchResults.Location = new System.Drawing.Point(6, 20);
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(363, 284);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(363, 270);
             this.lstBxBatchResults.TabIndex = 4;
+            this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lstBxImportTests);
+            this.groupBox1.Location = new System.Drawing.Point(24, 113);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(385, 303);
+            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Imported Tests";
             // 
             // lstBxImportTests
             // 
             this.lstBxImportTests.FormattingEnabled = true;
             this.lstBxImportTests.ItemHeight = 14;
-            this.lstBxImportTests.Location = new System.Drawing.Point(24, 97);
+            this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(363, 284);
+            this.lstBxImportTests.Size = new System.Drawing.Size(363, 270);
             this.lstBxImportTests.TabIndex = 3;
+            // 
+            // grpResults
+            // 
+            this.grpResults.Controls.Add(this.lblTestsPassed);
+            this.grpResults.Controls.Add(this.lblTestsFailed);
+            this.grpResults.Controls.Add(this.lblTotalTests);
+            this.grpResults.Location = new System.Drawing.Point(490, 422);
+            this.grpResults.Name = "grpResults";
+            this.grpResults.Size = new System.Drawing.Size(123, 66);
+            this.grpResults.TabIndex = 13;
+            this.grpResults.TabStop = false;
+            this.grpResults.Text = "Results";
+            this.grpResults.Visible = false;
+            // 
+            // lblTestsPassed
+            // 
+            this.lblTestsPassed.AutoSize = true;
+            this.lblTestsPassed.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTestsPassed.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lblTestsPassed.Location = new System.Drawing.Point(15, 17);
+            this.lblTestsPassed.Name = "lblTestsPassed";
+            this.lblTestsPassed.Size = new System.Drawing.Size(97, 14);
+            this.lblTestsPassed.TabIndex = 7;
+            this.lblTestsPassed.Text = "Tests Passed: 0";
+            // 
+            // lblTestsFailed
+            // 
+            this.lblTestsFailed.AutoSize = true;
+            this.lblTestsFailed.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTestsFailed.ForeColor = System.Drawing.Color.Red;
+            this.lblTestsFailed.Location = new System.Drawing.Point(16, 31);
+            this.lblTestsFailed.Name = "lblTestsFailed";
+            this.lblTestsFailed.Size = new System.Drawing.Size(90, 14);
+            this.lblTestsFailed.TabIndex = 8;
+            this.lblTestsFailed.Text = "Tests Failed: 0";
+            // 
+            // lblTotalTests
+            // 
+            this.lblTotalTests.AutoSize = true;
+            this.lblTotalTests.Location = new System.Drawing.Point(16, 45);
+            this.lblTotalTests.Name = "lblTotalTests";
+            this.lblTotalTests.Size = new System.Drawing.Size(79, 14);
+            this.lblTotalTests.TabIndex = 9;
+            this.lblTotalTests.Text = "Total Tests: 0";
+            // 
+            // btnViewLog
+            // 
+            this.btnViewLog.Location = new System.Drawing.Point(784, 430);
+            this.btnViewLog.Name = "btnViewLog";
+            this.btnViewLog.Size = new System.Drawing.Size(75, 23);
+            this.btnViewLog.TabIndex = 12;
+            this.btnViewLog.Text = "View Log";
+            this.btnViewLog.UseVisualStyleBackColor = true;
+            // 
+            // lnkSampeXML
+            // 
+            this.lnkSampeXML.AutoSize = true;
+            this.lnkSampeXML.Location = new System.Drawing.Point(195, 77);
+            this.lnkSampeXML.Name = "lnkSampeXML";
+            this.lnkSampeXML.Size = new System.Drawing.Size(176, 14);
+            this.lnkSampeXML.TabIndex = 6;
+            this.lnkSampeXML.TabStop = true;
+            this.lnkSampeXML.Text = "View Sample XML Batch Config";
+            this.lnkSampeXML.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSampeXML_LinkClicked);
+            // 
+            // btnRunBatch
+            // 
+            this.btnRunBatch.Enabled = false;
+            this.btnRunBatch.Location = new System.Drawing.Point(425, 253);
+            this.btnRunBatch.Name = "btnRunBatch";
+            this.btnRunBatch.Size = new System.Drawing.Size(50, 23);
+            this.btnRunBatch.TabIndex = 5;
+            this.btnRunBatch.Text = "Run";
+            this.btnRunBatch.UseVisualStyleBackColor = true;
+            this.btnRunBatch.Click += new System.EventHandler(this.btnRunBatch_Click);
             // 
             // lnkSchema
             // 
             this.lnkSchema.AutoSize = true;
-            this.lnkSchema.Location = new System.Drawing.Point(230, 42);
+            this.lnkSchema.Location = new System.Drawing.Point(195, 63);
             this.lnkSchema.Name = "lnkSchema";
             this.lnkSchema.Size = new System.Drawing.Size(106, 14);
             this.lnkSchema.TabIndex = 2;
@@ -596,9 +731,9 @@
             // 
             // btnImportBatchConfig
             // 
-            this.btnImportBatchConfig.Location = new System.Drawing.Point(24, 68);
+            this.btnImportBatchConfig.Location = new System.Drawing.Point(24, 63);
             this.btnImportBatchConfig.Name = "btnImportBatchConfig";
-            this.btnImportBatchConfig.Size = new System.Drawing.Size(165, 23);
+            this.btnImportBatchConfig.Size = new System.Drawing.Size(165, 28);
             this.btnImportBatchConfig.TabIndex = 1;
             this.btnImportBatchConfig.Text = "Import Batch Config XML";
             this.btnImportBatchConfig.UseVisualStyleBackColor = true;
@@ -607,27 +742,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Meiryo UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(21, 15);
+            this.label1.MaximumSize = new System.Drawing.Size(855, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(865, 14);
+            this.label1.Size = new System.Drawing.Size(833, 42);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Instructions: To run API Tests is batch mode, you will have to import an API Test" +
-    "er Config XML File. To view the schema click \"View XML Schema\" link below.";
+            this.label1.Text = resources.GetString("label1.Text");
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // lnkSampeXML
-            // 
-            this.lnkSampeXML.AutoSize = true;
-            this.lnkSampeXML.Location = new System.Drawing.Point(36, 42);
-            this.lnkSampeXML.Name = "lnkSampeXML";
-            this.lnkSampeXML.Size = new System.Drawing.Size(176, 14);
-            this.lnkSampeXML.TabIndex = 6;
-            this.lnkSampeXML.TabStop = true;
-            this.lnkSampeXML.Text = "View Sample XML Batch Config";
-            this.lnkSampeXML.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkSampeXML_LinkClicked);
             // 
             // TestForm
             // 
@@ -668,6 +793,12 @@
             this.grpBxContent.PerformLayout();
             this.tabPageBatchForm.ResumeLayout(false);
             this.tabPageBatchForm.PerformLayout();
+            this.grpBaseURI.ResumeLayout(false);
+            this.grpBaseURI.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.grpResults.ResumeLayout(false);
+            this.grpResults.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -722,6 +853,16 @@
         private System.Windows.Forms.ListBox lstBxBatchResults;
         private System.Windows.Forms.ListBox lstBxImportTests;
         private System.Windows.Forms.LinkLabel lnkSampeXML;
+        private System.Windows.Forms.Label lblTestsPassed;
+        private System.Windows.Forms.Label lblTestsFailed;
+        private System.Windows.Forms.Label lblTotalTests;
+        private System.Windows.Forms.Button btnViewLog;
+        private System.Windows.Forms.GroupBox grpResults;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox grpBaseURI;
+        private System.Windows.Forms.ComboBox cbBatchBaseUri;
+        private System.Windows.Forms.Label label2;
         
 
     }

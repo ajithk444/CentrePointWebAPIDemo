@@ -9,11 +9,16 @@ using System.Net;
 using System.Net.Http;
 using StudyAdminAPILib;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace StudyAdminAPITester
 {
     public class BatchTester 
     {
+
+        public int TotalTests { get; set; }
+        public int TotalPassed { get; set; }
+        public int TotalFailed { get; set; }
 
         private static BatchTester _batchTester = new BatchTester();
         private XDocument xmlConfig;
@@ -38,6 +43,13 @@ namespace StudyAdminAPITester
             }
         }
 
+        public void ResetBatch()
+        {
+            this.TotalTests = 0;
+            this.TotalPassed = 0;
+            this.TotalFailed = 0;
+        }
+
         public KeyValuePair<string, string> RetrieveAPIKeyPar(XNamespace dns, string apiKeyPairId)
         {
             var doc = this.xmlConfig;
@@ -54,28 +66,28 @@ namespace StudyAdminAPITester
             return new KeyValuePair<string, string>(accessKey, secretKey);
         }
 
-        public async void RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
+        public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
 
-            string suiteId = testSuiteElement.Attributes("suiteId").FirstOrDefault().Value;
+            string suiteId = testSuiteElement.Attributes("id").FirstOrDefault().Value;
             string apiKeyPairId = testSuiteElement.Attributes("apiKeyPairId").FirstOrDefault().Value;
             KeyValuePair<string, string> apiKeys = RetrieveAPIKeyPar(XmlNamespace, apiKeyPairId);
             
             ClientState.AccessKey = apiKeys.Key;
             ClientState.SecretKey = apiKeys.Value;
-            
-            resultsListBox.Items.Add(String.Format("Suite: {0}", suiteId));
+       
+            resultsListBox.Items.Add(new ListBoxItem(Color.Black, string.Format("Suite: {0}", suiteId)));
 
             var apiTestsQuery = from b in testSuiteElement.Elements(XmlNamespace + "ApiTest")
                                       select b;
 
             foreach (var t in apiTestsQuery)
             {
-                RunApiTest(t, XmlNamespace, resultsListBox);
+                await RunApiTest(t, XmlNamespace, resultsListBox);
             }
         }
 
-        public async void RunApiTest(XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
+        public async Task RunApiTest(XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
             
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
@@ -122,16 +134,17 @@ namespace StudyAdminAPITester
 
             if (passed)
             {
-                resultsListBox.Items.Add(String.Format("\tApiTest: {0} PASSED", apiTestId));
+                TotalPassed += 1;
+                resultsListBox.Items.Add(new ListBoxItem( Color.Green, String.Format("\tApiTest: {0} PASSED", apiTestId)));
             }
             else
             {
-                resultsListBox.Items.Add(String.Format("\tApiTest: {0} FAILED", apiTestId));
+                TotalFailed += 1;
+                resultsListBox.Items.Add(new ListBoxItem( Color.Red, String.Format("\tApiTest: {0} FAILED", apiTestId)));
             }
-
         }
 
-        public async void RunBatch(String xmlNamespace, System.Windows.Forms.ListBox resultsListBox)
+        public async Task RunBatch(String xmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
             var doc = this.xmlConfig;
             XNamespace dns = xmlNamespace;
@@ -141,7 +154,7 @@ namespace StudyAdminAPITester
 
             foreach (var ele in TestSuiteQuery)
             {
-                RunSuite(ele, xmlNamespace, resultsListBox);
+                await RunSuite(ele, xmlNamespace, resultsListBox);
             }
 
         }
@@ -155,19 +168,20 @@ namespace StudyAdminAPITester
 
             foreach (var ele in TestSuiteQuery)
             {
-               String suiteId = ele.Attributes("suiteId").FirstOrDefault().Value;
-               importListBox.Items.Add(String.Format("Suite: {0}", suiteId));
+               String suiteId = ele.Attributes("id").FirstOrDefault().Value;
+               importListBox.Items.Add(String.Format("Test Suite: {0}", suiteId));
 
                 var apiTestsQuery = from b in ele.Elements(dns + "ApiTest")
                                       select b;
 
                 foreach (var t in apiTestsQuery)
                 {
+                    TotalTests += 1;
                     string apiTestId = t.Attributes("id").FirstOrDefault().Value;
                     string uri = t.Attributes("Uri").FirstOrDefault().Value;
                     string httpMethod = t.Attributes("HttpMethod").FirstOrDefault().Value;
-
-                    importListBox.Items.Add(string.Format("\tApiTest: {0} ({1} {2})",apiTestId,  httpMethod, uri));
+                    
+                    importListBox.Items.Add(string.Format("\tApiTest: {0} ({1} {2})",apiTestId, httpMethod, uri));
                 }
                 
             }

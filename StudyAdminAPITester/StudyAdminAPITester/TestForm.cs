@@ -26,6 +26,7 @@ namespace StudyAdminAPITester
     {
 
         private StringBuilder sbLog;
+        private StringBuilder sbLogBatch;
         private String lastJsonResponse;
         private String defaultAccessKeyText;
         private String defaultSecretKeyText;
@@ -35,11 +36,14 @@ namespace StudyAdminAPITester
         {
             InitializeComponent();
             sbLog = new StringBuilder();
+            sbLogBatch = new StringBuilder();
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.SelectedIndex = 0;
+            cbBatchBaseUri.Items.Add(ClientState.BaseURI);
+            cbBatchBaseUri.SelectedIndex = 0;
 
             // Populate HttpMethod Dropdown list and default it to "GET" request type
             cbHttpMethod.Items.Add(HttpMethod.Get);
@@ -56,7 +60,7 @@ namespace StudyAdminAPITester
             lblError.Text = string.Empty;
 
             // Populate Built-In Tests Combo Box
-            List<string> testCases = (from i in TestCaseRepo.Instance.TestCases
+            List<string> testCases = (from i in BuiltInTestCaseRepo.Instance.TestCases
                                       select i.Name).ToList();
             testCases.Insert(0, "");
             cBBuiltInTests.DataSource = testCases;
@@ -108,7 +112,7 @@ namespace StudyAdminAPITester
                 btnCompareResponse.Enabled = false;
 
                 APITestCase apiTest = (
-                from i in TestCaseRepo.Instance.TestCases
+                from i in BuiltInTestCaseRepo.Instance.TestCases
                 where i.Name.Equals(cBBuiltInTests.Text)
                 select i).FirstOrDefault();
 
@@ -242,8 +246,8 @@ namespace StudyAdminAPITester
                     lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}", (int)apiTest.responseStatusCode, (string)apiTest.responseStatusCode.ToString());
 
                     // Update Log
-                    sbLog.Insert(0, GetResponseLog(jsonResponse, apiTest.responseStatusCode));
-                    sbLog.Insert(0, GetRequestLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime));
+                    InsertResposneToLog(jsonResponse, apiTest.responseStatusCode);
+                    InsertRequestToLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime);
                     txtBxResponse.Text = sbLog.ToString();
 
                     // Focus on Response text box
@@ -295,41 +299,32 @@ namespace StudyAdminAPITester
         }
 
 
-        private string GetRequestLog(HttpMethod requestVerb, string uri, String jsonRequest, DateTime requestTime)
+        private void InsertRequestToLog( HttpMethod requestVerb, string uri, String jsonRequest, DateTime requestTime)
         {
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append(string.Format("REQUEST:{0}", Environment.NewLine));
-            sb.Append(string.Format("{0}  {1}{2}", requestVerb.ToString(), uri, Environment.NewLine));
-            sb.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
-            sb.Append(string.Format("Authorization: {0}{1}", ClientState.AuthenticationHeaderValue.ToString(), Environment.NewLine));
-            sb.Append(string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
-            return sb.ToString();
-
+            sbLog.Insert(0, string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
+            sbLog.Insert(0, string.Format("Authorization: {0}{1}", ClientState.AuthenticationHeaderValue.ToString(), Environment.NewLine));
+            sbLog.Insert(0, string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
+            sbLog.Insert(0, string.Format("{0}  {1}{2}", requestVerb.ToString(), uri, Environment.NewLine));
+            sbLog.Insert(0, string.Format("REQUEST:{0}", Environment.NewLine));
         }
 
 
-        private string GetResponseLog(string jsonResponse, HttpStatusCode statusCode)
+        private void InsertResposneToLog(string jsonResponse, HttpStatusCode statusCode)
         {
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append(Environment.NewLine);
-            sb.Append(Environment.NewLine);
-            sb.Append(String.Format("RESPONSE: {0} {1}{2}", (int)statusCode, statusCode.ToString(), Environment.NewLine));
-            sb.Append(jsonResponse);
-            sb.Append(Environment.NewLine);
-            sb.Append(Environment.NewLine);
-            sb.Append(Environment.NewLine);
+            sbLog.Insert(0, Environment.NewLine);
+            sbLog.Insert(0, Environment.NewLine);
+            sbLog.Insert(0, Environment.NewLine);
 
             for (int i = 0; i < 7; i++)
-                sb.Append("--------------------");
+                sbLog.Insert(0, "--------------------");
 
-            sb.Append(Environment.NewLine);
-            sb.Append(Environment.NewLine);
-            sb.Append(Environment.NewLine);
-           
-            return sb.ToString();
-
+            sbLog.Insert(0, Environment.NewLine);
+            sbLog.Insert(0, Environment.NewLine);
+            sbLog.Insert(0, Environment.NewLine);
+            sbLog.Insert(0, jsonResponse);
+            sbLog.Insert(0, String.Format("RESPONSE: {0} {1}{2}", (int)statusCode, statusCode.ToString(), Environment.NewLine));
+            sbLog.Insert(0, Environment.NewLine);
+            sbLog.Insert(0, Environment.NewLine);
         }
 
 
@@ -367,7 +362,6 @@ namespace StudyAdminAPITester
             }
 
             return isValid;
-
         }
 
         private void btnImportConfig_Click(object sender, EventArgs e)
@@ -380,8 +374,7 @@ namespace StudyAdminAPITester
 
                 if (result != DialogResult.OK)
                     return;
-
-                
+          
                 XmlSchemaSet schemas = new XmlSchemaSet();
                 schemas.Add(xmlNamespace, XmlReader.Create(new StringReader(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD)));
 
@@ -390,8 +383,7 @@ namespace StudyAdminAPITester
                 bool xmlValid = true;
                 StringBuilder sb = new StringBuilder();
 
-                xmlConfig.Validate(schemas, (s, args) =>
-                {
+                xmlConfig.Validate(schemas, (s, args) => {
                     xmlValid = false;
                     sb.Append(string.Format("\u2022 {0}{1}", args.Exception.Message, Environment.NewLine));
                 });
@@ -403,15 +395,14 @@ namespace StudyAdminAPITester
                     return;
                 }
 
-
-                // Open the selected file to read.
                 lstBxImportTests.Items.Clear();
                 lstBxBatchResults.Items.Clear();
                 btnRunBatch.Enabled = true;
+                grpResults.Visible = false;
 
+                BatchTester.Instance.ResetBatch();
                 BatchTester.Instance.XmlConfig = xmlConfig;
                 BatchTester.Instance.ImportBatch(xmlNamespace, lstBxImportTests);
-
             }
         }
 
@@ -424,10 +415,8 @@ namespace StudyAdminAPITester
             xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD);
             xmlSchema.Dispose();
            
-            if (File.Exists(filename)) { 
+            if (File.Exists(filename)) 
                 Process.Start(filename);
-            }
-
         }
 
         private void lnkSampeXML_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -439,14 +428,34 @@ namespace StudyAdminAPITester
             xmlSchema.Dispose();
 
             if (File.Exists(filename))
-            {
-                Process.Start(filename);
-            }
+                Process.Start(filename);  
         }
 
         private async void btnRunBatch_Click(object sender, EventArgs e)
         {
-            BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
+            btnRunBatch.Enabled = false;
+            ClientState.BaseURI = cbBatchBaseUri.Text;
+            await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
+
+            grpResults.Visible = true;
+            lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
+            lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
+            lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalTests;  
+        }
+
+        private void lstBxBatchResults_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            ListBoxItem item = lstBxBatchResults.Items[e.Index] as ListBoxItem; 
+            if (item != null)
+            {
+                e.Graphics.DrawString ( // Draw the appropriate text in the ListBox
+                    item.Message, // The message linked to the item
+                    lstBxBatchResults.Font, // Take the font from the listbox
+                    new SolidBrush(item.ItemColor), // Set the color 
+                    0, // X pixel coordinate
+                    e.Index * lstBxBatchResults.ItemHeight // Y pixel coordinate.  Multiply the index by the ItemHeight defined in the listbox.
+                );
+            }
         }
 
     }

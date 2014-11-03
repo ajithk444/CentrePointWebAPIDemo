@@ -76,19 +76,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BatchTester.cs" />
+    <Compile Include="APITestHelpers\BatchTester.cs" />
     <Compile Include="CompareResponse.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CompareResponse.Designer.cs">
       <DependentUpon>CompareResponse.cs</DependentUpon>
     </Compile>
+    <Compile Include="APITestHelpers\ListBoxItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TestCaseRepo.cs" />
+    <Compile Include="APITestHelpers\TestCaseRepo.cs" />
     <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,9 +141,6 @@
     <Content Include="Resources\cancel.jpg" />
     <Content Include="Resources\cancel_black.png" />
     <Content Include="Resources\cancel_small.jpg" />
-    <Content Include="XML\BatchAPITests.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Resources\compare_smaller.jpg" />
     <Content Include="Resources\Study Admin API Tester.ico" />
     <Content Include="Resources\wand.png" />

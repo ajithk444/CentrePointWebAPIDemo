@@ -8,9 +8,27 @@
             <xs:sequence>
               <xs:element maxOccurs="unbounded" minOccurs="1" name="ApiKeyPair">
                 <xs:complexType>
-                  <xs:attribute name="id" type="xs:string" use="required" />
-                  <xs:attribute name="accessKey" type="xs:string" use="required" />
-                  <xs:attribute name="secretKey" type="xs:string" use="required" />
+                  <xs:attribute name="id" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="accessKey" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="secretKey" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
@@ -25,18 +43,59 @@
                     <xs:element minOccurs="1" maxOccurs="unbounded" name="ApiTest">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element name="RequestContent" type="xs:string" minOccurs="0" maxOccurs="1" />
-                          <xs:element name="ExpectedStatusCode" type="xs:integer" minOccurs="1" maxOccurs="1" />
+                          <xs:element name="RequestContent" minOccurs="0" maxOccurs="1" >
+                              <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                  <xs:minLength value="1"/>
+                                </xs:restriction>
+                              </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="ExpectedStatusCode" minOccurs="1" maxOccurs="1">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:integer">
+                                <xs:enumeration value="200"/>
+                                <xs:enumeration value="201"/>
+                                <xs:enumeration value="400"/>
+                                <xs:enumeration value="401"/>
+                                <xs:enumeration value="404"/>
+                                <xs:enumeration value="500"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
                           <xs:element name="ExpectedResponse" type="xs:string" minOccurs="1" maxOccurs="1" />
                         </xs:sequence>
-                        <xs:attribute name="id" type="xs:string" use="required" />
-                        <xs:attribute name="Uri" type="xs:string" use="required" />
+                        <xs:attribute name="id" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:minLength value="1"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Uri" use="required">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:minLength value="1"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
                         <xs:attribute name="HttpMethod" type="tns:HttpVerb" use="required" />
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
-                  <xs:attribute name="suiteId" type="xs:string" use="required" />
-                  <xs:attribute name="apiKeyPairId" type="xs:string" use="required" />
+                  <xs:attribute name="id" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>  
+                  </xs:attribute>
+                  <xs:attribute name="apiKeyPairId" use="required" >
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>

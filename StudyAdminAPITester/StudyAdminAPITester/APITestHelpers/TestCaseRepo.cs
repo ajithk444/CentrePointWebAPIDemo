@@ -11,18 +11,18 @@ namespace StudyAdminAPITester
    /**
     * Acts as a wrapper for the data structure that holds all tests
     */
-    public class TestCaseRepo
+    public class BuiltInTestCaseRepo
     {
-        private static TestCaseRepo _instance = null; 
+        private static BuiltInTestCaseRepo _instance = null; 
         private List<APITestCase> _testCaseList;
 
 
-        public static TestCaseRepo Instance {
+        public static BuiltInTestCaseRepo Instance {
             get {
                 
                 if (_instance == null) 
                 {
-                    _instance = new TestCaseRepo();
+                    _instance = new BuiltInTestCaseRepo();
                 }
 
                 return _instance;
@@ -38,7 +38,7 @@ namespace StudyAdminAPITester
         }
 
         // Private Constructor
-        private TestCaseRepo() 
+        private BuiltInTestCaseRepo() 
         { 
             InitializeTestCases(); 
         }
