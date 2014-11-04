@@ -88,6 +88,7 @@
             this.lnkSchema = new System.Windows.Forms.LinkLabel();
             this.btnImportBatchConfig = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblImportedXMLConfig = new System.Windows.Forms.Label();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -551,6 +552,7 @@
             // 
             // tabPageBatchForm
             // 
+            this.tabPageBatchForm.Controls.Add(this.lblImportedXMLConfig);
             this.tabPageBatchForm.Controls.Add(this.lblBatchStatus);
             this.tabPageBatchForm.Controls.Add(this.grpBaseURI);
             this.tabPageBatchForm.Controls.Add(this.groupBox2);
@@ -637,7 +639,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lstBxImportTests);
-            this.groupBox1.Location = new System.Drawing.Point(15, 113);
+            this.groupBox1.Location = new System.Drawing.Point(16, 113);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(385, 303);
             this.groupBox1.TabIndex = 14;
@@ -762,6 +764,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
+            // lblImportedXMLConfig
+            // 
+            this.lblImportedXMLConfig.AutoSize = true;
+            this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 430);
+            this.lblImportedXMLConfig.Name = "lblImportedXMLConfig";
+            this.lblImportedXMLConfig.Size = new System.Drawing.Size(143, 14);
+            this.lblImportedXMLConfig.TabIndex = 31;
+            this.lblImportedXMLConfig.Text = "Imported Batch Config:";
+            this.lblImportedXMLConfig.Visible = false;
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -871,6 +884,7 @@
         private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
         private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
         private System.Windows.Forms.ToolStripContentPanel ContentPanel;
+        private System.Windows.Forms.Label lblImportedXMLConfig;
 
         
 
