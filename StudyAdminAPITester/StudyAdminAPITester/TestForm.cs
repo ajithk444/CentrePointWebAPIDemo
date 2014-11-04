@@ -400,6 +400,8 @@ namespace StudyAdminAPITester
                     return;
                 }
 
+                lblImportedXMLConfig.Text = string.Format("Imported Batch Config: {0}", new FileInfo(openFileDialog.FileName).Name); 
+                lblImportedXMLConfig.Visible = true;
                 lstBxImportTests.Items.Clear();
                 lstBxBatchResults.Items.Clear();
                 btnRunBatch.Enabled = true;
