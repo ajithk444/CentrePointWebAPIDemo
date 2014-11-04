@@ -42,6 +42,7 @@ namespace StudyAdminAPITester
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.SelectedIndex = 0;
+
             cbBatchBaseUri.Items.Add(ClientState.BaseURI);
             cbBatchBaseUri.SelectedIndex = 0;
 
@@ -160,16 +161,16 @@ namespace StudyAdminAPITester
                     (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));
             };
 
-            int previousSplitterDisatnace = splitContainer1.SplitterDistance;
-            splitContainer1.SplitterMoved += (o, e) =>
+            int previousSplitterDisatnace = splitContainerRequest.SplitterDistance;
+            splitContainerRequest.SplitterMoved += (o, e) =>
             {
                 if (grpBxContent.Height <= 20 || grpBxResponse.Height <= 20)
                 {
-                    splitContainer1.SplitterDistance = previousSplitterDisatnace;
+                    splitContainerRequest.SplitterDistance = previousSplitterDisatnace;
                 }
                 else
                 {
-                    previousSplitterDisatnace = splitContainer1.SplitterDistance;
+                    previousSplitterDisatnace = splitContainerRequest.SplitterDistance;
                 }
             };
 
@@ -439,10 +440,11 @@ namespace StudyAdminAPITester
         {
             btnRunBatch.Enabled = false;
             ClientState.BaseURI = cbBatchBaseUri.Text;
-            
+ 
             try
             {
-                await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
+                lblBatchStatus.Visible = true;
+                await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults, sbLogBatch);
 
                 grpResults.Visible = true;
                 lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
@@ -456,8 +458,10 @@ namespace StudyAdminAPITester
                 else
                     MessageBox.Show("A problem occured with batch tester.", "Problem");
             }
-
-       
+            finally
+            {
+                lblBatchStatus.Visible = false;
+            }
         }
 
         private void lstBxBatchResults_DrawItem(object sender, DrawItemEventArgs e)
@@ -465,14 +469,26 @@ namespace StudyAdminAPITester
             ListBoxItem item = lstBxBatchResults.Items[e.Index] as ListBoxItem; 
             if (item != null)
             {
-                e.Graphics.DrawString ( // Draw the appropriate text in the ListBox
-                    item.Message, // The message linked to the item
-                    lstBxBatchResults.Font, // Take the font from the listbox
-                    new SolidBrush(item.ItemColor), // Set the color 
-                    0, // X pixel coordinate
-                    e.Index * lstBxBatchResults.ItemHeight // Y pixel coordinate.  Multiply the index by the ItemHeight defined in the listbox.
+                e.Graphics.DrawString (
+                    item.Message, 
+                    lstBxBatchResults.Font, 
+                    new SolidBrush(item.ItemColor), 
+                    0, 
+                    e.Index * lstBxBatchResults.ItemHeight
                 );
             }
+        }
+
+        private void btnViewLog_Click(object sender, EventArgs e)
+        {
+            string filename = "StudyAdminAPIBatchTestLog.txt";
+            var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read));
+            logStramWriter.AutoFlush = true;
+            logStramWriter.Write(sbLogBatch.ToString());
+            logStramWriter.Dispose();
+
+            if (File.Exists(filename))
+                Process.Start(filename);  
         }
 
     }

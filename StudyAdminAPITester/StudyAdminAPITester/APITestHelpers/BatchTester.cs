@@ -65,7 +65,7 @@ namespace StudyAdminAPITester
             return new KeyValuePair<string, string>(apiKeyElement.Attribute("accessKey").Value, apiKeyElement.Attribute("secretKey").Value);
         }
 
-        public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
+        public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
         {
 
             string suiteId = testSuiteElement.Attributes("id").FirstOrDefault().Value;
@@ -81,10 +81,10 @@ namespace StudyAdminAPITester
                                       select b;
 
             foreach (var t in apiTestsQuery)
-                await RunApiTest(t, XmlNamespace, resultsListBox);       
+                await RunApiTest(t, XmlNamespace, resultsListBox, log);       
         }
 
-        public async Task RunApiTest(XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
+        public async Task RunApiTest(XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
         {
             
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
@@ -122,12 +122,14 @@ namespace StudyAdminAPITester
             string expectedResponse = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(apiTestElement.Elements(XmlNamespace + "ExpectedResponse").FirstOrDefault().Value, "");
             HttpStatusCode expectedStatusCode = ((HttpStatusCode)(Convert.ToInt32(apiTestElement.Elements(XmlNamespace + "ExpectedStatusCode").FirstOrDefault().Value)));
 
-            string acutalResponse = await apiTest.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""));
+            DateTime requestTime = DateTime.Now;
 
-            acutalResponse = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(acutalResponse, "");
+            string actualResponse = await apiTest.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""));
+            string actualResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(actualResponse, "");
+            
             HttpStatusCode actualStatusCode = apiTest.responseStatusCode;
 
-            bool passed = (actualStatusCode.Equals(expectedStatusCode) && acutalResponse.Equals(expectedResponse));
+            bool passed = (actualStatusCode.Equals(expectedStatusCode) && actualResponseFormatted.Equals(expectedResponse));
 
             if (passed)
             {
@@ -139,9 +141,36 @@ namespace StudyAdminAPITester
                 TotalFailed += 1;
                 resultsListBox.Items.Add(new ListBoxItem( Color.Red, String.Format("\tApiTest: {0} FAILED", apiTestId)));
             }
+
+            UpdateLog(log, passed, requestTime, apiTest, request, actualResponse);
+
         }
 
-        public async Task RunBatch(String xmlNamespace, System.Windows.Forms.ListBox resultsListBox)
+
+        public void UpdateLog(StringBuilder log, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, string response)
+        {
+            log.Append(string.Format("Test Result: {0}{1}", hasPassed ? "PASSED" : "FAILED", Environment.NewLine));
+            log.Append(string.Format("REQUEST:{0}", Environment.NewLine));
+            log.Append(string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
+            log.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
+            log.Append(string.Format("Authorization: {0}{1}", ClientState.AuthenticationHeaderValue.ToString(), Environment.NewLine));
+            log.Append(string.Format("Content:{0}{1}", Environment.NewLine, request));
+            log.Append(Environment.NewLine);
+            log.Append(Environment.NewLine);
+            log.Append(String.Format("RESPONSE: {0} {1}{2}", (int)apiTestCase.responseStatusCode, apiTestCase.responseStatusCode.ToString(), Environment.NewLine));
+            log.Append(response);
+            log.Append(Environment.NewLine);
+
+
+            for (int i = 0; i < 7; i++)
+                log.Append("--------------------");
+
+            log.Append(Environment.NewLine);
+            log.Append(Environment.NewLine);
+            log.Append(Environment.NewLine);
+        }
+
+        public async Task RunBatch(String xmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
         {
             var doc = this.xmlConfig;
             XNamespace dns = xmlNamespace;
@@ -150,7 +179,7 @@ namespace StudyAdminAPITester
                                  select a;
 
             foreach (var ele in TestSuiteQuery)
-                await RunSuite(ele, xmlNamespace, resultsListBox);
+                await RunSuite(ele, xmlNamespace, resultsListBox, log);
 
         }
 

@@ -63,13 +63,14 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSingleTest = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerRequest = new System.Windows.Forms.SplitContainer();
             this.btnExecute = new System.Windows.Forms.Button();
             this.lblWaitingForResponse = new System.Windows.Forms.Label();
             this.grpBxContent = new System.Windows.Forms.GroupBox();
             this.lblError = new System.Windows.Forms.Label();
             this.btnCompareResponse = new System.Windows.Forms.Button();
             this.tabPageBatchForm = new System.Windows.Forms.TabPage();
+            this.lblBatchStatus = new System.Windows.Forms.Label();
             this.grpBaseURI = new System.Windows.Forms.GroupBox();
             this.cbBatchBaseUri = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -87,7 +88,6 @@
             this.lnkSchema = new System.Windows.Forms.LinkLabel();
             this.btnImportBatchConfig = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -99,10 +99,10 @@
             this.toolStripContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPageSingleTest.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRequest)).BeginInit();
+            this.splitContainerRequest.Panel1.SuspendLayout();
+            this.splitContainerRequest.Panel2.SuspendLayout();
+            this.splitContainerRequest.SuspendLayout();
             this.grpBxContent.SuspendLayout();
             this.tabPageBatchForm.SuspendLayout();
             this.grpBaseURI.SuspendLayout();
@@ -450,7 +450,7 @@
             // 
             // tabPageSingleTest
             // 
-            this.tabPageSingleTest.Controls.Add(this.splitContainer1);
+            this.tabPageSingleTest.Controls.Add(this.splitContainerRequest);
             this.tabPageSingleTest.Location = new System.Drawing.Point(4, 23);
             this.tabPageSingleTest.Name = "tabPageSingleTest";
             this.tabPageSingleTest.Padding = new System.Windows.Forms.Padding(3);
@@ -459,35 +459,35 @@
             this.tabPageSingleTest.Text = "Singe Test Mode";
             this.tabPageSingleTest.UseVisualStyleBackColor = true;
             // 
-            // splitContainer1
+            // splitContainerRequest
             // 
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainerRequest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainerRequest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerRequest.Location = new System.Drawing.Point(3, 3);
+            this.splitContainerRequest.Name = "splitContainerRequest";
+            this.splitContainerRequest.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer1.Panel1
+            // splitContainerRequest.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.grpBxBaseURI);
-            this.splitContainer1.Panel1.Controls.Add(this.btnExecute);
-            this.splitContainer1.Panel1.Controls.Add(this.lblWaitingForResponse);
-            this.splitContainer1.Panel1.Controls.Add(this.linkLabelHelp);
-            this.splitContainer1.Panel1.Controls.Add(this.grpBxAccessKey);
-            this.splitContainer1.Panel1.Controls.Add(this.grpBxBuiltInTests);
-            this.splitContainer1.Panel1.Controls.Add(this.grpBxSecretKey);
-            this.splitContainer1.Panel1.Controls.Add(this.grpBxContent);
-            this.splitContainer1.Panel1.Controls.Add(this.grpBxRequest);
+            this.splitContainerRequest.Panel1.Controls.Add(this.grpBxBaseURI);
+            this.splitContainerRequest.Panel1.Controls.Add(this.btnExecute);
+            this.splitContainerRequest.Panel1.Controls.Add(this.lblWaitingForResponse);
+            this.splitContainerRequest.Panel1.Controls.Add(this.linkLabelHelp);
+            this.splitContainerRequest.Panel1.Controls.Add(this.grpBxAccessKey);
+            this.splitContainerRequest.Panel1.Controls.Add(this.grpBxBuiltInTests);
+            this.splitContainerRequest.Panel1.Controls.Add(this.grpBxSecretKey);
+            this.splitContainerRequest.Panel1.Controls.Add(this.grpBxContent);
+            this.splitContainerRequest.Panel1.Controls.Add(this.grpBxRequest);
             // 
-            // splitContainer1.Panel2
+            // splitContainerRequest.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.grpBxResponse);
-            this.splitContainer1.Panel2.Controls.Add(this.lblError);
-            this.splitContainer1.Panel2.Controls.Add(this.btnCompareResponse);
-            this.splitContainer1.Panel2.Controls.Add(this.lblStatusCode);
-            this.splitContainer1.Size = new System.Drawing.Size(898, 490);
-            this.splitContainer1.SplitterDistance = 286;
-            this.splitContainer1.TabIndex = 39;
+            this.splitContainerRequest.Panel2.Controls.Add(this.grpBxResponse);
+            this.splitContainerRequest.Panel2.Controls.Add(this.lblError);
+            this.splitContainerRequest.Panel2.Controls.Add(this.btnCompareResponse);
+            this.splitContainerRequest.Panel2.Controls.Add(this.lblStatusCode);
+            this.splitContainerRequest.Size = new System.Drawing.Size(898, 490);
+            this.splitContainerRequest.SplitterDistance = 286;
+            this.splitContainerRequest.TabIndex = 39;
             // 
             // btnExecute
             // 
@@ -551,6 +551,7 @@
             // 
             // tabPageBatchForm
             // 
+            this.tabPageBatchForm.Controls.Add(this.lblBatchStatus);
             this.tabPageBatchForm.Controls.Add(this.grpBaseURI);
             this.tabPageBatchForm.Controls.Add(this.groupBox2);
             this.tabPageBatchForm.Controls.Add(this.groupBox1);
@@ -569,11 +570,21 @@
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
             // 
+            // lblBatchStatus
+            // 
+            this.lblBatchStatus.AutoSize = true;
+            this.lblBatchStatus.Location = new System.Drawing.Point(407, 279);
+            this.lblBatchStatus.Name = "lblBatchStatus";
+            this.lblBatchStatus.Size = new System.Drawing.Size(95, 14);
+            this.lblBatchStatus.TabIndex = 30;
+            this.lblBatchStatus.Text = "Running Tests...";
+            this.lblBatchStatus.Visible = false;
+            // 
             // grpBaseURI
             // 
             this.grpBaseURI.Controls.Add(this.cbBatchBaseUri);
             this.grpBaseURI.Controls.Add(this.label2);
-            this.grpBaseURI.Location = new System.Drawing.Point(490, 60);
+            this.grpBaseURI.Location = new System.Drawing.Point(508, 63);
             this.grpBaseURI.Name = "grpBaseURI";
             this.grpBaseURI.Size = new System.Drawing.Size(383, 45);
             this.grpBaseURI.TabIndex = 29;
@@ -604,7 +615,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
-            this.groupBox2.Location = new System.Drawing.Point(490, 113);
+            this.groupBox2.Location = new System.Drawing.Point(508, 113);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(383, 303);
             this.groupBox2.TabIndex = 15;
@@ -626,7 +637,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lstBxImportTests);
-            this.groupBox1.Location = new System.Drawing.Point(24, 113);
+            this.groupBox1.Location = new System.Drawing.Point(15, 113);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(385, 303);
             this.groupBox1.TabIndex = 14;
@@ -648,7 +659,7 @@
             this.grpResults.Controls.Add(this.lblTestsPassed);
             this.grpResults.Controls.Add(this.lblTestsFailed);
             this.grpResults.Controls.Add(this.lblTotalTests);
-            this.grpResults.Location = new System.Drawing.Point(490, 422);
+            this.grpResults.Location = new System.Drawing.Point(508, 422);
             this.grpResults.Name = "grpResults";
             this.grpResults.Size = new System.Drawing.Size(123, 66);
             this.grpResults.TabIndex = 13;
@@ -695,6 +706,7 @@
             this.btnViewLog.TabIndex = 12;
             this.btnViewLog.Text = "View Log";
             this.btnViewLog.UseVisualStyleBackColor = true;
+            this.btnViewLog.Click += new System.EventHandler(this.btnViewLog_Click);
             // 
             // lnkSampeXML
             // 
@@ -731,7 +743,7 @@
             // 
             // btnImportBatchConfig
             // 
-            this.btnImportBatchConfig.Location = new System.Drawing.Point(24, 63);
+            this.btnImportBatchConfig.Location = new System.Drawing.Point(21, 63);
             this.btnImportBatchConfig.Name = "btnImportBatchConfig";
             this.btnImportBatchConfig.Size = new System.Drawing.Size(165, 28);
             this.btnImportBatchConfig.TabIndex = 1;
@@ -743,16 +755,12 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Meiryo UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(21, 15);
+            this.label1.Location = new System.Drawing.Point(18, 18);
             this.label1.MaximumSize = new System.Drawing.Size(855, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(833, 42);
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // TestForm
             // 
@@ -783,12 +791,12 @@
             this.toolStripContainer1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPageSingleTest.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.splitContainerRequest.Panel1.ResumeLayout(false);
+            this.splitContainerRequest.Panel1.PerformLayout();
+            this.splitContainerRequest.Panel2.ResumeLayout(false);
+            this.splitContainerRequest.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerRequest)).EndInit();
+            this.splitContainerRequest.ResumeLayout(false);
             this.grpBxContent.ResumeLayout(false);
             this.grpBxContent.PerformLayout();
             this.tabPageBatchForm.ResumeLayout(false);
@@ -828,11 +836,6 @@
         private System.Windows.Forms.Label lblResponseRequired;
         private System.Windows.Forms.LinkLabel linkLabelHelp;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
-        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearLog;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSaveLog;
@@ -841,12 +844,11 @@
         private System.Windows.Forms.ComboBox cbHttpMethod;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.Label lblWaitingForResponse;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainerRequest;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageSingleTest;
         private System.Windows.Forms.TabPage tabPageBatchForm;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btnImportBatchConfig;
         private System.Windows.Forms.LinkLabel lnkSchema;
         private System.Windows.Forms.Button btnRunBatch;
@@ -863,6 +865,13 @@
         private System.Windows.Forms.GroupBox grpBaseURI;
         private System.Windows.Forms.ComboBox cbBatchBaseUri;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblBatchStatus;
+        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
+        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
+
         
 
     }
