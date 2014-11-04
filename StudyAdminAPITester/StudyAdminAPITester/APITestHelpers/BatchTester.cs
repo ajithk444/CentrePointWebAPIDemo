@@ -148,11 +148,10 @@ namespace StudyAdminAPITester
             log.Append(string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
             log.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
             log.Append(string.Format("Authorization: {0}{1}", ClientState.AuthenticationHeaderValue.ToString(), Environment.NewLine));
-            log.Append(string.Format("Content:{0}{1}", Environment.NewLine, request));
+            log.Append(string.Format("Content:{0}", request));
             log.Append(Environment.NewLine);
             log.Append(Environment.NewLine);
             log.Append(String.Format("EXPECTED RESPONSE: {0} {1}", (int)expectedStatusCode, expectedStatusCode.ToString()));
-            log.Append(Environment.NewLine);
             log.Append(expectedResponse);
             log.Append(Environment.NewLine);
             log.Append(String.Format("ACTUAL RESPONSE: {0} {1}", (int)apiTestCase.responseStatusCode, apiTestCase.responseStatusCode.ToString()));

@@ -55,7 +55,7 @@
             this.txtBxRequest = new System.Windows.Forms.TextBox();
             this.grpBxResponse = new System.Windows.Forms.GroupBox();
             this.txtBxResponse = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripResponse = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemClearLog = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSaveLog = new System.Windows.Forms.ToolStripMenuItem();
             this.lblResponseRequired = new System.Windows.Forms.Label();
@@ -70,12 +70,14 @@
             this.lblError = new System.Windows.Forms.Label();
             this.btnCompareResponse = new System.Windows.Forms.Button();
             this.tabPageBatchForm = new System.Windows.Forms.TabPage();
+            this.lblImportedXMLConfig = new System.Windows.Forms.Label();
             this.lblBatchStatus = new System.Windows.Forms.Label();
             this.grpBaseURI = new System.Windows.Forms.GroupBox();
             this.cbBatchBaseUri = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lstBxBatchResults = new System.Windows.Forms.ListBox();
+            this.contextMenuStripBatchResults = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstBxImportTests = new System.Windows.Forms.ListBox();
             this.grpResults = new System.Windows.Forms.GroupBox();
@@ -88,14 +90,14 @@
             this.lnkSchema = new System.Windows.Forms.LinkLabel();
             this.btnImportBatchConfig = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblImportedXMLConfig = new System.Windows.Forms.Label();
+            this.toolStripMenuItemClearBatch = new System.Windows.Forms.ToolStripMenuItem();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
             this.grpBxBaseURI.SuspendLayout();
             this.grpBxRequest.SuspendLayout();
             this.grpBxResponse.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStripResponse.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -108,6 +110,7 @@
             this.tabPageBatchForm.SuspendLayout();
             this.grpBaseURI.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.contextMenuStripBatchResults.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpResults.SuspendLayout();
             this.SuspendLayout();
@@ -363,7 +366,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBxResponse.BackColor = System.Drawing.SystemColors.Window;
-            this.txtBxResponse.ContextMenuStrip = this.contextMenuStrip1;
+            this.txtBxResponse.ContextMenuStrip = this.contextMenuStripResponse;
             this.txtBxResponse.Font = new System.Drawing.Font("Meiryo UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBxResponse.ForeColor = System.Drawing.SystemColors.WindowText;
             this.txtBxResponse.Location = new System.Drawing.Point(2, 20);
@@ -374,13 +377,13 @@
             this.txtBxResponse.Size = new System.Drawing.Size(876, 105);
             this.txtBxResponse.TabIndex = 7;
             // 
-            // contextMenuStrip1
+            // contextMenuStripResponse
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStripResponse.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemClearLog,
             this.toolStripMenuItemSaveLog});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 48);
+            this.contextMenuStripResponse.Name = "contextMenuStrip1";
+            this.contextMenuStripResponse.Size = new System.Drawing.Size(125, 48);
             // 
             // toolStripMenuItemClearLog
             // 
@@ -572,6 +575,17 @@
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
             // 
+            // lblImportedXMLConfig
+            // 
+            this.lblImportedXMLConfig.AutoSize = true;
+            this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 430);
+            this.lblImportedXMLConfig.Name = "lblImportedXMLConfig";
+            this.lblImportedXMLConfig.Size = new System.Drawing.Size(143, 14);
+            this.lblImportedXMLConfig.TabIndex = 31;
+            this.lblImportedXMLConfig.Text = "Imported Batch Config:";
+            this.lblImportedXMLConfig.Visible = false;
+            // 
             // lblBatchStatus
             // 
             this.lblBatchStatus.AutoSize = true;
@@ -626,6 +640,7 @@
             // 
             // lstBxBatchResults
             // 
+            this.lstBxBatchResults.ContextMenuStrip = this.contextMenuStripBatchResults;
             this.lstBxBatchResults.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstBxBatchResults.FormattingEnabled = true;
             this.lstBxBatchResults.ItemHeight = 14;
@@ -635,6 +650,13 @@
             this.lstBxBatchResults.Size = new System.Drawing.Size(363, 270);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
+            // 
+            // contextMenuStripBatchResults
+            // 
+            this.contextMenuStripBatchResults.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemClearBatch});
+            this.contextMenuStripBatchResults.Name = "contextMenuStripBatchResults";
+            this.contextMenuStripBatchResults.Size = new System.Drawing.Size(125, 26);
             // 
             // groupBox1
             // 
@@ -702,6 +724,7 @@
             // 
             // btnViewLog
             // 
+            this.btnViewLog.Enabled = false;
             this.btnViewLog.Location = new System.Drawing.Point(784, 430);
             this.btnViewLog.Name = "btnViewLog";
             this.btnViewLog.Size = new System.Drawing.Size(75, 23);
@@ -764,16 +787,12 @@
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
-            // lblImportedXMLConfig
+            // toolStripMenuItemClearBatch
             // 
-            this.lblImportedXMLConfig.AutoSize = true;
-            this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 430);
-            this.lblImportedXMLConfig.Name = "lblImportedXMLConfig";
-            this.lblImportedXMLConfig.Size = new System.Drawing.Size(143, 14);
-            this.lblImportedXMLConfig.TabIndex = 31;
-            this.lblImportedXMLConfig.Text = "Imported Batch Config:";
-            this.lblImportedXMLConfig.Visible = false;
+            this.toolStripMenuItemClearBatch.Name = "toolStripMenuItemClearBatch";
+            this.toolStripMenuItemClearBatch.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItemClearBatch.Text = "Clear Log";
+            this.toolStripMenuItemClearBatch.Click += new System.EventHandler(this.toolStripMenuItemClearBatchLog);
             // 
             // TestForm
             // 
@@ -798,7 +817,7 @@
             this.grpBxRequest.PerformLayout();
             this.grpBxResponse.ResumeLayout(false);
             this.grpBxResponse.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStripResponse.ResumeLayout(false);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
@@ -817,6 +836,7 @@
             this.grpBaseURI.ResumeLayout(false);
             this.grpBaseURI.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.contextMenuStripBatchResults.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.grpResults.ResumeLayout(false);
             this.grpResults.PerformLayout();
@@ -849,7 +869,7 @@
         private System.Windows.Forms.Label lblResponseRequired;
         private System.Windows.Forms.LinkLabel linkLabelHelp;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripResponse;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearLog;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSaveLog;
         private System.Windows.Forms.GroupBox grpBxContent;
@@ -879,12 +899,15 @@
         private System.Windows.Forms.ComboBox cbBatchBaseUri;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblBatchStatus;
+        private System.Windows.Forms.Label lblImportedXMLConfig;
         private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
         private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
         private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
         private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
         private System.Windows.Forms.ToolStripContentPanel ContentPanel;
-        private System.Windows.Forms.Label lblImportedXMLConfig;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripBatchResults;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatch;
+        //private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatchLog;
 
         
 

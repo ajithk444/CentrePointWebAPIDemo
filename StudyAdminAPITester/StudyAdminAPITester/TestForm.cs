@@ -38,6 +38,12 @@ namespace StudyAdminAPITester
             sbLog = new StringBuilder();
             sbLogBatch = new StringBuilder();
 
+            System.Version current = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            //Major.Minor.Build.Revision
+            //Show as many decimals as we need to for the version (ie: 2.0 instead of 2.0.0.0)
+            this.Text += " v" + current.ToString(current.Revision != 0 ? 4 : current.Build != 0 ? 3 : 2);
+
+
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
             cbBaseURI.Items.Add(ClientState.BaseURI);
@@ -416,8 +422,8 @@ namespace StudyAdminAPITester
         private void lnkXmlSchema_Click(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string filename = "BatchAPITests.xsd";
-           
-            var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read));
+
+            var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read));
             xmlSchema.AutoFlush = true;
             xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD);
             xmlSchema.Dispose();
@@ -429,7 +435,7 @@ namespace StudyAdminAPITester
         private void lnkSampeXML_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string filename = "BatchAPITests.xml";
-            var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read));
+            var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read));
             xmlSchema.AutoFlush = true;
             xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXML);
             xmlSchema.Dispose();
@@ -442,13 +448,14 @@ namespace StudyAdminAPITester
         {
             btnRunBatch.Enabled = false;
             ClientState.BaseURI = cbBatchBaseUri.Text;
- 
+            
             try
             {
                 lblBatchStatus.Visible = true;
                 await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults, sbLogBatch);
 
                 grpResults.Visible = true;
+                btnViewLog.Enabled = true;
                 lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
                 lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
                 lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalTests;  
@@ -468,29 +475,40 @@ namespace StudyAdminAPITester
 
         private void lstBxBatchResults_DrawItem(object sender, DrawItemEventArgs e)
         {
-            ListBoxItem item = lstBxBatchResults.Items[e.Index] as ListBoxItem; 
-            if (item != null)
-            {
-                e.Graphics.DrawString (
-                    item.Message, 
-                    lstBxBatchResults.Font, 
-                    new SolidBrush(item.ItemColor), 
-                    0, 
-                    e.Index * lstBxBatchResults.ItemHeight
-                );
+            if (e.Index >= 0) 
+            { 
+                ListBoxItem item = lstBxBatchResults.Items[e.Index] as ListBoxItem; 
+                if (item != null)
+                {
+                    e.Graphics.DrawString (
+                        item.Message, 
+                        lstBxBatchResults.Font, 
+                        new SolidBrush(item.ItemColor), 
+                        0, 
+                        e.Index * lstBxBatchResults.ItemHeight
+                    );
+                }
             }
         }
 
         private void btnViewLog_Click(object sender, EventArgs e)
         {
             string filename = "StudyAdminAPIBatchTestLog.txt";
-            var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read));
+            var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read));
             logStramWriter.AutoFlush = true;
             logStramWriter.Write(sbLogBatch.ToString());
             logStramWriter.Dispose();
 
             if (File.Exists(filename))
                 Process.Start(filename);  
+        }
+
+        private void toolStripMenuItemClearBatchLog(object sender, EventArgs e)
+        {
+            lstBxBatchResults.Items.Clear();
+            sbLogBatch.Clear();
+            grpResults.Visible = false;
+            btnViewLog.Enabled = false;
         }
 
     }
