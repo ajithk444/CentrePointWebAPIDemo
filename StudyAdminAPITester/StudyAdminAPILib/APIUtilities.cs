@@ -15,6 +15,22 @@ namespace StudyAdminAPILib
     public class APIUtilities
     {
 
+        public static HttpMethod GetHttpMethodFromText(string httpMethodText)
+        {
+            switch (httpMethodText)
+            {
+                case "GET":
+                    return  HttpMethod.Get;
+                case "PUT":
+                    return HttpMethod.Put;
+                case "POST":
+                    return HttpMethod.Post;
+                case "DELETE":
+                    return HttpMethod.Delete;
+            }
+            return null;
+        }
+
         public static string Sign(HttpRequestMessage request, string secret)
         {
             var md5 = "";

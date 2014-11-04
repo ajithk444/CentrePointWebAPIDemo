@@ -88,50 +88,40 @@ namespace StudyAdminAPITester
         {
             
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
-            
             string uri = apiTestElement.Attributes("Uri").FirstOrDefault().Value;
-            string httpMethodText = apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value;
+            HttpMethod httpMethod = APIUtilities.GetHttpMethodFromText(apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value);
+            
 
             XElement requestContent = apiTestElement.Elements(XmlNamespace + "RequestContent").FirstOrDefault();
             string request = string.Empty;
-            
-            if (requestContent != null) 
-                request = requestContent.Value;
+            string requestFormatted = string.Empty;
 
-            HttpMethod httpMethod = HttpMethod.Get;
-            
-            switch (httpMethodText)
+            if (requestContent != null) 
             { 
-                case "GET":
-                    httpMethod = HttpMethod.Get;
-                    break;
-                case "PUT":
-                    httpMethod = HttpMethod.Put;
-                    break;
-                case "POST":
-                    httpMethod = HttpMethod.Post;
-                    break;
-                case "DELETE":
-                    httpMethod = HttpMethod.Delete;
-                    break;
+                request = requestContent.Value;
+                requestFormatted = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""); // Removing New Lines before sent to API
             }
 
-            APITestCase apiTest = new APITestCase();
-            apiTest.CurrentEndpoint = string.Format("{0}{1}", ClientState.BaseURI, uri);
-            apiTest.HttpVerb = httpMethod;
-            string expectedResponse = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(apiTestElement.Elements(XmlNamespace + "ExpectedResponse").FirstOrDefault().Value, "");
+            APITestCase apiTest = new APITestCase() { 
+                CurrentEndpoint = string.Format("{0}{1}", ClientState.BaseURI, uri),
+                HttpVerb = httpMethod
+            };
+           
+            string expectedResponse = apiTestElement.Elements(XmlNamespace + "ExpectedResponse").FirstOrDefault().Value;
+            string expectedResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(expectedResponse, ""); // remove new lines and whitespace before comparing with actual response
+
             HttpStatusCode expectedStatusCode = ((HttpStatusCode)(Convert.ToInt32(apiTestElement.Elements(XmlNamespace + "ExpectedStatusCode").FirstOrDefault().Value)));
 
             DateTime requestTime = DateTime.Now;
 
             string actualResponse = await apiTest.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""));
-            string actualResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(actualResponse, "");
+            string actualResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(actualResponse, ""); // remove new lines and whitespace before comparing with expected response
             
             HttpStatusCode actualStatusCode = apiTest.responseStatusCode;
 
-            bool passed = (actualStatusCode.Equals(expectedStatusCode) && actualResponseFormatted.Equals(expectedResponse));
+            bool testPassed = (actualStatusCode.Equals(expectedStatusCode) && actualResponseFormatted.Equals(expectedResponseFormatted));
 
-            if (passed)
+            if (testPassed)
             {
                 TotalPassed += 1;
                 resultsListBox.Items.Add(new ListBoxItem( Color.Green, String.Format("\tApiTest: {0} PASSED", apiTestId)));
@@ -142,12 +132,16 @@ namespace StudyAdminAPITester
                 resultsListBox.Items.Add(new ListBoxItem( Color.Red, String.Format("\tApiTest: {0} FAILED", apiTestId)));
             }
 
-            UpdateLog(log, passed, requestTime, apiTest, request, actualResponse);
+            // format request and expected response for log
+            string requestFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, Environment.NewLine); // add new lines for readability purposes for log
+            string expectedResponseFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(expectedResponse, Environment.NewLine); // add new lines for readability purposes for log
+
+            UpdateLog(log, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
 
         }
 
 
-        public void UpdateLog(StringBuilder log, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, string response)
+        public void UpdateLog(StringBuilder log, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
         {
             log.Append(string.Format("Test Result: {0}{1}", hasPassed ? "PASSED" : "FAILED", Environment.NewLine));
             log.Append(string.Format("REQUEST:{0}", Environment.NewLine));
@@ -157,10 +151,14 @@ namespace StudyAdminAPITester
             log.Append(string.Format("Content:{0}{1}", Environment.NewLine, request));
             log.Append(Environment.NewLine);
             log.Append(Environment.NewLine);
-            log.Append(String.Format("RESPONSE: {0} {1}{2}", (int)apiTestCase.responseStatusCode, apiTestCase.responseStatusCode.ToString(), Environment.NewLine));
-            log.Append(response);
+            log.Append(String.Format("EXPECTED RESPONSE: {0} {1}", (int)expectedStatusCode, expectedStatusCode.ToString()));
             log.Append(Environment.NewLine);
-
+            log.Append(expectedResponse);
+            log.Append(Environment.NewLine);
+            log.Append(String.Format("ACTUAL RESPONSE: {0} {1}", (int)apiTestCase.responseStatusCode, apiTestCase.responseStatusCode.ToString()));
+            log.Append(Environment.NewLine);
+            log.Append(actualResponse);
+            log.Append(Environment.NewLine);
 
             for (int i = 0; i < 7; i++)
                 log.Append("--------------------");

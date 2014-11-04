@@ -89,7 +89,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="APITestHelpers\TestCaseRepo.cs" />
+    <Compile Include="APITestHelpers\BuiltInTestCaseRepo.cs" />
     <Compile Include="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
