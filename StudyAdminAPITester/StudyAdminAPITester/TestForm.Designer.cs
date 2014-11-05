@@ -65,7 +65,7 @@
             this.tabPageSingleTest = new System.Windows.Forms.TabPage();
             this.splitContainerRequest = new System.Windows.Forms.SplitContainer();
             this.btnExecute = new System.Windows.Forms.Button();
-            this.lblWaitingForResponse = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.grpBxContent = new System.Windows.Forms.GroupBox();
             this.lblError = new System.Windows.Forms.Label();
             this.btnCompareResponse = new System.Windows.Forms.Button();
@@ -78,6 +78,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lstBxBatchResults = new System.Windows.Forms.ListBox();
             this.contextMenuStripBatchResults = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemClearBatch = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lstBxImportTests = new System.Windows.Forms.ListBox();
             this.grpResults = new System.Windows.Forms.GroupBox();
@@ -90,7 +91,6 @@
             this.lnkSchema = new System.Windows.Forms.LinkLabel();
             this.btnImportBatchConfig = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.toolStripMenuItemClearBatch = new System.Windows.Forms.ToolStripMenuItem();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -475,7 +475,7 @@
             // 
             this.splitContainerRequest.Panel1.Controls.Add(this.grpBxBaseURI);
             this.splitContainerRequest.Panel1.Controls.Add(this.btnExecute);
-            this.splitContainerRequest.Panel1.Controls.Add(this.lblWaitingForResponse);
+            this.splitContainerRequest.Panel1.Controls.Add(this.lblStatus);
             this.splitContainerRequest.Panel1.Controls.Add(this.linkLabelHelp);
             this.splitContainerRequest.Panel1.Controls.Add(this.grpBxAccessKey);
             this.splitContainerRequest.Panel1.Controls.Add(this.grpBxBuiltInTests);
@@ -505,16 +505,16 @@
             this.btnExecute.Text = "   Send Request";
             this.btnExecute.UseVisualStyleBackColor = true;
             // 
-            // lblWaitingForResponse
+            // lblStatus
             // 
-            this.lblWaitingForResponse.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.lblWaitingForResponse.AutoSize = true;
-            this.lblWaitingForResponse.Location = new System.Drawing.Point(524, 252);
-            this.lblWaitingForResponse.Name = "lblWaitingForResponse";
-            this.lblWaitingForResponse.Size = new System.Drawing.Size(136, 14);
-            this.lblWaitingForResponse.TabIndex = 38;
-            this.lblWaitingForResponse.Text = "Waiting For Response...";
-            this.lblWaitingForResponse.Visible = false;
+            this.lblStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(524, 252);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(136, 14);
+            this.lblStatus.TabIndex = 38;
+            this.lblStatus.Text = "Waiting For Response...";
+            this.lblStatus.Visible = false;
             // 
             // grpBxContent
             // 
@@ -567,10 +567,10 @@
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
             this.tabPageBatchForm.Controls.Add(this.label1);
-            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
+            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 22);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 496);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 497);
             this.tabPageBatchForm.TabIndex = 1;
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
@@ -600,9 +600,9 @@
             // 
             this.grpBaseURI.Controls.Add(this.cbBatchBaseUri);
             this.grpBaseURI.Controls.Add(this.label2);
-            this.grpBaseURI.Location = new System.Drawing.Point(508, 63);
+            this.grpBaseURI.Location = new System.Drawing.Point(504, 63);
             this.grpBaseURI.Name = "grpBaseURI";
-            this.grpBaseURI.Size = new System.Drawing.Size(383, 45);
+            this.grpBaseURI.Size = new System.Drawing.Size(387, 45);
             this.grpBaseURI.TabIndex = 29;
             this.grpBaseURI.TabStop = false;
             this.grpBaseURI.Text = "Base URI";
@@ -615,7 +615,7 @@
             this.cbBatchBaseUri.FormattingEnabled = true;
             this.cbBatchBaseUri.Location = new System.Drawing.Point(70, 17);
             this.cbBatchBaseUri.Name = "cbBatchBaseUri";
-            this.cbBatchBaseUri.Size = new System.Drawing.Size(299, 22);
+            this.cbBatchBaseUri.Size = new System.Drawing.Size(303, 22);
             this.cbBatchBaseUri.TabIndex = 11;
             // 
             // label2
@@ -631,9 +631,9 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
-            this.groupBox2.Location = new System.Drawing.Point(508, 113);
+            this.groupBox2.Location = new System.Drawing.Point(504, 113);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(383, 303);
+            this.groupBox2.Size = new System.Drawing.Size(387, 303);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -646,6 +646,7 @@
             this.lstBxBatchResults.ItemHeight = 14;
             this.lstBxBatchResults.Location = new System.Drawing.Point(6, 20);
             this.lstBxBatchResults.Name = "lstBxBatchResults";
+            this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
             this.lstBxBatchResults.Size = new System.Drawing.Size(363, 270);
             this.lstBxBatchResults.TabIndex = 4;
@@ -657,6 +658,13 @@
             this.toolStripMenuItemClearBatch});
             this.contextMenuStripBatchResults.Name = "contextMenuStripBatchResults";
             this.contextMenuStripBatchResults.Size = new System.Drawing.Size(125, 26);
+            // 
+            // toolStripMenuItemClearBatch
+            // 
+            this.toolStripMenuItemClearBatch.Name = "toolStripMenuItemClearBatch";
+            this.toolStripMenuItemClearBatch.Size = new System.Drawing.Size(124, 22);
+            this.toolStripMenuItemClearBatch.Text = "Clear Log";
+            this.toolStripMenuItemClearBatch.Click += new System.EventHandler(this.toolStripMenuItemClearBatchLog);
             // 
             // groupBox1
             // 
@@ -787,13 +795,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
-            // toolStripMenuItemClearBatch
-            // 
-            this.toolStripMenuItemClearBatch.Name = "toolStripMenuItemClearBatch";
-            this.toolStripMenuItemClearBatch.Size = new System.Drawing.Size(124, 22);
-            this.toolStripMenuItemClearBatch.Text = "Clear Log";
-            this.toolStripMenuItemClearBatch.Click += new System.EventHandler(this.toolStripMenuItemClearBatchLog);
-            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -876,7 +877,7 @@
         private System.Windows.Forms.Button btnPopualte;
         private System.Windows.Forms.ComboBox cbHttpMethod;
         private System.Windows.Forms.Label lblError;
-        private System.Windows.Forms.Label lblWaitingForResponse;
+        private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.SplitContainer splitContainerRequest;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageSingleTest;

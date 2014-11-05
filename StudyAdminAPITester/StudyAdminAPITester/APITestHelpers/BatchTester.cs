@@ -127,12 +127,12 @@ namespace StudyAdminAPITester
             if (testPassed)
             {
                 TotalPassed += 1;
-                resultsListBox.Items.Add(new ListBoxItem( Color.Green, String.Format("\tApiTest: {0} PASSED", apiTestId)));
+                resultsListBox.Items.Add(new ListBoxItem( Color.Green, String.Format("   ApiTest: {0} PASSED", apiTestId)));
             }
             else
             {
                 TotalFailed += 1;
-                resultsListBox.Items.Add(new ListBoxItem( Color.Red, String.Format("\tApiTest: {0} FAILED", apiTestId)));
+                resultsListBox.Items.Add(new ListBoxItem(Color.Red, String.Format("   ApiTest: {0} FAILED", apiTestId)));
             }
 
             // format request and expected response for log
@@ -204,8 +204,8 @@ namespace StudyAdminAPITester
                     string apiTestId = t.Attributes("id").FirstOrDefault().Value;
                     string uri = t.Attributes("Uri").FirstOrDefault().Value;
                     string httpMethod = t.Attributes("HttpMethod").FirstOrDefault().Value;
-                    
-                    importListBox.Items.Add(string.Format("\tApiTest: {0} ({1} {2})",apiTestId, httpMethod, uri));
+
+                    importListBox.Items.Add(string.Format("   ApiTest: {0} ({1} {2})", apiTestId, httpMethod, uri));
                 }
                 
             }

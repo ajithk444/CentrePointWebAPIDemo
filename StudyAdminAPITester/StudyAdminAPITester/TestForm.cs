@@ -216,7 +216,8 @@ namespace StudyAdminAPITester
                     requestTime = DateTime.Now;
 
                     // Hide "Waiting For Response..." label
-                    lblWaitingForResponse.Visible = true;
+                    lblStatus.Text = "Waiting For Response...";
+                    lblStatus.Visible = true;
 
                     // disable send request button while text is running
                     btnExecute.Enabled = false;
@@ -230,8 +231,8 @@ namespace StudyAdminAPITester
                     // re-enable send request button after request is complete
                     btnExecute.Enabled = true;
 
-                    // Hide "Waiting For Response..." label
-                    lblWaitingForResponse.Visible = false;
+                    // Hide status label
+                    lblStatus.Visible = false;
 
                     // Enable Compare Button
                     btnCompareResponse.Enabled = true;
@@ -252,9 +253,19 @@ namespace StudyAdminAPITester
                     lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}", (int)apiTest.responseStatusCode, (string)apiTest.responseStatusCode.ToString());
 
                     // Update Log
+                    lblStatus.Text = "Updating Response Log...";
+                    lblStatus.Visible = true;
+                    this.Refresh();
+
                     InsertResposneToLog(jsonResponse, apiTest.responseStatusCode);
                     InsertRequestToLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime);
-                    txtBxResponse.Text = sbLog.ToString();
+
+                    txtBxResponse.Text = await Task.Run(() => {
+                       return sbLog.ToString();
+                    });
+
+                    // Hide status label
+                    lblStatus.Visible = false;
 
                     // Focus on Response text box
                     txtBxResponse.Focus();
@@ -271,7 +282,7 @@ namespace StudyAdminAPITester
                 finally
                 {
                     btnExecute.Enabled = true;
-                    lblWaitingForResponse.Visible = false;
+                    lblStatus.Visible = false;
                 }
             };
 
