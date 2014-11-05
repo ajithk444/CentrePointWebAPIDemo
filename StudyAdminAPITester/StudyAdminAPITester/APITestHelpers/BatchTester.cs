@@ -37,6 +37,9 @@ namespace StudyAdminAPITester
 
         public XDocument XmlConfig
         {
+            get {
+                return xmlConfig;
+            }
             set
             {
                 xmlConfig = value;

@@ -482,6 +482,7 @@ namespace StudyAdminAPITester
             finally
             {
                 lblBatchStatus.Visible = false;
+                btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null; 
             }
         }
 
@@ -521,6 +522,7 @@ namespace StudyAdminAPITester
             sbLogBatch.Clear();
             grpResults.Visible = false;
             btnViewLog.Enabled = false;
+            btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null; 
         }
 
     }
