@@ -385,14 +385,26 @@ namespace StudyAdminAPITester
 
                 if (result != DialogResult.OK)
                     return;
-          
-                XmlSchemaSet schemas = new XmlSchemaSet();
-                schemas.Add(xmlNamespace, XmlReader.Create(new StringReader(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD)));
 
                 XDocument xmlConfig = XDocument.Load(openFileDialog.OpenFile());
+ 
+                XAttribute xmlnsAttribute = (from a in xmlConfig.Root.Attributes("xmlns") 
+                                     select a).FirstOrDefault();
 
                 bool xmlValid = true;
                 StringBuilder sb = new StringBuilder();
+
+                if (xmlnsAttribute == null) { 
+                    xmlValid = false;
+                    sb.Append(string.Format("\u2022 Root element missing 'xmlns' attribute{0}", Environment.NewLine));
+                } else if (xmlnsAttribute != null && !xmlnsAttribute.Value.Equals(xmlNamespace))  {
+                    xmlValid = false;
+                    sb.Append(string.Format("\u2022 The 'xmlns' attribute of root element must be '{0}'{1}", xmlNamespace, Environment.NewLine));
+                }
+
+                XNamespace dns = xmlNamespace;
+                XmlSchemaSet schemas = new XmlSchemaSet();
+                schemas.Add(xmlNamespace, XmlReader.Create(new StringReader(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD)));
 
                 xmlConfig.Validate(schemas, (s, args) => {
                     xmlValid = false;
