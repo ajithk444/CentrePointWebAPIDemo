@@ -31,7 +31,7 @@ namespace StudyAdminAPITester
         private String defaultAccessKeyText;
         private String defaultSecretKeyText;
         private String xmlNamespace = "http://www.w3schools.com";
-
+        
         public TestForm()
         {
             InitializeComponent();
@@ -500,18 +500,14 @@ namespace StudyAdminAPITester
         private void lstBxBatchResults_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index >= 0) 
-            { 
+            {
                 ListBoxItem item = lstBxBatchResults.Items[e.Index] as ListBoxItem; 
                 if (item != null)
                 {
-                    e.Graphics.DrawString (
-                        item.Message, 
-                        lstBxBatchResults.Font, 
-                        new SolidBrush(item.ItemColor), 
-                        0, 
-                        e.Index * lstBxBatchResults.ItemHeight
-                    );
-                }
+                    e.Graphics.DrawString(item.Message,
+                        e.Font, new SolidBrush(item.ItemColor), e.Bounds, StringFormat.GenericDefault);
+
+               }
             }
         }
 
