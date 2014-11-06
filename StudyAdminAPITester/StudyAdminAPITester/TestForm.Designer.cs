@@ -46,7 +46,6 @@
             this.lblSecretKeyRequired = new System.Windows.Forms.Label();
             this.grpBxBaseURI = new System.Windows.Forms.GroupBox();
             this.cbBaseURI = new System.Windows.Forms.ComboBox();
-            this.lblBaseURIRequired = new System.Windows.Forms.Label();
             this.lblStatusCode = new System.Windows.Forms.Label();
             this.grpBxRequest = new System.Windows.Forms.GroupBox();
             this.cbHttpMethod = new System.Windows.Forms.ComboBox();
@@ -246,7 +245,6 @@
             // grpBxBaseURI
             // 
             this.grpBxBaseURI.Controls.Add(this.cbBaseURI);
-            this.grpBxBaseURI.Controls.Add(this.lblBaseURIRequired);
             this.grpBxBaseURI.Location = new System.Drawing.Point(9, 12);
             this.grpBxBaseURI.Name = "grpBxBaseURI";
             this.grpBxBaseURI.Size = new System.Drawing.Size(422, 45);
@@ -264,16 +262,6 @@
             this.cbBaseURI.Name = "cbBaseURI";
             this.cbBaseURI.Size = new System.Drawing.Size(312, 22);
             this.cbBaseURI.TabIndex = 11;
-            // 
-            // lblBaseURIRequired
-            // 
-            this.lblBaseURIRequired.AutoSize = true;
-            this.lblBaseURIRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBaseURIRequired.ForeColor = System.Drawing.Color.Red;
-            this.lblBaseURIRequired.Location = new System.Drawing.Point(810, 11);
-            this.lblBaseURIRequired.Name = "lblBaseURIRequired";
-            this.lblBaseURIRequired.Size = new System.Drawing.Size(0, 25);
-            this.lblBaseURIRequired.TabIndex = 18;
             // 
             // lblStatusCode
             // 
@@ -813,7 +801,6 @@
             this.grpBxSecretKey.ResumeLayout(false);
             this.grpBxSecretKey.PerformLayout();
             this.grpBxBaseURI.ResumeLayout(false);
-            this.grpBxBaseURI.PerformLayout();
             this.grpBxRequest.ResumeLayout(false);
             this.grpBxRequest.PerformLayout();
             this.grpBxResponse.ResumeLayout(false);
@@ -857,7 +844,6 @@
         private System.Windows.Forms.Label lblSecretKeyRequired;
         private System.Windows.Forms.GroupBox grpBxBaseURI;
         private System.Windows.Forms.ComboBox cbBaseURI;
-        private System.Windows.Forms.Label lblBaseURIRequired;
         private System.Windows.Forms.Label lblStatusCode;
         private System.Windows.Forms.Button btnCompareResponse;
         private System.Windows.Forms.GroupBox grpBxRequest;

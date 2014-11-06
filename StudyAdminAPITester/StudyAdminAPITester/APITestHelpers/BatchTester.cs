@@ -68,6 +68,21 @@ namespace StudyAdminAPITester
             return new KeyValuePair<string, string>(apiKeyElement.Attribute("accessKey").Value, apiKeyElement.Attribute("secretKey").Value);
         }
 
+        public string RetrieveBaseURI(XNamespace dns, string baseUriId)
+        {
+            var doc = this.xmlConfig;
+            XElement baseUriAttribute = (
+                                      from a in doc.Root.Descendants(dns + "BaseUri")
+                                      where a.Attribute("id").Value.Equals(baseUriId)
+                                      select a
+                                      ).FirstOrDefault();
+
+            if (baseUriAttribute == null)
+                throw new Exception(string.Format("Base Uri '{0}' not found", baseUriId));
+
+            return baseUriAttribute.Attribute("uri").Value;
+        }
+
         public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
         {
 
@@ -93,7 +108,7 @@ namespace StudyAdminAPITester
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
             string uri = apiTestElement.Attributes("Uri").FirstOrDefault().Value;
             HttpMethod httpMethod = APIUtilities.GetHttpMethodFromText(apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value);
-            
+            ClientState.BaseURI = RetrieveBaseURI(XmlNamespace, apiTestElement.Attributes("BaseUriId").FirstOrDefault().Value);
 
             XElement requestContent = apiTestElement.Elements(XmlNamespace + "RequestContent").FirstOrDefault();
             string request = string.Empty;
@@ -143,7 +158,6 @@ namespace StudyAdminAPITester
 
         }
 
-
         public void UpdateLog(StringBuilder log, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
         {
             log.Append(string.Format("Test Result: {0}{1}", hasPassed ? "PASSED" : "FAILED", Environment.NewLine));
@@ -180,7 +194,7 @@ namespace StudyAdminAPITester
 
             foreach (var ele in TestSuiteQuery)
                 await RunSuite(ele, xmlNamespace, resultsListBox, log);
-
+        
         }
 
         public void ImportBatch(String xmlNamespace, System.Windows.Forms.ListBox importListBox)
@@ -206,10 +220,8 @@ namespace StudyAdminAPITester
                     string httpMethod = t.Attributes("HttpMethod").FirstOrDefault().Value;
 
                     importListBox.Items.Add(string.Format("   ApiTest: {0} ({1} {2})", apiTestId, httpMethod, uri));
-                }
-                
+                }       
             }
-
         }
     }
 }

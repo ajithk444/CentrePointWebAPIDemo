@@ -356,7 +356,6 @@ namespace StudyAdminAPITester
 
             lblAccessKeyRequired.Text = string.Empty;
             lblSecretKeyRequired.Text = string.Empty;
-            lblBaseURIRequired.Text = string.Empty;
             lblUriRequired.Text = string.Empty;
 
             if (String.IsNullOrEmpty(txtBxAccessKey.Text) || txtBxAccessKey.Text.Equals(defaultAccessKeyText))
@@ -377,12 +376,6 @@ namespace StudyAdminAPITester
                 isValid = false;
             }
 
-            if (string.IsNullOrEmpty(cbBaseURI.Text))
-            {
-                lblBaseURIRequired.Text = "*";
-                isValid = false;
-            }
-
             return isValid;
         }
 
@@ -397,8 +390,14 @@ namespace StudyAdminAPITester
                 if (result != DialogResult.OK)
                     return;
 
-                XDocument xmlConfig = XDocument.Load(openFileDialog.OpenFile());
- 
+                XDocument xmlConfig = null;
+                try  {
+                    xmlConfig = XDocument.Load(openFileDialog.OpenFile());
+                } catch (XmlException ex) { 
+                    MessageBox.Show(string.Format("There was a problem loading XML document.{0}{1}", Environment.NewLine, ex.Message), "XML Validation Error");
+                    return;
+                }
+                
                 XAttribute xmlnsAttribute = (from a in xmlConfig.Root.Attributes("xmlns") 
                                      select a).FirstOrDefault();
 
@@ -469,9 +468,7 @@ namespace StudyAdminAPITester
 
         private async void btnRunBatch_Click(object sender, EventArgs e)
         {
-            btnRunBatch.Enabled = false;
-            ClientState.BaseURI = cbBatchBaseUri.Text;
-            
+            btnRunBatch.Enabled = false;  
             try
             {
                 lblBatchStatus.Visible = true;
@@ -507,7 +504,7 @@ namespace StudyAdminAPITester
                     e.Graphics.DrawString(item.Message,
                         e.Font, new SolidBrush(item.ItemColor), e.Bounds, StringFormat.GenericDefault);
 
-               }
+                }
             }
         }
 
