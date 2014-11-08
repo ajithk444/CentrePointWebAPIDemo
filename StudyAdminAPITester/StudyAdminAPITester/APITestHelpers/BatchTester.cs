@@ -10,6 +10,9 @@ using System.Net.Http;
 using StudyAdminAPILib;
 using System.Text.RegularExpressions;
 using System.Drawing;
+using System.Xml;
+using System.Windows.Forms;
+using System.Xml.Schema;
 
 namespace StudyAdminAPITester
 {
@@ -53,32 +56,30 @@ namespace StudyAdminAPITester
             this.TotalFailed = 0;
         }
 
-        public KeyValuePair<string, string> RetrieveAPIKeyPar(XNamespace dns, string apiKeyPairId)
+        public KeyValuePair<string, string> RetrieveAPIKeyPar(XNamespace dns,XDocument xmlDoc, string apiKeyPairId)
         {
-            var doc = this.xmlConfig;
             XElement apiKeyElement = (
-                                      from a in doc.Root.Descendants(dns + "ApiKeyPair") 
+                                      from a in xmlDoc.Root.Descendants(dns + "ApiKeyPair") 
                                       where a.Attribute("id").Value.Equals(apiKeyPairId) 
                                       select a
                                       ).FirstOrDefault();
 
             if (apiKeyElement == null)
-                throw new Exception(string.Format("API Key Pair '{0}' not found", apiKeyPairId));
+                throw new XmlException(string.Format("API Key Pair '{0}' not found", apiKeyPairId));
 
             return new KeyValuePair<string, string>(apiKeyElement.Attribute("accessKey").Value, apiKeyElement.Attribute("secretKey").Value);
         }
 
-        public string RetrieveBaseURI(XNamespace dns, string baseUriId)
+        public string RetrieveBaseURI(XNamespace dns, XDocument xmlDoc, string baseUriId)
         {
-            var doc = this.xmlConfig;
             XElement baseUriAttribute = (
-                                      from a in doc.Root.Descendants(dns + "BaseUri")
+                                      from a in xmlDoc.Root.Descendants(dns + "BaseUri")
                                       where a.Attribute("id").Value.Equals(baseUriId)
                                       select a
                                       ).FirstOrDefault();
 
             if (baseUriAttribute == null)
-                throw new Exception(string.Format("Base Uri '{0}' not found", baseUriId));
+                throw new XmlException(string.Format("Base Uri '{0}' not found", baseUriId));
 
             return baseUriAttribute.Attribute("uri").Value;
         }
@@ -88,7 +89,7 @@ namespace StudyAdminAPITester
 
             string suiteId = testSuiteElement.Attributes("id").FirstOrDefault().Value;
             string apiKeyPairId = testSuiteElement.Attributes("apiKeyPairId").FirstOrDefault().Value;
-            KeyValuePair<string, string> apiKeys = RetrieveAPIKeyPar(XmlNamespace, apiKeyPairId);
+            KeyValuePair<string, string> apiKeys = RetrieveAPIKeyPar(XmlNamespace, this.xmlConfig, apiKeyPairId);
             
             ClientState.AccessKey = apiKeys.Key;
             ClientState.SecretKey = apiKeys.Value;
@@ -108,7 +109,7 @@ namespace StudyAdminAPITester
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
             string uri = apiTestElement.Attributes("Uri").FirstOrDefault().Value;
             HttpMethod httpMethod = APIUtilities.GetHttpMethodFromText(apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value);
-            ClientState.BaseURI = RetrieveBaseURI(XmlNamespace, apiTestElement.Attributes("BaseUriId").FirstOrDefault().Value);
+            ClientState.BaseURI = RetrieveBaseURI(XmlNamespace, this.xmlConfig, apiTestElement.Attributes("BaseUriId").FirstOrDefault().Value);
 
             XElement requestContent = apiTestElement.Elements(XmlNamespace + "RequestContent").FirstOrDefault();
             string request = string.Empty;
@@ -154,13 +155,14 @@ namespace StudyAdminAPITester
             string requestFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, Environment.NewLine); // add new lines for readability purposes for log
             string expectedResponseFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(expectedResponse, Environment.NewLine); // add new lines for readability purposes for log
 
-            UpdateLog(log, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
+            UpdateLog(log, apiTestId, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
 
         }
 
-        public void UpdateLog(StringBuilder log, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
+        public void UpdateLog(StringBuilder log, string apiTestId, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
         {
-            log.Append(string.Format("Test Result: {0}{1}", hasPassed ? "PASSED" : "FAILED", Environment.NewLine));
+            log.Append(string.Format("Test : {0}{1}", apiTestId, Environment.NewLine));
+            log.Append(string.Format("Result: {0}{1}", hasPassed ? "PASSED" : "FAILED", Environment.NewLine));
             log.Append(string.Format("REQUEST:{0}", Environment.NewLine));
             log.Append(string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
             log.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
@@ -197,17 +199,93 @@ namespace StudyAdminAPITester
         
         }
 
-        public void ImportBatch(String xmlNamespace, System.Windows.Forms.ListBox importListBox)
+        /// <summary>
+        /// Imports Batch Config XML to XDocument
+        /// </summary>
+        /// <param name="xmlNamespace"></param>
+        /// <param name="importListBox"></param>
+        public bool ImportBatchSuccessful(String xmlNamespace, Stream xmlStream, System.Windows.Forms.ListBox importListBox, out XDocument xmlDoc)
         {
-            var doc = this.xmlConfig;
+
+            xmlDoc = null;
+            try {
+                xmlDoc = XDocument.Load(xmlStream);
+            }
+            catch (XmlException ex) {
+                MessageBox.Show(string.Format("There was a problem loading XML document.{0}{1}", Environment.NewLine, ex.Message), "XML Validation Error");
+                return false;
+            }
+
+            StringBuilder errorLog = new StringBuilder();
+            if (!IsValidXML(xmlNamespace, xmlDoc, errorLog))
+            {
+                MessageBox.Show(string.Format("The following are problems with imported XML document:{0}{1}", Environment.NewLine, errorLog.ToString()));
+                return false;
+            }
+            else 
+            {
+                try
+                {
+                    return FilledImportListBoxSuccessfully(xmlNamespace, xmlDoc, errorLog, importListBox);
+                }
+                catch (XmlException ex)
+                {
+                    MessageBox.Show(string.Format("There was a problem loading XML document.{0}{1}", Environment.NewLine, ex.Message), "XML Validation Error");
+                    return false;
+                }
+            }
+            
+        }
+
+        private bool IsValidXML(string xmlNamespace, XDocument xmlDoc, StringBuilder errorLog)
+        {
+
+            XAttribute xmlnsAttribute = (from a in xmlDoc.Root.Attributes("xmlns") select a).FirstOrDefault();
+
+            if (xmlnsAttribute == null) 
+            {
+                errorLog.Append(string.Format("\u2022 Root element missing 'xmlns' attribute{0}", Environment.NewLine));
+                return false;
+            }
+            else if (xmlnsAttribute != null && !xmlnsAttribute.Value.Equals(xmlNamespace))
+            {
+                errorLog.Append(string.Format("\u2022 The 'xmlns' attribute of root element must be '{0}'{1}", xmlNamespace, Environment.NewLine));
+                return false;
+            }
+
+
+
+            XNamespace dns = xmlNamespace;
+            XmlSchemaSet schemas = new XmlSchemaSet();
+            schemas.Add(xmlNamespace, XmlReader.Create(new StringReader(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD)));
+
+            bool xmlValidAgainstSchema = true;
+            xmlDoc.Validate(schemas, (s, args) =>
+            {
+                xmlValidAgainstSchema = false;
+                errorLog.Append(string.Format("\u2022 {0}{1}", args.Exception.Message, Environment.NewLine));
+            });
+
+            return xmlValidAgainstSchema;
+        }
+
+
+      
+        private bool FilledImportListBoxSuccessfully(String xmlNamespace, XDocument doc, StringBuilder errorLog, System.Windows.Forms.ListBox importListBox)
+        {
             XNamespace dns = xmlNamespace;
             var TestSuiteQuery = from a in doc.Root.Descendants(dns + "TestSuite")
                         select a;
 
             foreach (var ele in TestSuiteQuery)
             {
-               String suiteId = ele.Attributes("id").FirstOrDefault().Value;
-               importListBox.Items.Add(String.Format("Test Suite: {0}", suiteId));
+               string suiteId = ele.Attributes("id").FirstOrDefault().Value;
+               string apiKeyId = ele.Attributes("apiKeyPairId").FirstOrDefault().Value;
+               
+               RetrieveAPIKeyPar(xmlNamespace, doc, apiKeyId);
+               
+
+                importListBox.Items.Add(String.Format("Test Suite: {0}", suiteId));
 
                 var apiTestsQuery = from b in ele.Elements(dns + "ApiTest")
                                       select b;
@@ -218,10 +296,15 @@ namespace StudyAdminAPITester
                     string apiTestId = t.Attributes("id").FirstOrDefault().Value;
                     string uri = t.Attributes("Uri").FirstOrDefault().Value;
                     string httpMethod = t.Attributes("HttpMethod").FirstOrDefault().Value;
+                    string baseUriId = t.Attributes("BaseUriId").FirstOrDefault().Value;
+
+                    RetrieveBaseURI(xmlNamespace, doc, baseUriId);
 
                     importListBox.Items.Add(string.Format("   ApiTest: {0} ({1} {2})", apiTestId, httpMethod, uri));
                 }       
             }
+
+            return true;
         }
     }
 }

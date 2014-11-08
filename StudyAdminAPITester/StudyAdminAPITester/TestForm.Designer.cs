@@ -69,11 +69,9 @@
             this.lblError = new System.Windows.Forms.Label();
             this.btnCompareResponse = new System.Windows.Forms.Button();
             this.tabPageBatchForm = new System.Windows.Forms.TabPage();
+            this.lnkClearImport = new System.Windows.Forms.LinkLabel();
             this.lblImportedXMLConfig = new System.Windows.Forms.Label();
             this.lblBatchStatus = new System.Windows.Forms.Label();
-            this.grpBaseURI = new System.Windows.Forms.GroupBox();
-            this.cbBatchBaseUri = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lstBxBatchResults = new System.Windows.Forms.ListBox();
             this.contextMenuStripBatchResults = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -107,7 +105,6 @@
             this.splitContainerRequest.SuspendLayout();
             this.grpBxContent.SuspendLayout();
             this.tabPageBatchForm.SuspendLayout();
-            this.grpBaseURI.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.contextMenuStripBatchResults.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -543,9 +540,9 @@
             // 
             // tabPageBatchForm
             // 
+            this.tabPageBatchForm.Controls.Add(this.lnkClearImport);
             this.tabPageBatchForm.Controls.Add(this.lblImportedXMLConfig);
             this.tabPageBatchForm.Controls.Add(this.lblBatchStatus);
-            this.tabPageBatchForm.Controls.Add(this.grpBaseURI);
             this.tabPageBatchForm.Controls.Add(this.groupBox2);
             this.tabPageBatchForm.Controls.Add(this.groupBox1);
             this.tabPageBatchForm.Controls.Add(this.grpResults);
@@ -555,19 +552,30 @@
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
             this.tabPageBatchForm.Controls.Add(this.label1);
-            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 22);
+            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 497);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 496);
             this.tabPageBatchForm.TabIndex = 1;
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
+            // 
+            // lnkClearImport
+            // 
+            this.lnkClearImport.AutoSize = true;
+            this.lnkClearImport.Location = new System.Drawing.Point(18, 425);
+            this.lnkClearImport.Name = "lnkClearImport";
+            this.lnkClearImport.Size = new System.Drawing.Size(76, 14);
+            this.lnkClearImport.TabIndex = 32;
+            this.lnkClearImport.TabStop = true;
+            this.lnkClearImport.Text = "Clear Import";
+            this.lnkClearImport.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkClearImport_LinkClicked);
             // 
             // lblImportedXMLConfig
             // 
             this.lblImportedXMLConfig.AutoSize = true;
             this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 430);
+            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 453);
             this.lblImportedXMLConfig.Name = "lblImportedXMLConfig";
             this.lblImportedXMLConfig.Size = new System.Drawing.Size(143, 14);
             this.lblImportedXMLConfig.TabIndex = 31;
@@ -584,38 +592,6 @@
             this.lblBatchStatus.Text = "Running Tests...";
             this.lblBatchStatus.Visible = false;
             // 
-            // grpBaseURI
-            // 
-            this.grpBaseURI.Controls.Add(this.cbBatchBaseUri);
-            this.grpBaseURI.Controls.Add(this.label2);
-            this.grpBaseURI.Location = new System.Drawing.Point(504, 63);
-            this.grpBaseURI.Name = "grpBaseURI";
-            this.grpBaseURI.Size = new System.Drawing.Size(387, 45);
-            this.grpBaseURI.TabIndex = 29;
-            this.grpBaseURI.TabStop = false;
-            this.grpBaseURI.Text = "Base URI";
-            // 
-            // cbBatchBaseUri
-            // 
-            this.cbBatchBaseUri.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbBatchBaseUri.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBatchBaseUri.FormattingEnabled = true;
-            this.cbBatchBaseUri.Location = new System.Drawing.Point(70, 17);
-            this.cbBatchBaseUri.Name = "cbBatchBaseUri";
-            this.cbBatchBaseUri.Size = new System.Drawing.Size(303, 22);
-            this.cbBatchBaseUri.TabIndex = 11;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(810, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 25);
-            this.label2.TabIndex = 18;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
@@ -631,12 +607,13 @@
             this.lstBxBatchResults.ContextMenuStrip = this.contextMenuStripBatchResults;
             this.lstBxBatchResults.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstBxBatchResults.FormattingEnabled = true;
+            this.lstBxBatchResults.HorizontalScrollbar = true;
             this.lstBxBatchResults.ItemHeight = 14;
             this.lstBxBatchResults.Location = new System.Drawing.Point(6, 20);
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(363, 270);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 270);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
             // 
@@ -657,7 +634,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lstBxImportTests);
-            this.groupBox1.Location = new System.Drawing.Point(16, 113);
+            this.groupBox1.Location = new System.Drawing.Point(21, 113);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(385, 303);
             this.groupBox1.TabIndex = 14;
@@ -667,11 +644,12 @@
             // lstBxImportTests
             // 
             this.lstBxImportTests.FormattingEnabled = true;
+            this.lstBxImportTests.HorizontalScrollbar = true;
             this.lstBxImportTests.ItemHeight = 14;
             this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(363, 270);
+            this.lstBxImportTests.Size = new System.Drawing.Size(373, 270);
             this.lstBxImportTests.TabIndex = 3;
             // 
             // grpResults
@@ -821,8 +799,6 @@
             this.grpBxContent.PerformLayout();
             this.tabPageBatchForm.ResumeLayout(false);
             this.tabPageBatchForm.PerformLayout();
-            this.grpBaseURI.ResumeLayout(false);
-            this.grpBaseURI.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.contextMenuStripBatchResults.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -882,9 +858,6 @@
         private System.Windows.Forms.GroupBox grpResults;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox grpBaseURI;
-        private System.Windows.Forms.ComboBox cbBatchBaseUri;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblBatchStatus;
         private System.Windows.Forms.Label lblImportedXMLConfig;
         private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
@@ -894,6 +867,7 @@
         private System.Windows.Forms.ToolStripContentPanel ContentPanel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripBatchResults;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatch;
+        private System.Windows.Forms.LinkLabel lnkClearImport;
         //private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatchLog;
 
         

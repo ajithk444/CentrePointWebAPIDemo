@@ -49,9 +49,6 @@ namespace StudyAdminAPITester
             cbBaseURI.Items.Add(ClientState.BaseURI);
             cbBaseURI.SelectedIndex = 0;
 
-            cbBatchBaseUri.Items.Add(ClientState.BaseURI);
-            cbBatchBaseUri.SelectedIndex = 0;
-
             // Populate HttpMethod Dropdown list and default it to "GET" request type
             cbHttpMethod.Items.Add(HttpMethod.Get);
             cbHttpMethod.Items.Add(HttpMethod.Post);
@@ -379,6 +376,11 @@ namespace StudyAdminAPITester
             return isValid;
         }
 
+        /// <summary>
+        /// Import XML Batch Config Document
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnImportConfig_Click(object sender, EventArgs e)
         {
             using (var openFileDialog = new OpenFileDialog())
@@ -390,80 +392,70 @@ namespace StudyAdminAPITester
                 if (result != DialogResult.OK)
                     return;
 
-                XDocument xmlConfig = null;
-                try  {
-                    xmlConfig = XDocument.Load(openFileDialog.OpenFile());
-                } catch (XmlException ex) { 
-                    MessageBox.Show(string.Format("There was a problem loading XML document.{0}{1}", Environment.NewLine, ex.Message), "XML Validation Error");
-                    return;
-                }
-                
-                XAttribute xmlnsAttribute = (from a in xmlConfig.Root.Attributes("xmlns") 
-                                     select a).FirstOrDefault();
-
-                bool xmlValid = true;
-                StringBuilder sb = new StringBuilder();
-
-                if (xmlnsAttribute == null) { 
-                    xmlValid = false;
-                    sb.Append(string.Format("\u2022 Root element missing 'xmlns' attribute{0}", Environment.NewLine));
-                } else if (xmlnsAttribute != null && !xmlnsAttribute.Value.Equals(xmlNamespace))  {
-                    xmlValid = false;
-                    sb.Append(string.Format("\u2022 The 'xmlns' attribute of root element must be '{0}'{1}", xmlNamespace, Environment.NewLine));
-                }
-
-                XNamespace dns = xmlNamespace;
-                XmlSchemaSet schemas = new XmlSchemaSet();
-                schemas.Add(xmlNamespace, XmlReader.Create(new StringReader(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD)));
-
-                xmlConfig.Validate(schemas, (s, args) => {
-                    xmlValid = false;
-                    sb.Append(string.Format("\u2022 {0}{1}", args.Exception.Message, Environment.NewLine));
-                });
-
-                if (!xmlValid)
+                using (var xmlStream = openFileDialog.OpenFile())
                 {
-                    MessageBox.Show(string.Format("The following are problems with imported XML document:{0}{1}", 
-                                    Environment.NewLine, sb.ToString()), "XML Validation Error");
-                    return;
+                    BatchTester.Instance.ResetBatch();
+                    XDocument xmlDoc;
+
+                    lstBxBatchResults.Items.Clear();
+                    lstBxImportTests.Items.Clear();
+                    btnRunBatch.Enabled = false;
+                    grpResults.Visible = false;
+                    lblImportedXMLConfig.Visible = false;
+
+                    if (BatchTester.Instance.ImportBatchSuccessful(xmlNamespace, xmlStream, lstBxImportTests, out xmlDoc))
+                    {
+                        lblImportedXMLConfig.Text = string.Format("Imported Batch Config: {0}", new FileInfo(openFileDialog.FileName).Name);
+                        lblImportedXMLConfig.Visible = true;
+                        BatchTester.Instance.XmlConfig = xmlDoc;
+                        btnRunBatch.Enabled = true;
+                    }
+                    else
+                    {
+                        lstBxImportTests.Items.Clear();
+                    }
+                    
                 }
-
-                lblImportedXMLConfig.Text = string.Format("Imported Batch Config: {0}", new FileInfo(openFileDialog.FileName).Name); 
-                lblImportedXMLConfig.Visible = true;
-                lstBxImportTests.Items.Clear();
-                lstBxBatchResults.Items.Clear();
-                btnRunBatch.Enabled = true;
-                grpResults.Visible = false;
-
-                BatchTester.Instance.ResetBatch();
-                BatchTester.Instance.XmlConfig = xmlConfig;
-                BatchTester.Instance.ImportBatch(xmlNamespace, lstBxImportTests);
-            }
+             }
         }
 
+        /// <summary>
+        /// Opens XML Schema Document
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lnkXmlSchema_Click(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string filename = "BatchAPITests.xsd";
 
-            var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read));
-            xmlSchema.AutoFlush = true;
-            xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD);
-            xmlSchema.Dispose();
+           using (var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
+           { 
+                xmlSchema.AutoFlush = true;
+                xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD);
+                xmlSchema.Dispose();
            
-            if (File.Exists(filename)) 
-                Process.Start(filename);
+                if (File.Exists(filename)) 
+                    Process.Start(filename);
+           }
         }
 
+        /// <summary>
+        /// Opens Sample XML Document
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lnkSampeXML_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string filename = "BatchAPITests.xml";
-            var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read));
-            xmlSchema.AutoFlush = true;
-            xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXML);
-            xmlSchema.Dispose();
+            using (var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
+            { 
+                xmlSchema.AutoFlush = true;
+                xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXML);
+                xmlSchema.Dispose();
 
-            if (File.Exists(filename))
-                Process.Start(filename);  
+                if (File.Exists(filename))
+                    Process.Start(filename);
+            }
         }
 
         private async void btnRunBatch_Click(object sender, EventArgs e)
@@ -503,7 +495,6 @@ namespace StudyAdminAPITester
                 {
                     e.Graphics.DrawString(item.Message,
                         e.Font, new SolidBrush(item.ItemColor), e.Bounds, StringFormat.GenericDefault);
-
                 }
             }
         }
@@ -511,13 +502,15 @@ namespace StudyAdminAPITester
         private void btnViewLog_Click(object sender, EventArgs e)
         {
             string filename = "StudyAdminAPIBatchTestLog.txt";
-            var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read));
-            logStramWriter.AutoFlush = true;
-            logStramWriter.Write(sbLogBatch.ToString());
-            logStramWriter.Dispose();
-
-            if (File.Exists(filename))
-                Process.Start(filename);  
+            using (var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
+            {
+                logStramWriter.AutoFlush = true;
+                logStramWriter.Write(sbLogBatch.ToString());
+                
+                if (File.Exists(filename))
+                    Process.Start(filename);     
+            }
+            
         }
 
         private void toolStripMenuItemClearBatchLog(object sender, EventArgs e)
@@ -527,6 +520,22 @@ namespace StudyAdminAPITester
             grpResults.Visible = false;
             btnViewLog.Enabled = false;
             btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null; 
+        }
+
+        
+        private void lnkClearImport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            lstBxBatchResults.Items.Clear();
+            sbLogBatch.Clear();
+            lstBxImportTests.Items.Clear();
+            grpResults.Visible = false;
+            btnViewLog.Enabled = false;
+            btnRunBatch.Enabled = false;
+            BatchTester.Instance.XmlConfig = null;
+            BatchTester.Instance.ResetBatch();
+            lblBatchStatus.Text = string.Empty;
+            lblImportedXMLConfig.Text = string.Empty;
+    
         }
 
     }
