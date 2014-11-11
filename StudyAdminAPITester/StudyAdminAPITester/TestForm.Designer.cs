@@ -562,6 +562,7 @@
             // 
             // lnkClearImport
             // 
+            this.lnkClearImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkClearImport.AutoSize = true;
             this.lnkClearImport.Location = new System.Drawing.Point(18, 425);
             this.lnkClearImport.Name = "lnkClearImport";
@@ -573,6 +574,7 @@
             // 
             // lblImportedXMLConfig
             // 
+            this.lblImportedXMLConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblImportedXMLConfig.AutoSize = true;
             this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 453);
@@ -594,6 +596,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
             this.groupBox2.Location = new System.Drawing.Point(504, 113);
             this.groupBox2.Name = "groupBox2";
@@ -604,6 +609,9 @@
             // 
             // lstBxBatchResults
             // 
+            this.lstBxBatchResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstBxBatchResults.ContextMenuStrip = this.contextMenuStripBatchResults;
             this.lstBxBatchResults.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstBxBatchResults.FormattingEnabled = true;
@@ -633,6 +641,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.lstBxImportTests);
             this.groupBox1.Location = new System.Drawing.Point(21, 113);
             this.groupBox1.Name = "groupBox1";
@@ -643,6 +653,8 @@
             // 
             // lstBxImportTests
             // 
+            this.lstBxImportTests.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lstBxImportTests.FormattingEnabled = true;
             this.lstBxImportTests.HorizontalScrollbar = true;
             this.lstBxImportTests.ItemHeight = 14;
@@ -654,6 +666,7 @@
             // 
             // grpResults
             // 
+            this.grpResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.grpResults.Controls.Add(this.lblTestsPassed);
             this.grpResults.Controls.Add(this.lblTestsFailed);
             this.grpResults.Controls.Add(this.lblTotalTests);
@@ -698,6 +711,7 @@
             // 
             // btnViewLog
             // 
+            this.btnViewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnViewLog.Enabled = false;
             this.btnViewLog.Location = new System.Drawing.Point(784, 430);
             this.btnViewLog.Name = "btnViewLog";

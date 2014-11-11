@@ -413,8 +413,7 @@ namespace StudyAdminAPITester
                     else
                     {
                         lstBxImportTests.Items.Clear();
-                    }
-                    
+                    }   
                 }
              }
         }
@@ -463,6 +462,7 @@ namespace StudyAdminAPITester
             btnRunBatch.Enabled = false;  
             try
             {
+                lblBatchStatus.Text = "Running Tests...";
                 lblBatchStatus.Visible = true;
                 await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults, sbLogBatch);
 
