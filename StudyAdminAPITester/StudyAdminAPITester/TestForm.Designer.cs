@@ -548,10 +548,10 @@
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
             this.tabPageBatchForm.Controls.Add(this.label1);
-            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 22);
+            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 497);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 496);
             this.tabPageBatchForm.TabIndex = 1;
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
@@ -560,7 +560,7 @@
             // 
             this.lnkClearImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkClearImport.AutoSize = true;
-            this.lnkClearImport.Location = new System.Drawing.Point(18, 426);
+            this.lnkClearImport.Location = new System.Drawing.Point(18, 425);
             this.lnkClearImport.Name = "lnkClearImport";
             this.lnkClearImport.Size = new System.Drawing.Size(76, 14);
             this.lnkClearImport.TabIndex = 32;
@@ -573,7 +573,7 @@
             this.lblImportedXMLConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblImportedXMLConfig.AutoSize = true;
             this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 454);
+            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 453);
             this.lblImportedXMLConfig.Name = "lblImportedXMLConfig";
             this.lblImportedXMLConfig.Size = new System.Drawing.Size(143, 14);
             this.lblImportedXMLConfig.TabIndex = 31;
@@ -598,7 +598,7 @@
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
             this.groupBox2.Location = new System.Drawing.Point(504, 113);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(387, 304);
+            this.groupBox2.Size = new System.Drawing.Size(387, 303);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -617,7 +617,7 @@
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 270);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 256);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
             // 
@@ -642,7 +642,7 @@
             this.groupBox1.Controls.Add(this.lstBxImportTests);
             this.groupBox1.Location = new System.Drawing.Point(21, 113);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(385, 304);
+            this.groupBox1.Size = new System.Drawing.Size(385, 303);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Imported Tests";
@@ -657,7 +657,7 @@
             this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(373, 270);
+            this.lstBxImportTests.Size = new System.Drawing.Size(373, 256);
             this.lstBxImportTests.TabIndex = 3;
             // 
             // grpResults
@@ -666,7 +666,7 @@
             this.grpResults.Controls.Add(this.lblTestsPassed);
             this.grpResults.Controls.Add(this.lblTestsFailed);
             this.grpResults.Controls.Add(this.lblTotalTests);
-            this.grpResults.Location = new System.Drawing.Point(508, 423);
+            this.grpResults.Location = new System.Drawing.Point(508, 422);
             this.grpResults.Name = "grpResults";
             this.grpResults.Size = new System.Drawing.Size(123, 66);
             this.grpResults.TabIndex = 13;
@@ -709,7 +709,7 @@
             // 
             this.btnViewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnViewLog.Enabled = false;
-            this.btnViewLog.Location = new System.Drawing.Point(784, 431);
+            this.btnViewLog.Location = new System.Drawing.Point(784, 430);
             this.btnViewLog.Name = "btnViewLog";
             this.btnViewLog.Size = new System.Drawing.Size(75, 23);
             this.btnViewLog.TabIndex = 12;
@@ -767,7 +767,7 @@
             this.label1.Location = new System.Drawing.Point(18, 18);
             this.label1.MaximumSize = new System.Drawing.Size(855, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(833, 42);
+            this.label1.Size = new System.Drawing.Size(846, 42);
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 

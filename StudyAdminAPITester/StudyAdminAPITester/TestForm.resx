@@ -124,7 +124,7 @@
     <value>277, 17</value>
   </metadata>
   <data name="label1.Text" xml:space="preserve">
-    <value>Instructions: To run Study Admin API Tester in batch mode, you will have to import a Batch Config XML File. This XML file will specify the specific tests along with the expected status codes and resutls for each test. To view a sample xml batch config, click on the "View Sample XML Batch Config" link below. If you wish to view the schema that validates the XML config, click "View XML Schema" link below.</value>
+    <value>Instructions: To run Study Admin API Tester in batch mode, you will have to import a Batch Config XML File. This XML file will specify the specific tests along with the expected http status codes and results for each test. To view a sample xml batch config, click on the "View Sample XML Batch Config" link below. If you wish to view the schema that validates the XML config, click "View XML Schema" link below.</value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>88</value>
