@@ -45,7 +45,7 @@
             this.txtBxSecretKey = new System.Windows.Forms.TextBox();
             this.lblSecretKeyRequired = new System.Windows.Forms.Label();
             this.grpBxBaseURI = new System.Windows.Forms.GroupBox();
-            this.cbBaseURI = new System.Windows.Forms.ComboBox();
+            this.txtBaseURI = new System.Windows.Forms.TextBox();
             this.lblStatusCode = new System.Windows.Forms.Label();
             this.grpBxRequest = new System.Windows.Forms.GroupBox();
             this.cbHttpMethod = new System.Windows.Forms.ComboBox();
@@ -241,7 +241,7 @@
             // 
             // grpBxBaseURI
             // 
-            this.grpBxBaseURI.Controls.Add(this.cbBaseURI);
+            this.grpBxBaseURI.Controls.Add(this.txtBaseURI);
             this.grpBxBaseURI.Location = new System.Drawing.Point(9, 12);
             this.grpBxBaseURI.Name = "grpBxBaseURI";
             this.grpBxBaseURI.Size = new System.Drawing.Size(422, 45);
@@ -249,16 +249,12 @@
             this.grpBxBaseURI.TabStop = false;
             this.grpBxBaseURI.Text = "Base URI";
             // 
-            // cbBaseURI
+            // txtBaseURI
             // 
-            this.cbBaseURI.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbBaseURI.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBaseURI.FormattingEnabled = true;
-            this.cbBaseURI.Location = new System.Drawing.Point(78, 16);
-            this.cbBaseURI.Name = "cbBaseURI";
-            this.cbBaseURI.Size = new System.Drawing.Size(312, 22);
-            this.cbBaseURI.TabIndex = 11;
+            this.txtBaseURI.Location = new System.Drawing.Point(78, 16);
+            this.txtBaseURI.Name = "txtBaseURI";
+            this.txtBaseURI.Size = new System.Drawing.Size(312, 21);
+            this.txtBaseURI.TabIndex = 12;
             // 
             // lblStatusCode
             // 
@@ -552,10 +548,10 @@
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
             this.tabPageBatchForm.Controls.Add(this.label1);
-            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
+            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 22);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 496);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 497);
             this.tabPageBatchForm.TabIndex = 1;
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
@@ -564,7 +560,7 @@
             // 
             this.lnkClearImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkClearImport.AutoSize = true;
-            this.lnkClearImport.Location = new System.Drawing.Point(18, 425);
+            this.lnkClearImport.Location = new System.Drawing.Point(18, 426);
             this.lnkClearImport.Name = "lnkClearImport";
             this.lnkClearImport.Size = new System.Drawing.Size(76, 14);
             this.lnkClearImport.TabIndex = 32;
@@ -577,7 +573,7 @@
             this.lblImportedXMLConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblImportedXMLConfig.AutoSize = true;
             this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 453);
+            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 454);
             this.lblImportedXMLConfig.Name = "lblImportedXMLConfig";
             this.lblImportedXMLConfig.Size = new System.Drawing.Size(143, 14);
             this.lblImportedXMLConfig.TabIndex = 31;
@@ -602,7 +598,7 @@
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
             this.groupBox2.Location = new System.Drawing.Point(504, 113);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(387, 303);
+            this.groupBox2.Size = new System.Drawing.Size(387, 304);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -646,7 +642,7 @@
             this.groupBox1.Controls.Add(this.lstBxImportTests);
             this.groupBox1.Location = new System.Drawing.Point(21, 113);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(385, 303);
+            this.groupBox1.Size = new System.Drawing.Size(385, 304);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Imported Tests";
@@ -670,7 +666,7 @@
             this.grpResults.Controls.Add(this.lblTestsPassed);
             this.grpResults.Controls.Add(this.lblTestsFailed);
             this.grpResults.Controls.Add(this.lblTotalTests);
-            this.grpResults.Location = new System.Drawing.Point(508, 422);
+            this.grpResults.Location = new System.Drawing.Point(508, 423);
             this.grpResults.Name = "grpResults";
             this.grpResults.Size = new System.Drawing.Size(123, 66);
             this.grpResults.TabIndex = 13;
@@ -713,7 +709,7 @@
             // 
             this.btnViewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnViewLog.Enabled = false;
-            this.btnViewLog.Location = new System.Drawing.Point(784, 430);
+            this.btnViewLog.Location = new System.Drawing.Point(784, 431);
             this.btnViewLog.Name = "btnViewLog";
             this.btnViewLog.Size = new System.Drawing.Size(75, 23);
             this.btnViewLog.TabIndex = 12;
@@ -793,6 +789,7 @@
             this.grpBxSecretKey.ResumeLayout(false);
             this.grpBxSecretKey.PerformLayout();
             this.grpBxBaseURI.ResumeLayout(false);
+            this.grpBxBaseURI.PerformLayout();
             this.grpBxRequest.ResumeLayout(false);
             this.grpBxRequest.PerformLayout();
             this.grpBxResponse.ResumeLayout(false);
@@ -833,7 +830,6 @@
         private System.Windows.Forms.TextBox txtBxSecretKey;
         private System.Windows.Forms.Label lblSecretKeyRequired;
         private System.Windows.Forms.GroupBox grpBxBaseURI;
-        private System.Windows.Forms.ComboBox cbBaseURI;
         private System.Windows.Forms.Label lblStatusCode;
         private System.Windows.Forms.Button btnCompareResponse;
         private System.Windows.Forms.GroupBox grpBxRequest;
@@ -882,6 +878,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripBatchResults;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatch;
         private System.Windows.Forms.LinkLabel lnkClearImport;
+        private System.Windows.Forms.TextBox txtBaseURI;
         //private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatchLog;
 
         

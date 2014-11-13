@@ -81,6 +81,7 @@
                                 <xs:enumeration value="201"/>
                                 <xs:enumeration value="400"/>
                                 <xs:enumeration value="401"/>
+                                <xs:enumeration value="403"/>
                                 <xs:enumeration value="404"/>
                                 <xs:enumeration value="405"/>
                                 <xs:enumeration value="500"/>

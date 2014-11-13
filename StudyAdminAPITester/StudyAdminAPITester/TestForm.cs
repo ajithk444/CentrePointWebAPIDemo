@@ -46,8 +46,7 @@ namespace StudyAdminAPITester
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
-            cbBaseURI.Items.Add(ClientState.BaseURI);
-            cbBaseURI.SelectedIndex = 0;
+            txtBaseURI.Text = ClientState.BaseURI;
 
             // Populate HttpMethod Dropdown list and default it to "GET" request type
             cbHttpMethod.Items.Add(HttpMethod.Get);
@@ -200,7 +199,7 @@ namespace StudyAdminAPITester
                     }
 
                     // Updating Client State Before Execution
-                    ClientState.BaseURI = cbBaseURI.Text;
+                    ClientState.BaseURI = txtBaseURI.Text;
                     ClientState.AccessKey = txtBxAccessKey.Text;
                     ClientState.SecretKey = txtBxSecretKey.Text;
 
@@ -505,6 +504,11 @@ namespace StudyAdminAPITester
             using (var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
             {
                 logStramWriter.AutoFlush = true;
+                sbLogBatch.Insert(0, Environment.NewLine);
+                sbLogBatch.Insert(0, Environment.NewLine);
+                sbLogBatch.Insert(0, String.Format("Total Tests: {0}", BatchTester.Instance.TotalTests) + Environment.NewLine);
+                sbLogBatch.Insert(0, String.Format("Total Failed: {0}", BatchTester.Instance.TotalFailed) + Environment.NewLine);
+                sbLogBatch.Insert(0, String.Format("Total Passed: {0}", BatchTester.Instance.TotalPassed) + Environment.NewLine);
                 logStramWriter.Write(sbLogBatch.ToString());
                 
                 if (File.Exists(filename))

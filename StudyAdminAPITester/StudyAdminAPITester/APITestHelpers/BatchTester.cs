@@ -100,10 +100,10 @@ namespace StudyAdminAPITester
                                       select b;
 
             foreach (var t in apiTestsQuery)
-                await RunApiTest(t, XmlNamespace, resultsListBox, log);       
+                await RunApiTest(suiteId, t, XmlNamespace, resultsListBox, log);       
         }
 
-        public async Task RunApiTest(XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
+        public async Task RunApiTest(String suite, XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
         {
             
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
@@ -155,13 +155,14 @@ namespace StudyAdminAPITester
             string requestFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, Environment.NewLine); // add new lines for readability purposes for log
             string expectedResponseFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(expectedResponse, Environment.NewLine); // add new lines for readability purposes for log
 
-            UpdateLog(log, apiTestId, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
+            UpdateLog(suite, log, apiTestId, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
 
         }
 
-        public void UpdateLog(StringBuilder log, string apiTestId, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
+        public void UpdateLog(string suiteId, StringBuilder log, string apiTestId, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
         {
             log.Append(string.Format("Test : {0}{1}", apiTestId, Environment.NewLine));
+            log.Append(string.Format("Suite : {0}{1}", suiteId, Environment.NewLine));
             log.Append(string.Format("Result: {0}{1}", hasPassed ? "PASSED" : "FAILED", Environment.NewLine));
             log.Append(string.Format("REQUEST:{0}", Environment.NewLine));
             log.Append(string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
