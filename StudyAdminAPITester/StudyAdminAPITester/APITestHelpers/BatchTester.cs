@@ -22,11 +22,16 @@ namespace StudyAdminAPITester
         public int TotalTests { get; set; }
         public int TotalPassed { get; set; }
         public int TotalFailed { get; set; }
+        private List<String> FailedTestLists { get; set; }
+        public StringBuilder log { get; set; }
 
         private static BatchTester _batchTester = new BatchTester();
         private XDocument xmlConfig;
-        
-        private BatchTester() { }
+
+        private BatchTester() { 
+            FailedTestLists = new List<String>();
+            log = new StringBuilder();
+        }
 
 
         public static BatchTester Instance
@@ -54,6 +59,7 @@ namespace StudyAdminAPITester
             this.TotalTests = 0;
             this.TotalPassed = 0;
             this.TotalFailed = 0;
+            FailedTestLists.Clear();
         }
 
         public KeyValuePair<string, string> RetrieveAPIKeyPar(XNamespace dns,XDocument xmlDoc, string apiKeyPairId)
@@ -84,7 +90,31 @@ namespace StudyAdminAPITester
             return baseUriAttribute.Attribute("uri").Value;
         }
 
-        public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
+        private void WriteSummaryToLog()
+        {
+
+            log.Insert(0, Environment.NewLine);
+            log.Insert(0, Environment.NewLine);
+            log.Insert(0, Environment.NewLine);
+
+            for (int i = 0; i < BatchTester.Instance.FailedTestLists.Count; i++)
+            {
+                log.Insert(0, BatchTester.Instance.FailedTestLists[i]);
+                log.Insert(0, Environment.NewLine);
+            }
+            log.Insert(0, Environment.NewLine);
+            log.Insert(0, Environment.NewLine);
+            log.Insert(0, "Failed Tests:");
+
+            log.Insert(0, Environment.NewLine);
+            log.Insert(0, Environment.NewLine);
+            log.Insert(0, String.Format("Total Tests: {0}", BatchTester.Instance.TotalTests) + Environment.NewLine);
+            log.Insert(0, String.Format("Total Failed: {0}", BatchTester.Instance.TotalFailed) + Environment.NewLine);
+            log.Insert(0, String.Format("Total Passed: {0}", BatchTester.Instance.TotalPassed) + Environment.NewLine);
+             
+        }
+
+        public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
 
             string suiteId = testSuiteElement.Attributes("id").FirstOrDefault().Value;
@@ -100,10 +130,10 @@ namespace StudyAdminAPITester
                                       select b;
 
             foreach (var t in apiTestsQuery)
-                await RunApiTest(suiteId, t, XmlNamespace, resultsListBox, log);       
+                await RunApiTest(suiteId, t, XmlNamespace, resultsListBox);       
         }
 
-        public async Task RunApiTest(String suite, XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
+        public async Task RunApiTest(String suite, XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
             
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
@@ -149,6 +179,7 @@ namespace StudyAdminAPITester
             {
                 TotalFailed += 1;
                 resultsListBox.Items.Add(new ListBoxItem(Color.Red, String.Format("   ApiTest: {0} FAILED", apiTestId)));
+                this.FailedTestLists.Add(string.Format("Test: {1}", suite, apiTestId));
             }
 
             // format request and expected response for log
@@ -187,7 +218,7 @@ namespace StudyAdminAPITester
             log.Append(Environment.NewLine);
         }
 
-        public async Task RunBatch(String xmlNamespace, System.Windows.Forms.ListBox resultsListBox, StringBuilder log)
+        public async Task RunBatch(String xmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
             var doc = this.xmlConfig;
             XNamespace dns = xmlNamespace;
@@ -196,8 +227,9 @@ namespace StudyAdminAPITester
                                  select a;
 
             foreach (var ele in TestSuiteQuery)
-                await RunSuite(ele, xmlNamespace, resultsListBox, log);
-        
+                await RunSuite(ele, xmlNamespace, resultsListBox);
+
+            WriteSummaryToLog();
         }
 
         /// <summary>

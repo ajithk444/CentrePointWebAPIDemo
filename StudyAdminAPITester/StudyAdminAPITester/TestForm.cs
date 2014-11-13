@@ -26,7 +26,6 @@ namespace StudyAdminAPITester
     {
 
         private StringBuilder sbLog;
-        private StringBuilder sbLogBatch;
         private String lastJsonResponse;
         private String defaultAccessKeyText;
         private String defaultSecretKeyText;
@@ -36,7 +35,6 @@ namespace StudyAdminAPITester
         {
             InitializeComponent();
             sbLog = new StringBuilder();
-            sbLogBatch = new StringBuilder();
 
             System.Version current = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             //Major.Minor.Build.Revision
@@ -463,7 +461,8 @@ namespace StudyAdminAPITester
             {
                 lblBatchStatus.Text = "Running Tests...";
                 lblBatchStatus.Visible = true;
-                await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults, sbLogBatch);
+                lnkClearImport.Enabled = false;
+                await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
 
                 grpResults.Visible = true;
                 btnViewLog.Enabled = true;
@@ -480,6 +479,7 @@ namespace StudyAdminAPITester
             }
             finally
             {
+                lnkClearImport.Enabled = true;
                 lblBatchStatus.Visible = false;
                 btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null; 
             }
@@ -504,12 +504,7 @@ namespace StudyAdminAPITester
             using (var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
             {
                 logStramWriter.AutoFlush = true;
-                sbLogBatch.Insert(0, Environment.NewLine);
-                sbLogBatch.Insert(0, Environment.NewLine);
-                sbLogBatch.Insert(0, String.Format("Total Tests: {0}", BatchTester.Instance.TotalTests) + Environment.NewLine);
-                sbLogBatch.Insert(0, String.Format("Total Failed: {0}", BatchTester.Instance.TotalFailed) + Environment.NewLine);
-                sbLogBatch.Insert(0, String.Format("Total Passed: {0}", BatchTester.Instance.TotalPassed) + Environment.NewLine);
-                logStramWriter.Write(sbLogBatch.ToString());
+                logStramWriter.Write(BatchTester.Instance.log.ToString());
                 
                 if (File.Exists(filename))
                     Process.Start(filename);     
@@ -520,7 +515,7 @@ namespace StudyAdminAPITester
         private void toolStripMenuItemClearBatchLog(object sender, EventArgs e)
         {
             lstBxBatchResults.Items.Clear();
-            sbLogBatch.Clear();
+            BatchTester.Instance.log.Clear();
             grpResults.Visible = false;
             btnViewLog.Enabled = false;
             btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null; 
@@ -530,7 +525,7 @@ namespace StudyAdminAPITester
         private void lnkClearImport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lstBxBatchResults.Items.Clear();
-            sbLogBatch.Clear();
+            BatchTester.Instance.log.Clear();
             lstBxImportTests.Items.Clear();
             grpResults.Visible = false;
             btnViewLog.Enabled = false;
