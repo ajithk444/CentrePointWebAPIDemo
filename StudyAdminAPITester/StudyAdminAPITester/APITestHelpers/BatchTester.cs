@@ -62,6 +62,13 @@ namespace StudyAdminAPITester
             FailedTestLists.Clear();
         }
 
+        /// <summary>
+        /// Retrieve API Key Pair Value
+        /// </summary>
+        /// <param name="dns"></param>
+        /// <param name="xmlDoc"></param>
+        /// <param name="apiKeyPairId"></param>
+        /// <returns></returns>
         public KeyValuePair<string, string> RetrieveAPIKeyPar(XNamespace dns,XDocument xmlDoc, string apiKeyPairId)
         {
             XElement apiKeyElement = (
@@ -76,6 +83,13 @@ namespace StudyAdminAPITester
             return new KeyValuePair<string, string>(apiKeyElement.Attribute("accessKey").Value, apiKeyElement.Attribute("secretKey").Value);
         }
 
+        /// <summary>
+        /// Retrieve BaseURI from BaseURI element
+        /// </summary>
+        /// <param name="dns"></param>
+        /// <param name="xmlDoc"></param>
+        /// <param name="baseUriId"></param>
+        /// <returns></returns>
         public string RetrieveBaseURI(XNamespace dns, XDocument xmlDoc, string baseUriId)
         {
             XElement baseUriAttribute = (
@@ -90,6 +104,9 @@ namespace StudyAdminAPITester
             return baseUriAttribute.Attribute("uri").Value;
         }
 
+        /// <summary>
+        /// Write Test Results Summary at beginning of log file
+        /// </summary>
         private void WriteSummaryToLog()
         {
 
@@ -114,6 +131,13 @@ namespace StudyAdminAPITester
              
         }
 
+        /// <summary>
+        /// Parses and Runs TestSuite XElement
+        /// </summary>
+        /// <param name="testSuiteElement"></param>
+        /// <param name="XmlNamespace"></param>
+        /// <param name="resultsListBox"></param>
+        /// <returns></returns>
         public async Task RunSuite(XElement testSuiteElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
 
@@ -133,29 +157,42 @@ namespace StudyAdminAPITester
                 await RunApiTest(suiteId, t, XmlNamespace, resultsListBox);       
         }
 
+        /// <summary>
+        /// Parses and runns ApiTest XElement
+        /// </summary>
+        /// <param name="suite"></param>
+        /// <param name="apiTestElement"></param>
+        /// <param name="XmlNamespace"></param>
+        /// <param name="resultsListBox"></param>
+        /// <returns></returns>
         public async Task RunApiTest(String suite, XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
             
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
             string uri = apiTestElement.Attributes("Uri").FirstOrDefault().Value;
             HttpMethod httpMethod = APIUtilities.GetHttpMethodFromText(apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value);
+            
+            // Set Base URI in ClinetState object
             ClientState.BaseURI = RetrieveBaseURI(XmlNamespace, this.xmlConfig, apiTestElement.Attributes("BaseUriId").FirstOrDefault().Value);
 
+            // Retrieve Request Content before request is submitted to API
             XElement requestContent = apiTestElement.Elements(XmlNamespace + "RequestContent").FirstOrDefault();
+            
             string request = string.Empty;
             string requestFormatted = string.Empty;
 
-            if (requestContent != null) 
-            { 
+            if (requestContent != null) { 
                 request = requestContent.Value;
                 requestFormatted = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""); // Removing New Lines before sent to API
             }
 
+            // Create API Test Case Object
             APITestCase apiTest = new APITestCase() { 
                 CurrentEndpoint = string.Format("{0}{1}", ClientState.BaseURI, uri),
                 HttpVerb = httpMethod
             };
            
+            // Retrieve Expected Response
             string expectedResponse = apiTestElement.Elements(XmlNamespace + "ExpectedResponse").FirstOrDefault().Value;
             string expectedResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(expectedResponse, ""); // remove new lines and whitespace before comparing with actual response
 
@@ -179,18 +216,19 @@ namespace StudyAdminAPITester
             {
                 TotalFailed += 1;
                 resultsListBox.Items.Add(new ListBoxItem(Color.Red, String.Format("   ApiTest: {0} FAILED", apiTestId)));
-                this.FailedTestLists.Add(string.Format("Test: {1}", suite, apiTestId));
+                this.FailedTestLists.Add(string.Format("Test: {0} (Suite: {1})", apiTestId, suite));
             }
 
             // format request and expected response for log
             string requestFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, Environment.NewLine); // add new lines for readability purposes for log
             string expectedResponseFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(expectedResponse, Environment.NewLine); // add new lines for readability purposes for log
-
-            UpdateLog(suite, log, apiTestId, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
+            
+            // Update Log
+            UpdateLog(suite, apiTestId, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
 
         }
 
-        public void UpdateLog(string suiteId, StringBuilder log, string apiTestId, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
+        public void UpdateLog(string suiteId, string apiTestId, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
         {
             log.Append(string.Format("Test : {0}{1}", apiTestId, Environment.NewLine));
             log.Append(string.Format("Suite : {0}{1}", suiteId, Environment.NewLine));
@@ -225,6 +263,10 @@ namespace StudyAdminAPITester
 
             var TestSuiteQuery = from a in doc.Root.Descendants(dns + "TestSuite")
                                  select a;
+
+            this.log.Append("Test Results:");
+            this.log.Append(Environment.NewLine);
+            this.log.Append(Environment.NewLine);
 
             foreach (var ele in TestSuiteQuery)
                 await RunSuite(ele, xmlNamespace, resultsListBox);
@@ -286,8 +328,6 @@ namespace StudyAdminAPITester
                 return false;
             }
 
-
-
             XNamespace dns = xmlNamespace;
             XmlSchemaSet schemas = new XmlSchemaSet();
             schemas.Add(xmlNamespace, XmlReader.Create(new StringReader(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD)));
@@ -315,12 +355,12 @@ namespace StudyAdminAPITester
                string suiteId = ele.Attributes("id").FirstOrDefault().Value;
                string apiKeyId = ele.Attributes("apiKeyPairId").FirstOrDefault().Value;
                
+                // This verifies that apiKey exists, if it doesn't an exception will be thrown
                RetrieveAPIKeyPar(xmlNamespace, doc, apiKeyId);
                
+               importListBox.Items.Add(String.Format("Test Suite: {0}", suiteId));
 
-                importListBox.Items.Add(String.Format("Test Suite: {0}", suiteId));
-
-                var apiTestsQuery = from b in ele.Elements(dns + "ApiTest")
+               var apiTestsQuery = from b in ele.Elements(dns + "ApiTest")
                                       select b;
 
                 foreach (var t in apiTestsQuery)
@@ -331,6 +371,7 @@ namespace StudyAdminAPITester
                     string httpMethod = t.Attributes("HttpMethod").FirstOrDefault().Value;
                     string baseUriId = t.Attributes("BaseUriId").FirstOrDefault().Value;
 
+                    // This verifies that apiTestid exists, if it doesn't an exception will be thrown
                     RetrieveBaseURI(xmlNamespace, doc, baseUriId);
 
                     importListBox.Items.Add(string.Format("   ApiTest: {0} ({1} {2})", apiTestId, httpMethod, uri));

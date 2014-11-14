@@ -617,7 +617,7 @@
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 256);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 242);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
             // 
@@ -630,6 +630,7 @@
             // 
             // toolStripMenuItemClearBatch
             // 
+            this.toolStripMenuItemClearBatch.Image = global::StudyAdminAPITester.Properties.Resources.cell_clear;
             this.toolStripMenuItemClearBatch.Name = "toolStripMenuItemClearBatch";
             this.toolStripMenuItemClearBatch.Size = new System.Drawing.Size(124, 22);
             this.toolStripMenuItemClearBatch.Text = "Clear Log";
@@ -657,7 +658,7 @@
             this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(373, 256);
+            this.lstBxImportTests.Size = new System.Drawing.Size(373, 242);
             this.lstBxImportTests.TabIndex = 3;
             // 
             // grpResults
