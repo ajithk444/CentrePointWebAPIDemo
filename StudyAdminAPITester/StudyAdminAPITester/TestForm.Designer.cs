@@ -558,9 +558,8 @@
             // 
             // lnkClearImport
             // 
-            this.lnkClearImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkClearImport.AutoSize = true;
-            this.lnkClearImport.Location = new System.Drawing.Point(18, 425);
+            this.lnkClearImport.Location = new System.Drawing.Point(507, 84);
             this.lnkClearImport.Name = "lnkClearImport";
             this.lnkClearImport.Size = new System.Drawing.Size(76, 14);
             this.lnkClearImport.TabIndex = 32;
@@ -570,10 +569,9 @@
             // 
             // lblImportedXMLConfig
             // 
-            this.lblImportedXMLConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblImportedXMLConfig.AutoSize = true;
             this.lblImportedXMLConfig.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImportedXMLConfig.Location = new System.Drawing.Point(18, 453);
+            this.lblImportedXMLConfig.Location = new System.Drawing.Point(507, 70);
             this.lblImportedXMLConfig.Name = "lblImportedXMLConfig";
             this.lblImportedXMLConfig.Size = new System.Drawing.Size(143, 14);
             this.lblImportedXMLConfig.TabIndex = 31;
@@ -583,7 +581,7 @@
             // lblBatchStatus
             // 
             this.lblBatchStatus.AutoSize = true;
-            this.lblBatchStatus.Location = new System.Drawing.Point(407, 279);
+            this.lblBatchStatus.Location = new System.Drawing.Point(414, 96);
             this.lblBatchStatus.Name = "lblBatchStatus";
             this.lblBatchStatus.Size = new System.Drawing.Size(95, 14);
             this.lblBatchStatus.TabIndex = 30;
@@ -617,7 +615,7 @@
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 242);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 270);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
             // 
@@ -658,7 +656,7 @@
             this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(373, 242);
+            this.lstBxImportTests.Size = new System.Drawing.Size(373, 270);
             this.lstBxImportTests.TabIndex = 3;
             // 
             // grpResults
@@ -721,7 +719,7 @@
             // lnkSampeXML
             // 
             this.lnkSampeXML.AutoSize = true;
-            this.lnkSampeXML.Location = new System.Drawing.Point(195, 77);
+            this.lnkSampeXML.Location = new System.Drawing.Point(195, 84);
             this.lnkSampeXML.Name = "lnkSampeXML";
             this.lnkSampeXML.Size = new System.Drawing.Size(176, 14);
             this.lnkSampeXML.TabIndex = 6;
@@ -732,7 +730,7 @@
             // btnRunBatch
             // 
             this.btnRunBatch.Enabled = false;
-            this.btnRunBatch.Location = new System.Drawing.Point(425, 253);
+            this.btnRunBatch.Location = new System.Drawing.Point(435, 70);
             this.btnRunBatch.Name = "btnRunBatch";
             this.btnRunBatch.Size = new System.Drawing.Size(50, 23);
             this.btnRunBatch.TabIndex = 5;
@@ -743,7 +741,7 @@
             // lnkSchema
             // 
             this.lnkSchema.AutoSize = true;
-            this.lnkSchema.Location = new System.Drawing.Point(195, 63);
+            this.lnkSchema.Location = new System.Drawing.Point(195, 70);
             this.lnkSchema.Name = "lnkSchema";
             this.lnkSchema.Size = new System.Drawing.Size(106, 14);
             this.lnkSchema.TabIndex = 2;
@@ -753,7 +751,7 @@
             // 
             // btnImportBatchConfig
             // 
-            this.btnImportBatchConfig.Location = new System.Drawing.Point(21, 63);
+            this.btnImportBatchConfig.Location = new System.Drawing.Point(21, 70);
             this.btnImportBatchConfig.Name = "btnImportBatchConfig";
             this.btnImportBatchConfig.Size = new System.Drawing.Size(165, 28);
             this.btnImportBatchConfig.TabIndex = 1;
