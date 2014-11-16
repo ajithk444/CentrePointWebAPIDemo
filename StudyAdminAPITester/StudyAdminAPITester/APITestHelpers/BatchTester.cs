@@ -167,7 +167,8 @@ namespace StudyAdminAPITester
         /// <returns></returns>
         public async Task RunApiTest(String suite, XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
-            
+
+            TotalTests += 1;
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
             string uri = apiTestElement.Attributes("Uri").FirstOrDefault().Value;
             HttpMethod httpMethod = APIUtilities.GetHttpMethodFromText(apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value);
@@ -365,7 +366,6 @@ namespace StudyAdminAPITester
 
                 foreach (var t in apiTestsQuery)
                 {
-                    TotalTests += 1;
                     string apiTestId = t.Attributes("id").FirstOrDefault().Value;
                     string uri = t.Attributes("Uri").FirstOrDefault().Value;
                     string httpMethod = t.Attributes("HttpMethod").FirstOrDefault().Value;

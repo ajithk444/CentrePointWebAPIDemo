@@ -615,7 +615,7 @@
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 270);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 256);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
             // 
@@ -656,7 +656,7 @@
             this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(373, 270);
+            this.lstBxImportTests.Size = new System.Drawing.Size(373, 256);
             this.lstBxImportTests.TabIndex = 3;
             // 
             // grpResults
@@ -730,7 +730,7 @@
             // btnRunBatch
             // 
             this.btnRunBatch.Enabled = false;
-            this.btnRunBatch.Location = new System.Drawing.Point(435, 70);
+            this.btnRunBatch.Location = new System.Drawing.Point(429, 70);
             this.btnRunBatch.Name = "btnRunBatch";
             this.btnRunBatch.Size = new System.Drawing.Size(50, 23);
             this.btnRunBatch.TabIndex = 5;

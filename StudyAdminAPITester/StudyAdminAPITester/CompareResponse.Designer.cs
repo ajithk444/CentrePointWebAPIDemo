@@ -112,6 +112,7 @@
             this.Controls.Add(this.grpBoxCompare);
             this.Controls.Add(this.btnCompare);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(475, 286);
             this.Name = "CompareResponse";
             this.Text = "Compare Response";
             this.grpBoxCompare.ResumeLayout(false);

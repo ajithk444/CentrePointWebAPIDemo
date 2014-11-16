@@ -398,6 +398,7 @@ namespace StudyAdminAPITester
                     lstBxImportTests.Items.Clear();
                     btnRunBatch.Enabled = false;
                     grpResults.Visible = false;
+                    btnViewLog.Enabled = false;
                     lblImportedXMLConfig.Visible = false;
 
                     if (BatchTester.Instance.ImportBatchSuccessful(xmlNamespace, xmlStream, lstBxImportTests, out xmlDoc))
@@ -459,9 +460,17 @@ namespace StudyAdminAPITester
             btnRunBatch.Enabled = false;  
             try
             {
+
+                BatchTester.Instance.ResetBatch(); // Reset Test Counters (Pass, Fail, Total)
+                BatchTester.Instance.log.Clear();  // Clear Log
+                lstBxBatchResults.Items.Clear();   // Clear Batch Results List Box
+                
                 lblBatchStatus.Text = "Running Tests...";
                 lblBatchStatus.Visible = true;
-                lnkClearImport.Enabled = false;
+                lnkClearImport.Enabled = false; // Disable 'Clear Import' link
+                btnViewLog.Enabled = false; // Disable 'View Log' button
+                grpResults.Visible = false; // Hide Results Group Box
+
                 await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
 
                 grpResults.Visible = true;
