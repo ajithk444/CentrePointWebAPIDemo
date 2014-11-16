@@ -1,6 +1,6 @@
 This repository contains a C# implementation of the Study Admin API tester applicaiton. The application targets the .NET
 Framework version 4.5 and utilizes Microsoft's Windows Forms technology. The graphical user interface allows users to easily
-test requests and responses against our Study Admin API. 
+test requests and responses against the Study Admin API. 
 
 Study Admin API Documentation
 ==========================
