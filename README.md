@@ -17,7 +17,10 @@ To run this tool in "single test" mode you will need to obtain an API key value 
 When a request is formulated, the user will click the "Send Request" button to submit the request to the api. The user
 will be able to view the http response along with the status code in the response log.
 
+![phase one](https://cloud.githubusercontent.com/assets/9215408/5082997/efcad69e-6eb2-11e4-9f4c-0d7ed81ebc65.png)
 
 * Batch Mode
 
 To run this tool in "batch mode", you will have to import a Batch Config XML File. This XML file will specify the specific tests along with the expected http status codes and response for each test. The tool will contain a sample XML batch config along with the XML Schema that validates the XML.
+
+![phase two](https://cloud.githubusercontent.com/assets/9215408/5083003/f377a2b8-6eb2-11e4-85bf-664282b8a333.png)
