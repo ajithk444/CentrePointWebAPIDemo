@@ -49,7 +49,6 @@
             this.lblStatusCode = new System.Windows.Forms.Label();
             this.grpBxRequest = new System.Windows.Forms.GroupBox();
             this.cbHttpMethod = new System.Windows.Forms.ComboBox();
-            this.lblUriRequired = new System.Windows.Forms.Label();
             this.txtBxURI = new System.Windows.Forms.TextBox();
             this.txtBxRequest = new System.Windows.Forms.TextBox();
             this.grpBxResponse = new System.Windows.Forms.GroupBox();
@@ -87,7 +86,8 @@
             this.btnRunBatch = new System.Windows.Forms.Button();
             this.lnkSchema = new System.Windows.Forms.LinkLabel();
             this.btnImportBatchConfig = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblBatchInstructions = new System.Windows.Forms.Label();
+            this.lblBaseURIRequired = new System.Windows.Forms.Label();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -241,6 +241,7 @@
             // 
             // grpBxBaseURI
             // 
+            this.grpBxBaseURI.Controls.Add(this.lblBaseURIRequired);
             this.grpBxBaseURI.Controls.Add(this.txtBaseURI);
             this.grpBxBaseURI.Location = new System.Drawing.Point(9, 12);
             this.grpBxBaseURI.Name = "grpBxBaseURI";
@@ -275,7 +276,6 @@
             this.grpBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpBxRequest.Controls.Add(this.cbHttpMethod);
-            this.grpBxRequest.Controls.Add(this.lblUriRequired);
             this.grpBxRequest.Controls.Add(this.txtBxURI);
             this.grpBxRequest.Location = new System.Drawing.Point(9, 104);
             this.grpBxRequest.Name = "grpBxRequest";
@@ -292,17 +292,6 @@
             this.cbHttpMethod.Name = "cbHttpMethod";
             this.cbHttpMethod.Size = new System.Drawing.Size(80, 22);
             this.cbHttpMethod.TabIndex = 36;
-            // 
-            // lblUriRequired
-            // 
-            this.lblUriRequired.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lblUriRequired.AutoSize = true;
-            this.lblUriRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUriRequired.ForeColor = System.Drawing.Color.Red;
-            this.lblUriRequired.Location = new System.Drawing.Point(850, 17);
-            this.lblUriRequired.Name = "lblUriRequired";
-            this.lblUriRequired.Size = new System.Drawing.Size(0, 25);
-            this.lblUriRequired.TabIndex = 35;
             // 
             // txtBxURI
             // 
@@ -547,7 +536,7 @@
             this.tabPageBatchForm.Controls.Add(this.btnRunBatch);
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
-            this.tabPageBatchForm.Controls.Add(this.label1);
+            this.tabPageBatchForm.Controls.Add(this.lblBatchInstructions);
             this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
@@ -615,7 +604,7 @@
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 256);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 242);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
             // 
@@ -656,7 +645,7 @@
             this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(373, 256);
+            this.lstBxImportTests.Size = new System.Drawing.Size(373, 242);
             this.lstBxImportTests.TabIndex = 3;
             // 
             // grpResults
@@ -759,16 +748,27 @@
             this.btnImportBatchConfig.UseVisualStyleBackColor = true;
             this.btnImportBatchConfig.Click += new System.EventHandler(this.btnImportConfig_Click);
             // 
-            // label1
+            // lblBatchInstructions
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Meiryo UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(18, 18);
-            this.label1.MaximumSize = new System.Drawing.Size(855, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(846, 42);
-            this.label1.TabIndex = 0;
-            this.label1.Text = resources.GetString("label1.Text");
+            this.lblBatchInstructions.AutoSize = true;
+            this.lblBatchInstructions.Font = new System.Drawing.Font("Meiryo UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBatchInstructions.Location = new System.Drawing.Point(18, 18);
+            this.lblBatchInstructions.MaximumSize = new System.Drawing.Size(855, 0);
+            this.lblBatchInstructions.Name = "lblBatchInstructions";
+            this.lblBatchInstructions.Size = new System.Drawing.Size(846, 42);
+            this.lblBatchInstructions.TabIndex = 0;
+            this.lblBatchInstructions.Text = resources.GetString("lblBatchInstructions.Text");
+            // 
+            // lblBaseURIRequired
+            // 
+            this.lblBaseURIRequired.AutoSize = true;
+            this.lblBaseURIRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBaseURIRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblBaseURIRequired.Location = new System.Drawing.Point(396, 16);
+            this.lblBaseURIRequired.Name = "lblBaseURIRequired";
+            this.lblBaseURIRequired.Size = new System.Drawing.Size(20, 25);
+            this.lblBaseURIRequired.TabIndex = 20;
+            this.lblBaseURIRequired.Text = "*";
             // 
             // TestForm
             // 
@@ -832,7 +832,6 @@
         private System.Windows.Forms.Label lblStatusCode;
         private System.Windows.Forms.Button btnCompareResponse;
         private System.Windows.Forms.GroupBox grpBxRequest;
-        private System.Windows.Forms.Label lblUriRequired;
         private System.Windows.Forms.TextBox txtBxURI;
         private System.Windows.Forms.TextBox txtBxRequest;
         private System.Windows.Forms.Button btnExecute;
@@ -853,7 +852,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageSingleTest;
         private System.Windows.Forms.TabPage tabPageBatchForm;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblBatchInstructions;
         private System.Windows.Forms.Button btnImportBatchConfig;
         private System.Windows.Forms.LinkLabel lnkSchema;
         private System.Windows.Forms.Button btnRunBatch;
@@ -878,6 +877,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatch;
         private System.Windows.Forms.LinkLabel lnkClearImport;
         private System.Windows.Forms.TextBox txtBaseURI;
+        private System.Windows.Forms.Label lblBaseURIRequired;
         //private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatchLog;
 
         

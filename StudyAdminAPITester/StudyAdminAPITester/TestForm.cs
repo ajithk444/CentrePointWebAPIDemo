@@ -59,6 +59,7 @@ namespace StudyAdminAPITester
             lblAccessKeyRequired.Text = string.Empty;
             lblSecretKeyRequired.Text = string.Empty;
             lblError.Text = string.Empty;
+            lblBaseURIRequired.Text = string.Empty;
 
             // Populate Built-In Tests Combo Box
             List<string> testCases = (from i in BuiltInTestCaseRepo.Instance.TestCases
@@ -67,7 +68,6 @@ namespace StudyAdminAPITester
             cBBuiltInTests.DataSource = testCases;
 
             // Setting Help LInk
-            linkLabelHelp.Links.Add(new LinkLabel.Link());
             linkLabelHelp.Click += (o, e) => { Process.Start("https://github.com/actigraph/StudyAdminAPIDocumentation"); };
 
             // Set defaults for access and secret keys
@@ -288,9 +288,9 @@ namespace StudyAdminAPITester
                 sbLog.Clear();
                 lblStatusCode.Text = string.Empty;
                 lblError.Text = string.Empty;
-                lblUriRequired.Text = string.Empty;
                 lblAccessKeyRequired.Text = string.Empty;
                 lblSecretKeyRequired.Text = string.Empty;
+                lblBaseURIRequired.Text = string.Empty;
             };
 
             toolStripMenuItemSaveLog.Click += (obj, sender) =>
@@ -350,7 +350,7 @@ namespace StudyAdminAPITester
 
             lblAccessKeyRequired.Text = string.Empty;
             lblSecretKeyRequired.Text = string.Empty;
-            lblUriRequired.Text = string.Empty;
+            lblBaseURIRequired.Text = string.Empty;
 
             if (String.IsNullOrEmpty(txtBxAccessKey.Text) || txtBxAccessKey.Text.Equals(defaultAccessKeyText))
             {
@@ -364,9 +364,9 @@ namespace StudyAdminAPITester
                 isValid = false;
             }
 
-            if (String.IsNullOrEmpty(txtBxURI.Text))
+            if (String.IsNullOrEmpty(txtBaseURI.Text))
             {
-                lblUriRequired.Text = "*";
+                lblBaseURIRequired.Text = "*";
                 isValid = false;
             }
 
