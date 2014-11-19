@@ -20,11 +20,9 @@ namespace StudyAdminAPITester
         public static BuiltInTestCaseRepo Instance {
             get {
                 
-                if (_instance == null) 
-                {
+                if (_instance == null)  
                     _instance = new BuiltInTestCaseRepo();
-                }
-
+             
                 return _instance;
             }
         }
@@ -48,6 +46,7 @@ namespace StudyAdminAPITester
         {
 
             string defaultSubjectID = "594";
+            string defaultSiteId = "33";
             string defaultInBed = "2014-05-27T16:40:00";
             string defaultOutBed = "2014-05-28T02:28:00";
             string defaultDay = "2014-05-27";
@@ -57,8 +56,8 @@ namespace StudyAdminAPITester
             {
                 // Subject Endpoints
                new GetSubjectTest("GetSubject", defaultSubjectID),
-               new AddSubjectTest("AddSubject"), 
-               new EditSubjectTest("EditSubject", defaultSubjectID),
+               new AddSubjectTest("AddSubject",defaultSiteId), 
+               new EditSubjectTest("EditSubject", defaultSubjectID, defaultSiteId),
                new GetSubjectStatsTest("GetSubjectStats", defaultSubjectID),
                new GetSubjectDayStatsTest("GetSubjectDayStats", defaultSubjectID),
                new GetSubjectDayMinutesTest("GetSubjectDayMinutes", defaultSubjectID,   defaultDay),

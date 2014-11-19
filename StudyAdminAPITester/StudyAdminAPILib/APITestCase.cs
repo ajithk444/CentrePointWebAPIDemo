@@ -15,14 +15,14 @@ using System.Net.Http.Headers;
 namespace StudyAdminAPILib
 {
 
-    public class APITestCase : IAPITestCase
+    public class APITestCase
     {
 
         public string Name { get; set; }
         public String CurrentEndpoint { get; set; }
         public String DefaultResourceURI { get; set; }
-        public string UriFormat {get; set; }
-        public APIJsonDTO dto;
+        protected string UriFormat {get; set; }
+        protected APIJsonDTO dto;
         public HttpStatusCode responseStatusCode;
         public HttpMethod HttpVerb { get; set; }
 
@@ -56,23 +56,19 @@ namespace StudyAdminAPILib
     }
 
     #region SubjectEndpoints
-    public class GetSubjectTest : APITestCase, IAPITestCase
+    public class GetSubjectTest : APITestCase
     {
-
         public GetSubjectTest(string name, string subjectId) 
         {
             this.UriFormat = "{0}/v1/subjects/{1}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}", subjectId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
         }
-
     }
 
-    public class GetSubjectStatsTest : APITestCase, IAPITestCase
+    public class GetSubjectStatsTest : APITestCase
     {
-
         public GetSubjectStatsTest(string name, string subjectId)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/stats";
@@ -81,125 +77,96 @@ namespace StudyAdminAPILib
             this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
             this.HttpVerb = HttpMethod.Get;
         }
-
     }
 
-    public class GetSubjectDayStatsTest : APITestCase, IAPITestCase
+    public class GetSubjectDayStatsTest : APITestCase
     {
-
         public GetSubjectDayStatsTest(string name, string subjectId)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/daystats";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/daystats", subjectId);
             this.Name = name;
-            this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
-      
+            this.HttpVerb = HttpMethod.Get;      
         }
-
     }
 
-    public class GetSubjectDayMinutesTest : APITestCase, IAPITestCase
+    public class GetSubjectDayMinutesTest : APITestCase
     {
-
         public GetSubjectDayMinutesTest(string name, string subjectID, string day)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/dayminutes/{2}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/dayminutes/{1}", subjectID, day);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectID, day);
-
         }
-
     }
 
-    public class GetSubjectSleepEpochsTest : APITestCase, IAPITestCase
+    public class GetSubjectSleepEpochsTest : APITestCase
     {
-
         public GetSubjectSleepEpochsTest(string name, string subjectId, string inBed, string outBed)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/sleepepochs?inbed={2}&outbed={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/sleepepochs?inbed={1}&outbed={2}", subjectId, inBed, outBed);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, inBed, outBed);
         }
-
     }
 
-    public class GetSubjectSleepScoreTest : APITestCase, IAPITestCase
+    public class GetSubjectSleepScoreTest : APITestCase
     {
-
         public GetSubjectSleepScoreTest(string name, string subjectId, string inBed, string outBed)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/sleepscore?inbed={2}&outbed={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/sleepscore?inbed={1}&outbed={2}", subjectId, inBed, outBed);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, inBed, outBed);
-
         }
-
-
     }
 
-    public class GetSubjectBoutsTest : APITestCase, IAPITestCase
+    public class GetSubjectBoutsTest : APITestCase
     {
-
         public GetSubjectBoutsTest(string name, string subjectId, string start, string stop)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/bouts?start={2}&stop={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/bouts?start={1}&stop={2}", subjectId, start, stop);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, start, stop);
         }
-
     }
 
-    public class GetSubjectBedTimesTest : APITestCase, IAPITestCase
+    public class GetSubjectBedTimesTest : APITestCase
     {
-
         public GetSubjectBedTimesTest(string name, string subjectId, string start, string stop)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/bedtimes?start={2}&stop={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/bedtimes?start={1}&stop={2}", subjectId, start, stop);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId, start, stop);
-
         }
-
     }
 
-    public class GetSubjectWeightHistoryTest : APITestCase, IAPITestCase
+    public class GetSubjectWeightHistoryTest : APITestCase
     {
-
         public GetSubjectWeightHistoryTest(string name, string subjectId)
         {
             this.UriFormat = "{0}/v1/subjects/{1}/weighthistory";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/weighthistory", subjectId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
         }
-
     }
 
-    public class AddSubjectTest : APITestCase, IAPITestCase
+    public class AddSubjectTest : APITestCase
     {
-
-        public AddSubjectTest(string name)
+        public AddSubjectTest(string name, string siteId)
         {
             this.UriFormat = "{0}/v1/subjects";
             this.Name = name;
             this.HttpVerb = HttpMethod.Post;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI);
             this.DefaultResourceURI = "/v1/subjects";
             this.dto = new StudyAdminAPILib.JsonDTOs.AddSubjectDTO() {
                 Gender = "Male",
-                SiteID = "001",
+                SiteID = siteId,
                 SubjectIdentifier = "000008",
                 WearPosition = "Left Wrist",
                 WeightLbs = "185.00",
@@ -209,20 +176,18 @@ namespace StudyAdminAPILib
 
     }
 
-    public class EditSubjectTest : APITestCase, IAPITestCase
+    public class EditSubjectTest : APITestCase
     {
-
-        public EditSubjectTest(string name, string subjectid)
+        public EditSubjectTest(string name, string subjectid, string stieId)
         {
             this.UriFormat = "{0}/v1/subjects";
             this.Name = name;
             this.HttpVerb = HttpMethod.Put;
             this.DefaultResourceURI = "/v1/subjects";
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectid);
             this.dto = new StudyAdminAPILib.JsonDTOs.UpdateSubjectDTO() {
                 SubjectId = subjectid,
                 Gender = "Male",
-                SiteID = "001",
+                SiteID = stieId,
                 SubjectIdentifier = "000055",
                 WearPosition = "Left Wrist",
                 WeightLbs = "185.00",
@@ -234,7 +199,7 @@ namespace StudyAdminAPILib
     #endregion
 
     #region SiteEndpoints
-    public class GetSitesTest : APITestCase, IAPITestCase
+    public class GetSitesTest : APITestCase
     {
 
         public GetSitesTest(string name)
@@ -243,14 +208,13 @@ namespace StudyAdminAPILib
             this.DefaultResourceURI = "/v1/sites";
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI);
         }
 
     }       
     #endregion
 
     #region StudyEndpoints
-    public class GetStudyTest : APITestCase, IAPITestCase
+    public class GetStudyTest : APITestCase
     {
         public GetStudyTest(string name, string studyId)
         {
@@ -258,12 +222,11 @@ namespace StudyAdminAPILib
             this.DefaultResourceURI = string.Format("/v1/studies/{0}",studyId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, studyId);
         }
 
     }
 
-    public class GetStudiesTest : APITestCase, IAPITestCase
+    public class GetStudiesTest : APITestCase
     {
         public GetStudiesTest(string name)
         {
@@ -271,12 +234,11 @@ namespace StudyAdminAPILib
             this.DefaultResourceURI = "/v1/studies";
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI);
         }
 
     }
 
-    public class GetStudySubjectsTest : APITestCase, IAPITestCase
+    public class GetStudySubjectsTest : APITestCase
     {
         public GetStudySubjectsTest(string name, string studyId)
         {
@@ -284,7 +246,6 @@ namespace StudyAdminAPILib
             this.DefaultResourceURI = string.Format("/v1/studies/{0}/subjects", studyId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, studyId);
         }
 
     }
