@@ -12,6 +12,12 @@ using Newtonsoft.Json;
 
 namespace StudyAdminAPILib
 {
+    public class SendHttpRequestResult
+    {
+        public HttpRequestMessage request {get; set;}
+        public HttpResponseMessage response {get; set;}
+    }
+
     public class APIUtilities
     {
 
@@ -68,8 +74,7 @@ namespace StudyAdminAPILib
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
         }
 
-
-        public static async Task<HttpResponseMessage> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson)
+        public static async Task<SendHttpRequestResult> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson)
         {
 
             // Generate HttpClient   
@@ -79,33 +84,37 @@ namespace StudyAdminAPILib
              };
 
              // Generate HttpRequestMessage
-             HttpRequestMessage request = new HttpRequestMessage(httpVerb, resourceEndpoint);
+             HttpRequestMessage httpRequest = new HttpRequestMessage(httpVerb, resourceEndpoint);
             
             try
             {   
                 // If post or get request, serialize Data Transfer Object
                 if (httpVerb.Equals(HttpMethod.Post) || httpVerb.Equals(HttpMethod.Put))
                 {
-                    request.Content = new StringContent(requestJson, Encoding.UTF8);
-                    request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                    httpRequest.Content = new StringContent(requestJson, Encoding.UTF8);
+                    httpRequest.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
                 }
 
                 // Build Auth Header
-                APIUtilities.BuildAuthHeader(ref request);
-                ClientState.AuthenticationHeaderValue = request.Headers.Authorization;
+                APIUtilities.BuildAuthHeader(ref httpRequest);
                 
-                return await client.SendAsync(request);
+                HttpResponseMessage httpResponse = await client.SendAsync(httpRequest);
+
+                return new SendHttpRequestResult()
+                {
+                     request = httpRequest,
+                     response = httpResponse
+                };
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
             finally
             {
-                request.Dispose();
+                httpRequest.Dispose();
                 client.Dispose();
             }
-
         }
 
     }

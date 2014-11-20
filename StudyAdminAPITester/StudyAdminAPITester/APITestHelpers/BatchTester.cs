@@ -24,6 +24,7 @@ namespace StudyAdminAPITester
         public int TotalFailed { get; set; }
         private List<String> FailedTestLists { get; set; }
         public StringBuilder log { get; set; }
+        public bool BatchRunning { get; set; }
 
         private static BatchTester _batchTester = new BatchTester();
         private XDocument xmlConfig;
@@ -31,6 +32,7 @@ namespace StudyAdminAPITester
         private BatchTester() { 
             FailedTestLists = new List<String>();
             log = new StringBuilder();
+            BatchRunning = false;
         }
 
 
@@ -157,6 +159,7 @@ namespace StudyAdminAPITester
                 await RunApiTest(suiteId, t, XmlNamespace, resultsListBox);       
         }
 
+
         /// <summary>
         /// Parses and runns ApiTest XElement
         /// </summary>
@@ -167,13 +170,15 @@ namespace StudyAdminAPITester
         /// <returns></returns>
         public async Task RunApiTest(String suite, XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
-
+            // Increment counter for Total number of tests (this will be shown when batch is complete)
             TotalTests += 1;
+
+            // Retrieve XML Attributes for ApiTest XElement
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
             string uri = apiTestElement.Attributes("Uri").FirstOrDefault().Value;
             HttpMethod httpMethod = APIUtilities.GetHttpMethodFromText(apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value);
             
-            // Set Base URI in ClinetState object
+            // Set Base URI in ClinetState object from querying XElement
             ClientState.BaseURI = RetrieveBaseURI(XmlNamespace, this.xmlConfig, apiTestElement.Attributes("BaseUriId").FirstOrDefault().Value);
 
             // Retrieve Request Content before request is submitted to API
@@ -188,11 +193,12 @@ namespace StudyAdminAPITester
             }
 
             // Create API Test Case Object
-            APITestCase apiTest = new APITestCase() { 
+            APITestCase apiTest = new APITestCase()
+            {
                 CurrentEndpoint = string.Format("{0}{1}", ClientState.BaseURI, uri),
                 HttpVerb = httpMethod
             };
-           
+
             // Retrieve Expected Response
             string expectedResponse = apiTestElement.Elements(XmlNamespace + "ExpectedResponse").FirstOrDefault().Value;
             string expectedResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(expectedResponse, ""); // remove new lines and whitespace before comparing with actual response
@@ -200,18 +206,20 @@ namespace StudyAdminAPITester
             HttpStatusCode expectedStatusCode = ((HttpStatusCode)(Convert.ToInt32(apiTestElement.Elements(XmlNamespace + "ExpectedStatusCode").FirstOrDefault().Value)));
 
             DateTime requestTime = DateTime.Now;
-
+            
             string actualResponse = await apiTest.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""));
             string actualResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(actualResponse, ""); // remove new lines and whitespace before comparing with expected response
-            
-            HttpStatusCode actualStatusCode = apiTest.responseStatusCode;
+
+            DateTime responseTime = DateTime.Now;
+
+            HttpStatusCode actualStatusCode = apiTest.response.StatusCode;
 
             bool testPassed = (actualStatusCode.Equals(expectedStatusCode) && actualResponseFormatted.Equals(expectedResponseFormatted));
 
             if (testPassed)
             {
                 TotalPassed += 1;
-                resultsListBox.Items.Add(new ListBoxItem( Color.Green, String.Format("   ApiTest: {0} PASSED", apiTestId)));
+                resultsListBox.Items.Add(new ListBoxItem(Color.Green, String.Format("   ApiTest: {0} PASSED", apiTestId)));
             }
             else
             {
@@ -223,13 +231,14 @@ namespace StudyAdminAPITester
             // format request and expected response for log
             string requestFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, Environment.NewLine); // add new lines for readability purposes for log
             string expectedResponseFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(expectedResponse, Environment.NewLine); // add new lines for readability purposes for log
-            
+
             // Update Log
-            UpdateLog(suite, apiTestId, testPassed, requestTime, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse);
+            UpdateLog(suite, apiTestId, testPassed, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse, requestTime, responseTime);
 
         }
 
-        public void UpdateLog(string suiteId, string apiTestId, bool hasPassed, DateTime requestTime, APITestCase apiTestCase, string request, HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse)
+        public void UpdateLog(string suiteId, string apiTestId, bool hasPassed, APITestCase apiTestCase, string request, 
+            HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse, DateTime requestTime, DateTime responseTime)
         {
             log.Append(string.Format("Test : {0}{1}", apiTestId, Environment.NewLine));
             log.Append(string.Format("Suite : {0}{1}", suiteId, Environment.NewLine));
@@ -237,14 +246,15 @@ namespace StudyAdminAPITester
             log.Append(string.Format("REQUEST:{0}", Environment.NewLine));
             log.Append(string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
             log.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
-            log.Append(string.Format("Authorization: {0}{1}", ClientState.AuthenticationHeaderValue.ToString(), Environment.NewLine));
+            log.Append(string.Format("Time: {0}ms{1}", ((TimeSpan)(responseTime - requestTime)).Milliseconds, Environment.NewLine));
+            log.Append(string.Format("Authorization: {0}{1}", apiTestCase.request.Headers.Authorization.ToString(), Environment.NewLine));
             log.Append(string.Format("Content:{0}", request));
             log.Append(Environment.NewLine);
             log.Append(Environment.NewLine);
             log.Append(String.Format("EXPECTED RESPONSE: {0} {1}", (int)expectedStatusCode, expectedStatusCode.ToString()));
             log.Append(expectedResponse);
             log.Append(Environment.NewLine);
-            log.Append(String.Format("ACTUAL RESPONSE: {0} {1}", (int)apiTestCase.responseStatusCode, apiTestCase.responseStatusCode.ToString()));
+            log.Append(String.Format("ACTUAL RESPONSE: {0} {1}", (int)apiTestCase.response.StatusCode, apiTestCase.response.StatusCode.ToString()));
             log.Append(Environment.NewLine);
             log.Append(actualResponse);
             log.Append(Environment.NewLine);

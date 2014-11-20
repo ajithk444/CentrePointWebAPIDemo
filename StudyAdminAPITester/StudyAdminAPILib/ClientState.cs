@@ -59,19 +59,6 @@ namespace StudyAdminAPILib
             }
         }
 
-        private static AuthenticationHeaderValue _httpAuth;
-        public static AuthenticationHeaderValue AuthenticationHeaderValue 
-        {
-            get
-            {
-                 return _httpAuth;
-            }
-            set
-            {
-                _httpAuth = value;
-            }
-        }
-
         private static string _removeNewLineRegEx = "(\r\n|\r|\n)";
         public static String RemoveNewLineRegEx
         {

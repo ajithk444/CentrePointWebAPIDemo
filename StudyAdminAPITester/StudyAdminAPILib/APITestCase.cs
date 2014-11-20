@@ -23,18 +23,21 @@ namespace StudyAdminAPILib
         public String DefaultResourceURI { get; set; }
         protected string UriFormat {get; set; }
         protected APIJsonDTO dto;
-        public HttpStatusCode responseStatusCode;
+        public HttpRequestMessage request {get; set;}
+        public HttpResponseMessage response {get; set; }
         public HttpMethod HttpVerb { get; set; }
 
 
         public async Task<string> Run(string requestJson)
         {
-            HttpResponseMessage response = await APIUtilities.SendRequestAsync(
+
+            SendHttpRequestResult result = await APIUtilities.SendRequestAsync(
                 this.CurrentEndpoint,
                 this.HttpVerb,
                 requestJson);
 
-            this.responseStatusCode = response.StatusCode;
+            this.request = result.request;
+            this.response = result.response;
 
             return await response.Content.ReadAsStringAsync();
         }
@@ -52,7 +55,6 @@ namespace StudyAdminAPILib
             return JsonConvert.SerializeObject(this.dto, jsonFormatter); 
 
         }
-
     }
 
     #region SubjectEndpoints

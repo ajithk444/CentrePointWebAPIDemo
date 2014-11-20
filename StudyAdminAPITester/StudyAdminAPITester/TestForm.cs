@@ -101,8 +101,8 @@ namespace StudyAdminAPITester
                     txtBxRequest.Enabled = false;
                 }
 
-                btnExecute.Enabled = (txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
-                        (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));
+                btnExecute.Enabled = (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+                               (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
             };
 
             // btnPopulate click action for button
@@ -124,7 +124,7 @@ namespace StudyAdminAPITester
 
                     if (((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))
                     {
-                        btnExecute.Enabled = true;
+                        btnExecute.Enabled = !BatchTester.Instance.BatchRunning;
                         txtBxRequest.Enabled = false;
                         txtBxRequest.Clear();
                     }
@@ -150,15 +150,15 @@ namespace StudyAdminAPITester
 
             txtBxRequest.TextChanged += (o, e) =>
             {
-                btnExecute.Enabled = (txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
-                           (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));
+                btnExecute.Enabled =  (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+                           (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
 
             };
 
             txtBxURI.TextChanged += (o, e) =>
             {
-                btnExecute.Enabled = (txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
-                    (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get));
+                btnExecute.Enabled = (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+                    (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
             };
 
             int previousSplitterDisatnace = splitContainerRequest.SplitterDistance;
@@ -182,7 +182,9 @@ namespace StudyAdminAPITester
                 APITestCase apiTest = null;
                 string jsonResponse = string.Empty;
                 string jsonRequestRaw = txtBxRequest.Text;
-                DateTime requestTime = DateTime.Now;
+                DateTime requestTime;
+                DateTime responseTime;
+
 
                 try
                 {
@@ -206,18 +208,21 @@ namespace StudyAdminAPITester
                     apiTest.CurrentEndpoint = string.Format("{0}{1}", ClientState.BaseURI, txtBxURI.Text);
                     apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
 
-                    // Request Message Time Stamp
-                    requestTime = DateTime.Now;
-
                     // Hide "Waiting For Response..." label
                     lblStatus.Text = "Waiting For Response...";
                     lblStatus.Visible = true;
 
                     // disable send request button while text is running
                     btnExecute.Enabled = false;
+                    
+                    // Set Request Timestamp
+                    requestTime = DateTime.Now;
 
                     // await for async method to finish
                     jsonResponse = await apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
+
+                    // Set Response Timestamp
+                    responseTime = DateTime.Now;
 
                     // Set last Json response for tool
                     lastJsonResponse = jsonResponse;
@@ -232,7 +237,7 @@ namespace StudyAdminAPITester
                     btnCompareResponse.Enabled = true;
 
                     // Update Response Status Code     
-                    if (apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.responseStatusCode.Equals(System.Net.HttpStatusCode.Created))
+                    if (apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.Created))
                     {
                         lblStatusCode.ForeColor = Color.Green;
                         lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
@@ -244,15 +249,16 @@ namespace StudyAdminAPITester
                     }
 
                     lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
-                    lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}", (int)apiTest.responseStatusCode, (string)apiTest.responseStatusCode.ToString());
+                    lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}", 
+                                                    (int)apiTest.response.StatusCode, (string)apiTest.response.StatusCode.ToString());
 
                     // Update Log
                     lblStatus.Text = "Updating Response Log...";
                     lblStatus.Visible = true;
                     this.Refresh();
 
-                    InsertResposneToLog(jsonResponse, apiTest.responseStatusCode);
-                    InsertRequestToLog(apiTest.HttpVerb, apiTest.CurrentEndpoint, jsonRequestRaw, requestTime);
+                    InsertResposneToLog(jsonResponse, apiTest.response.StatusCode);
+                    InsertRequestToLog(apiTest, jsonRequestRaw, requestTime, responseTime);
 
                     txtBxResponse.Text = await Task.Run(() => {
                        return sbLog.ToString();
@@ -315,12 +321,13 @@ namespace StudyAdminAPITester
         }
 
 
-        private void InsertRequestToLog( HttpMethod requestVerb, string uri, String jsonRequest, DateTime requestTime)
+        private void InsertRequestToLog( APITestCase apiTestCase, String jsonRequest, DateTime requestTime, DateTime responseTime)
         {
             sbLog.Insert(0, string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
-            sbLog.Insert(0, string.Format("Authorization: {0}{1}", ClientState.AuthenticationHeaderValue.ToString(), Environment.NewLine));
+            sbLog.Insert(0, string.Format("Time: {0}ms{1}", (responseTime - requestTime).Milliseconds, Environment.NewLine));
+            sbLog.Insert(0, string.Format("Authorization: {0}{1}", apiTestCase.request.Headers.Authorization.ToString(), Environment.NewLine));
             sbLog.Insert(0, string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
-            sbLog.Insert(0, string.Format("{0}  {1}{2}", requestVerb.ToString(), uri, Environment.NewLine));
+            sbLog.Insert(0, string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
             sbLog.Insert(0, string.Format("REQUEST:{0}", Environment.NewLine));
         }
 
@@ -468,13 +475,20 @@ namespace StudyAdminAPITester
                 lblBatchStatus.Text = "Running Tests...";
                 lblBatchStatus.Visible = true;
                 lnkClearImport.Enabled = false; // Disable 'Clear Import' link
+                btnImportBatchConfig.Enabled = false; // Disable Import
                 btnViewLog.Enabled = false; // Disable 'View Log' button
                 grpResults.Visible = false; // Hide Results Group Box
+                
+                btnExecute.Enabled = false;
+                BatchTester.Instance.BatchRunning = true;
 
                 await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
 
+                BatchTester.Instance.BatchRunning = false;
                 grpResults.Visible = true;
                 btnViewLog.Enabled = true;
+                btnImportBatchConfig.Enabled = true;
+                btnExecute.Enabled = true;
                 lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
                 lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
                 lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalTests;  
@@ -488,9 +502,12 @@ namespace StudyAdminAPITester
             }
             finally
             {
+                btnExecute.Enabled = true;
                 lnkClearImport.Enabled = true;
                 lblBatchStatus.Visible = false;
-                btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null; 
+                btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null;
+                btnImportBatchConfig.Enabled = true;
+                BatchTester.Instance.BatchRunning = false;
             }
         }
 
