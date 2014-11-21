@@ -45,6 +45,7 @@
             this.txtBxSecretKey = new System.Windows.Forms.TextBox();
             this.lblSecretKeyRequired = new System.Windows.Forms.Label();
             this.grpBxBaseURI = new System.Windows.Forms.GroupBox();
+            this.lblBaseURIRequired = new System.Windows.Forms.Label();
             this.txtBaseURI = new System.Windows.Forms.TextBox();
             this.lblStatusCode = new System.Windows.Forms.Label();
             this.grpBxRequest = new System.Windows.Forms.GroupBox();
@@ -62,7 +63,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSingleTest = new System.Windows.Forms.TabPage();
             this.splitContainerRequest = new System.Windows.Forms.SplitContainer();
-            this.btnExecute = new System.Windows.Forms.Button();
+            this.btnSendRequest = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
             this.grpBxContent = new System.Windows.Forms.GroupBox();
             this.lblError = new System.Windows.Forms.Label();
@@ -87,7 +88,6 @@
             this.lnkSchema = new System.Windows.Forms.LinkLabel();
             this.btnImportBatchConfig = new System.Windows.Forms.Button();
             this.lblBatchInstructions = new System.Windows.Forms.Label();
-            this.lblBaseURIRequired = new System.Windows.Forms.Label();
             this.grpBxBuiltInTests.SuspendLayout();
             this.grpBxAccessKey.SuspendLayout();
             this.grpBxSecretKey.SuspendLayout();
@@ -249,6 +249,17 @@
             this.grpBxBaseURI.TabIndex = 28;
             this.grpBxBaseURI.TabStop = false;
             this.grpBxBaseURI.Text = "Base URI";
+            // 
+            // lblBaseURIRequired
+            // 
+            this.lblBaseURIRequired.AutoSize = true;
+            this.lblBaseURIRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBaseURIRequired.ForeColor = System.Drawing.Color.Red;
+            this.lblBaseURIRequired.Location = new System.Drawing.Point(396, 16);
+            this.lblBaseURIRequired.Name = "lblBaseURIRequired";
+            this.lblBaseURIRequired.Size = new System.Drawing.Size(20, 25);
+            this.lblBaseURIRequired.TabIndex = 20;
+            this.lblBaseURIRequired.Text = "*";
             // 
             // txtBaseURI
             // 
@@ -444,7 +455,7 @@
             // splitContainerRequest.Panel1
             // 
             this.splitContainerRequest.Panel1.Controls.Add(this.grpBxBaseURI);
-            this.splitContainerRequest.Panel1.Controls.Add(this.btnExecute);
+            this.splitContainerRequest.Panel1.Controls.Add(this.btnSendRequest);
             this.splitContainerRequest.Panel1.Controls.Add(this.lblStatus);
             this.splitContainerRequest.Panel1.Controls.Add(this.linkLabelHelp);
             this.splitContainerRequest.Panel1.Controls.Add(this.grpBxAccessKey);
@@ -463,17 +474,17 @@
             this.splitContainerRequest.SplitterDistance = 286;
             this.splitContainerRequest.TabIndex = 39;
             // 
-            // btnExecute
+            // btnSendRequest
             // 
-            this.btnExecute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnExecute.Image = global::StudyAdminAPITester.Properties.Resources.mail;
-            this.btnExecute.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExecute.Location = new System.Drawing.Point(362, 248);
-            this.btnExecute.Name = "btnExecute";
-            this.btnExecute.Size = new System.Drawing.Size(156, 23);
-            this.btnExecute.TabIndex = 12;
-            this.btnExecute.Text = "   Send Request";
-            this.btnExecute.UseVisualStyleBackColor = true;
+            this.btnSendRequest.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnSendRequest.Image = global::StudyAdminAPITester.Properties.Resources.mail;
+            this.btnSendRequest.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSendRequest.Location = new System.Drawing.Point(362, 248);
+            this.btnSendRequest.Name = "btnSendRequest";
+            this.btnSendRequest.Size = new System.Drawing.Size(156, 23);
+            this.btnSendRequest.TabIndex = 12;
+            this.btnSendRequest.Text = "   Send Request";
+            this.btnSendRequest.UseVisualStyleBackColor = true;
             // 
             // lblStatus
             // 
@@ -537,10 +548,10 @@
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
             this.tabPageBatchForm.Controls.Add(this.lblBatchInstructions);
-            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
+            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 22);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 496);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 497);
             this.tabPageBatchForm.TabIndex = 1;
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
@@ -585,7 +596,7 @@
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
             this.groupBox2.Location = new System.Drawing.Point(504, 113);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(387, 303);
+            this.groupBox2.Size = new System.Drawing.Size(387, 304);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -630,7 +641,7 @@
             this.groupBox1.Controls.Add(this.lstBxImportTests);
             this.groupBox1.Location = new System.Drawing.Point(21, 113);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(385, 303);
+            this.groupBox1.Size = new System.Drawing.Size(385, 304);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Imported Tests";
@@ -654,7 +665,7 @@
             this.grpResults.Controls.Add(this.lblTestsPassed);
             this.grpResults.Controls.Add(this.lblTestsFailed);
             this.grpResults.Controls.Add(this.lblTotalTests);
-            this.grpResults.Location = new System.Drawing.Point(508, 422);
+            this.grpResults.Location = new System.Drawing.Point(508, 423);
             this.grpResults.Name = "grpResults";
             this.grpResults.Size = new System.Drawing.Size(123, 66);
             this.grpResults.TabIndex = 13;
@@ -697,7 +708,7 @@
             // 
             this.btnViewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnViewLog.Enabled = false;
-            this.btnViewLog.Location = new System.Drawing.Point(784, 430);
+            this.btnViewLog.Location = new System.Drawing.Point(784, 431);
             this.btnViewLog.Name = "btnViewLog";
             this.btnViewLog.Size = new System.Drawing.Size(75, 23);
             this.btnViewLog.TabIndex = 12;
@@ -758,17 +769,6 @@
             this.lblBatchInstructions.Size = new System.Drawing.Size(846, 42);
             this.lblBatchInstructions.TabIndex = 0;
             this.lblBatchInstructions.Text = resources.GetString("lblBatchInstructions.Text");
-            // 
-            // lblBaseURIRequired
-            // 
-            this.lblBaseURIRequired.AutoSize = true;
-            this.lblBaseURIRequired.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBaseURIRequired.ForeColor = System.Drawing.Color.Red;
-            this.lblBaseURIRequired.Location = new System.Drawing.Point(396, 16);
-            this.lblBaseURIRequired.Name = "lblBaseURIRequired";
-            this.lblBaseURIRequired.Size = new System.Drawing.Size(20, 25);
-            this.lblBaseURIRequired.TabIndex = 20;
-            this.lblBaseURIRequired.Text = "*";
             // 
             // TestForm
             // 
@@ -834,7 +834,7 @@
         private System.Windows.Forms.GroupBox grpBxRequest;
         private System.Windows.Forms.TextBox txtBxURI;
         private System.Windows.Forms.TextBox txtBxRequest;
-        private System.Windows.Forms.Button btnExecute;
+        private System.Windows.Forms.Button btnSendRequest;
         private System.Windows.Forms.GroupBox grpBxResponse;
         private System.Windows.Forms.TextBox txtBxResponse;
         private System.Windows.Forms.Label lblResponseRequired;

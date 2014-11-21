@@ -54,7 +54,7 @@ namespace StudyAdminAPITester
             txtBxRequest.Enabled = false;
 
             lblStatusCode.Text = string.Empty;
-            btnExecute.Enabled = false;
+            btnSendRequest.Enabled = false;
             lblError.Text = string.Empty;
             lblAccessKeyRequired.Text = string.Empty;
             lblSecretKeyRequired.Text = string.Empty;
@@ -101,8 +101,7 @@ namespace StudyAdminAPITester
                     txtBxRequest.Enabled = false;
                 }
 
-                btnExecute.Enabled = (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
-                               (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
+                btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
             };
 
             // btnPopulate click action for button
@@ -124,7 +123,7 @@ namespace StudyAdminAPITester
 
                     if (((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))
                     {
-                        btnExecute.Enabled = !BatchTester.Instance.BatchRunning;
+                        btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
                         txtBxRequest.Enabled = false;
                         txtBxRequest.Clear();
                     }
@@ -150,15 +149,12 @@ namespace StudyAdminAPITester
 
             txtBxRequest.TextChanged += (o, e) =>
             {
-                btnExecute.Enabled =  (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
-                           (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
-
+                btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
             };
 
             txtBxURI.TextChanged += (o, e) =>
             {
-                btnExecute.Enabled = (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
-                    (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
+                btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
             };
 
             int previousSplitterDisatnace = splitContainerRequest.SplitterDistance;
@@ -176,7 +172,7 @@ namespace StudyAdminAPITester
 
 
             // setting click action for execute button
-            btnExecute.Click += async (o, e) =>
+            btnSendRequest.Click += async (o, e) =>
             {
 
                 APITestCase apiTest = null;
@@ -184,7 +180,6 @@ namespace StudyAdminAPITester
                 string jsonRequestRaw = txtBxRequest.Text;
                 DateTime requestTime;
                 DateTime responseTime;
-
 
                 try
                 {
@@ -213,7 +208,7 @@ namespace StudyAdminAPITester
                     lblStatus.Visible = true;
 
                     // disable send request button while text is running
-                    btnExecute.Enabled = false;
+                    btnSendRequest.Enabled = false;
                     
                     // Set Request Timestamp
                     requestTime = DateTime.Now;
@@ -228,7 +223,7 @@ namespace StudyAdminAPITester
                     lastJsonResponse = jsonResponse;
 
                     // re-enable send request button after request is complete
-                    btnExecute.Enabled = true;
+                    btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
 
                     // Hide status label
                     lblStatus.Visible = false;
@@ -281,7 +276,7 @@ namespace StudyAdminAPITester
                 }
                 finally
                 {
-                    btnExecute.Enabled = true;
+                    btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
                     lblStatus.Visible = false;
                 }
             };
@@ -423,6 +418,13 @@ namespace StudyAdminAPITester
              }
         }
 
+        private bool ShouldSendRequestButtonBeEnabled {
+            get {
+                return (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+                               (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
+            }
+        }
+
         /// <summary>
         /// Opens XML Schema Document
         /// </summary>
@@ -479,7 +481,7 @@ namespace StudyAdminAPITester
                 btnViewLog.Enabled = false; // Disable 'View Log' button
                 grpResults.Visible = false; // Hide Results Group Box
                 
-                btnExecute.Enabled = false;
+                btnSendRequest.Enabled = false;
                 BatchTester.Instance.BatchRunning = true;
 
                 await BatchTester.Instance.RunBatch(xmlNamespace, lstBxBatchResults);
@@ -488,7 +490,7 @@ namespace StudyAdminAPITester
                 grpResults.Visible = true;
                 btnViewLog.Enabled = true;
                 btnImportBatchConfig.Enabled = true;
-                btnExecute.Enabled = true;
+                btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
                 lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
                 lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
                 lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalTests;  
@@ -502,7 +504,7 @@ namespace StudyAdminAPITester
             }
             finally
             {
-                btnExecute.Enabled = true;
+                btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
                 lnkClearImport.Enabled = true;
                 lblBatchStatus.Visible = false;
                 btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null;
