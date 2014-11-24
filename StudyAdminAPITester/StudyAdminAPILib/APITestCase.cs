@@ -28,13 +28,14 @@ namespace StudyAdminAPILib
         public HttpMethod HttpVerb { get; set; }
 
 
-        public async Task<string> Run(string requestJson)
+        public async Task<string> Run(string requestJson, bool includeDateHeader = true)
         {
 
             SendHttpRequestResult result = await APIUtilities.SendRequestAsync(
                 this.CurrentEndpoint,
                 this.HttpVerb,
-                requestJson);
+                requestJson,
+                includeDateHeader);
 
             this.request = result.request;
             this.response = result.response;

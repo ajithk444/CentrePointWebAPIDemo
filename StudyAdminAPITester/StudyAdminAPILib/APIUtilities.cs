@@ -47,12 +47,10 @@ namespace StudyAdminAPILib
             if (request.Content != null && request.Content.Headers.ContentType != null)
                 type = request.Content.Headers.ContentType.MediaType;
 
-            if (!request.Headers.Date.HasValue) throw new Exception("");
-
             var stringToSign = request.Method + "\n" +
                 md5 + "\n" +
                 type + "\n" +
-                request.Headers.Date.Value.ToString("s") + "Z\n" +
+                (request.Headers.Date.HasValue ? request.Headers.Date.Value.ToString("s") + "Z\n" : "\n") +
                 request.RequestUri.ToString();
 
             return HMACSHA256Base64(secret, stringToSign);
@@ -67,14 +65,16 @@ namespace StudyAdminAPILib
         /// The method builds the authentication header
         /// </summary>
         /// <param name="requestMessage"></param>
-        public static void BuildAuthHeader(ref HttpRequestMessage requestMessage)
+        public static void BuildAuthHeader(ref HttpRequestMessage requestMessage, bool includeDateInHeader)
         {
-            requestMessage.Headers.Date = DateTime.UtcNow;
+            // this is only done for testing purposes, A date should always be included in the HTTP Header.
+            if (includeDateInHeader) requestMessage.Headers.Date = DateTime.UtcNow;
+            
             var signature = Sign(requestMessage, ClientState.SecretKey);
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("AGS", string.Format("{0}:{1}", ClientState.AccessKey, signature));
         }
 
-        public static async Task<SendHttpRequestResult> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson)
+        public static async Task<SendHttpRequestResult> SendRequestAsync(string resourceEndpoint, HttpMethod httpVerb, String requestJson, bool includeDateInHeader)
         {
 
             // Generate HttpClient   
@@ -96,7 +96,7 @@ namespace StudyAdminAPILib
                 }
 
                 // Build Auth Header
-                APIUtilities.BuildAuthHeader(ref httpRequest);
+                APIUtilities.BuildAuthHeader(ref httpRequest, includeDateInHeader);
                 
                 HttpResponseMessage httpResponse = await client.SendAsync(httpRequest);
 

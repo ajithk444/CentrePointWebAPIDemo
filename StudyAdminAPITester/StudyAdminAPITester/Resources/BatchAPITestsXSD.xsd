@@ -106,6 +106,7 @@
                         </xs:attribute>
                         <xs:attribute name="HttpMethod" type="tns:HttpVerb" use="required" />
                         <xs:attribute name="BaseUriId" type="xs:string" use="required" />
+                        <xs:attribute name="IncludeDateInHeader" type="xs:boolean" />
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>

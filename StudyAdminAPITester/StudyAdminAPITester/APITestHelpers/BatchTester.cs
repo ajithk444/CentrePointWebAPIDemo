@@ -177,6 +177,11 @@ namespace StudyAdminAPITester
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
             string uri = apiTestElement.Attributes("Uri").FirstOrDefault().Value;
             HttpMethod httpMethod = APIUtilities.GetHttpMethodFromText(apiTestElement.Attributes("HttpMethod").FirstOrDefault().Value);
+
+            bool includeDateInHttpHeader = true;
+            XAttribute includeDateInHeader = apiTestElement.Attributes("IncludeDateInHeader").FirstOrDefault();
+            if (includeDateInHeader != null) includeDateInHttpHeader = bool.Parse(includeDateInHeader.Value);
+  
             
             // Set Base URI in ClinetState object from querying XElement
             ClientState.BaseURI = RetrieveBaseURI(XmlNamespace, this.xmlConfig, apiTestElement.Attributes("BaseUriId").FirstOrDefault().Value);
@@ -206,8 +211,8 @@ namespace StudyAdminAPITester
             HttpStatusCode expectedStatusCode = ((HttpStatusCode)(Convert.ToInt32(apiTestElement.Elements(XmlNamespace + "ExpectedStatusCode").FirstOrDefault().Value)));
 
             DateTime requestTime = DateTime.Now;
-            
-            string actualResponse = await apiTest.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""));
+
+            string actualResponse = await apiTest.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""), includeDateInHttpHeader);
             string actualResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(actualResponse, ""); // remove new lines and whitespace before comparing with expected response
 
             DateTime responseTime = DateTime.Now;
