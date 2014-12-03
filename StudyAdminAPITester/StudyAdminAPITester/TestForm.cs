@@ -434,15 +434,14 @@ namespace StudyAdminAPITester
         {
             string filename = "BatchAPITests.xsd";
 
-           using (var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
-           { 
+            using (var xmlSchema = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
+            { 
                 xmlSchema.AutoFlush = true;
                 xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXSD);
                 xmlSchema.Dispose();
-           
-                if (File.Exists(filename)) 
-                    Process.Start(filename);
-           }
+            }
+           if (File.Exists(filename))
+               Process.Start(filename);
         }
 
         /// <summary>
@@ -458,10 +457,9 @@ namespace StudyAdminAPITester
                 xmlSchema.AutoFlush = true;
                 xmlSchema.Write(StudyAdminAPITester.Properties.Resources.BatchAPITestsXML);
                 xmlSchema.Dispose();
-
-                if (File.Exists(filename))
-                    Process.Start(filename);
             }
+            if (File.Exists(filename))
+                Process.Start(filename);
         }
 
         private async void btnRunBatch_Click(object sender, EventArgs e)
@@ -533,10 +531,10 @@ namespace StudyAdminAPITester
             {
                 logStramWriter.AutoFlush = true;
                 logStramWriter.Write(BatchTester.Instance.log.ToString());
-                
-                if (File.Exists(filename))
-                    Process.Start(filename);     
             }
+
+            if (File.Exists(filename))
+                Process.Start(filename);     
             
         }
 
@@ -562,7 +560,6 @@ namespace StudyAdminAPITester
             BatchTester.Instance.ResetBatch();
             lblBatchStatus.Text = string.Empty;
             lblImportedXMLConfig.Text = string.Empty;
-    
         }
 
     }

@@ -548,10 +548,10 @@
             this.tabPageBatchForm.Controls.Add(this.lnkSchema);
             this.tabPageBatchForm.Controls.Add(this.btnImportBatchConfig);
             this.tabPageBatchForm.Controls.Add(this.lblBatchInstructions);
-            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 22);
+            this.tabPageBatchForm.Location = new System.Drawing.Point(4, 23);
             this.tabPageBatchForm.Name = "tabPageBatchForm";
             this.tabPageBatchForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 497);
+            this.tabPageBatchForm.Size = new System.Drawing.Size(904, 496);
             this.tabPageBatchForm.TabIndex = 1;
             this.tabPageBatchForm.Text = "Batch Mode";
             this.tabPageBatchForm.UseVisualStyleBackColor = true;
@@ -580,8 +580,9 @@
             // 
             // lblBatchStatus
             // 
+            this.lblBatchStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblBatchStatus.AutoSize = true;
-            this.lblBatchStatus.Location = new System.Drawing.Point(414, 96);
+            this.lblBatchStatus.Location = new System.Drawing.Point(462, 251);
             this.lblBatchStatus.Name = "lblBatchStatus";
             this.lblBatchStatus.Size = new System.Drawing.Size(95, 14);
             this.lblBatchStatus.TabIndex = 30;
@@ -594,9 +595,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.lstBxBatchResults);
-            this.groupBox2.Location = new System.Drawing.Point(504, 113);
+            this.groupBox2.Location = new System.Drawing.Point(21, 276);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(387, 304);
+            this.groupBox2.Size = new System.Drawing.Size(875, 150);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Results";
@@ -615,7 +616,7 @@
             this.lstBxBatchResults.Name = "lstBxBatchResults";
             this.lstBxBatchResults.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lstBxBatchResults.ScrollAlwaysVisible = true;
-            this.lstBxBatchResults.Size = new System.Drawing.Size(375, 242);
+            this.lstBxBatchResults.Size = new System.Drawing.Size(863, 116);
             this.lstBxBatchResults.TabIndex = 4;
             this.lstBxBatchResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstBxBatchResults_DrawItem);
             // 
@@ -636,36 +637,36 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.lstBxImportTests);
-            this.groupBox1.Location = new System.Drawing.Point(21, 113);
+            this.groupBox1.Location = new System.Drawing.Point(21, 104);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(385, 304);
+            this.groupBox1.Size = new System.Drawing.Size(875, 137);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Imported Tests";
             // 
             // lstBxImportTests
             // 
-            this.lstBxImportTests.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lstBxImportTests.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstBxImportTests.FormattingEnabled = true;
             this.lstBxImportTests.HorizontalScrollbar = true;
             this.lstBxImportTests.ItemHeight = 14;
             this.lstBxImportTests.Location = new System.Drawing.Point(6, 20);
             this.lstBxImportTests.Name = "lstBxImportTests";
             this.lstBxImportTests.ScrollAlwaysVisible = true;
-            this.lstBxImportTests.Size = new System.Drawing.Size(373, 242);
+            this.lstBxImportTests.Size = new System.Drawing.Size(863, 102);
             this.lstBxImportTests.TabIndex = 3;
             // 
             // grpResults
             // 
-            this.grpResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.grpResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.grpResults.Controls.Add(this.lblTestsPassed);
             this.grpResults.Controls.Add(this.lblTestsFailed);
             this.grpResults.Controls.Add(this.lblTotalTests);
-            this.grpResults.Location = new System.Drawing.Point(508, 423);
+            this.grpResults.Location = new System.Drawing.Point(692, 427);
             this.grpResults.Name = "grpResults";
             this.grpResults.Size = new System.Drawing.Size(123, 66);
             this.grpResults.TabIndex = 13;
@@ -708,7 +709,7 @@
             // 
             this.btnViewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnViewLog.Enabled = false;
-            this.btnViewLog.Location = new System.Drawing.Point(784, 431);
+            this.btnViewLog.Location = new System.Drawing.Point(821, 451);
             this.btnViewLog.Name = "btnViewLog";
             this.btnViewLog.Size = new System.Drawing.Size(75, 23);
             this.btnViewLog.TabIndex = 12;
@@ -729,8 +730,9 @@
             // 
             // btnRunBatch
             // 
+            this.btnRunBatch.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnRunBatch.Enabled = false;
-            this.btnRunBatch.Location = new System.Drawing.Point(429, 70);
+            this.btnRunBatch.Location = new System.Drawing.Point(406, 247);
             this.btnRunBatch.Name = "btnRunBatch";
             this.btnRunBatch.Size = new System.Drawing.Size(50, 23);
             this.btnRunBatch.TabIndex = 5;
