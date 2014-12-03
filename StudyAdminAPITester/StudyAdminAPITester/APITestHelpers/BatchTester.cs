@@ -19,7 +19,8 @@ namespace StudyAdminAPITester
     public class BatchTester 
     {
 
-        public int TotalTests { get; set; }
+        public int TotalRunTests { get; set; }
+        public int TotalImportedTests { get; set; }
         public int TotalPassed { get; set; }
         public int TotalFailed { get; set; }
         private List<String> FailedTestLists { get; set; }
@@ -38,29 +39,26 @@ namespace StudyAdminAPITester
 
         public static BatchTester Instance
         {
-            get
-            {
+            get {
                 return _batchTester;
             }
-
         }
 
         public XDocument XmlConfig
         {
             get {
                 return xmlConfig;
-            }
-            set
-            {
+            } set {
                 xmlConfig = value;
             }
         }
 
         public void ResetBatch()
         {
-            this.TotalTests = 0;
+            this.TotalRunTests = 0;
             this.TotalPassed = 0;
             this.TotalFailed = 0;
+            this.TotalImportedTests = 0;
             FailedTestLists.Clear();
         }
 
@@ -127,7 +125,7 @@ namespace StudyAdminAPITester
 
             log.Insert(0, Environment.NewLine);
             log.Insert(0, Environment.NewLine);
-            log.Insert(0, String.Format("Total Tests: {0}", BatchTester.Instance.TotalTests) + Environment.NewLine);
+            log.Insert(0, String.Format("Total Tests: {0}", BatchTester.Instance.TotalRunTests) + Environment.NewLine);
             log.Insert(0, String.Format("Total Failed: {0}", BatchTester.Instance.TotalFailed) + Environment.NewLine);
             log.Insert(0, String.Format("Total Passed: {0}", BatchTester.Instance.TotalPassed) + Environment.NewLine);
              
@@ -161,7 +159,7 @@ namespace StudyAdminAPITester
 
 
         /// <summary>
-        /// Parses and runns ApiTest XElement
+        /// Parses and runs ApiTest XElement
         /// </summary>
         /// <param name="suite"></param>
         /// <param name="apiTestElement"></param>
@@ -171,7 +169,7 @@ namespace StudyAdminAPITester
         public async Task RunApiTest(String suite, XElement apiTestElement, XNamespace XmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
             // Increment counter for Total number of tests (this will be shown when batch is complete)
-            TotalTests += 1;
+            TotalRunTests += 1;
 
             // Retrieve XML Attributes for ApiTest XElement
             string apiTestId = apiTestElement.Attributes("id").FirstOrDefault().Value;
@@ -242,6 +240,19 @@ namespace StudyAdminAPITester
 
         }
 
+        /// <summary>
+        /// Updates Log with Api Test result
+        /// </summary>
+        /// <param name="suiteId"></param>
+        /// <param name="apiTestId"></param>
+        /// <param name="hasPassed"></param>
+        /// <param name="apiTestCase"></param>
+        /// <param name="request"></param>
+        /// <param name="expectedStatusCode"></param>
+        /// <param name="expectedResponse"></param>
+        /// <param name="actualResponse"></param>
+        /// <param name="requestTime"></param>
+        /// <param name="responseTime"></param>
         public void UpdateLog(string suiteId, string apiTestId, bool hasPassed, APITestCase apiTestCase, string request, 
             HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse, DateTime requestTime, DateTime responseTime)
         {
@@ -272,6 +283,12 @@ namespace StudyAdminAPITester
             log.Append(Environment.NewLine);
         }
 
+        /// <summary>
+        /// Runs Api Tests
+        /// </summary>
+        /// <param name="xmlNamespace"></param>
+        /// <param name="resultsListBox"></param>
+        /// <returns></returns>
         public async Task RunBatch(String xmlNamespace, System.Windows.Forms.ListBox resultsListBox)
         {
             var doc = this.xmlConfig;
@@ -381,6 +398,7 @@ namespace StudyAdminAPITester
 
                 foreach (var t in apiTestsQuery)
                 {
+                    TotalImportedTests += 1;
                     string apiTestId = t.Attributes("id").FirstOrDefault().Value;
                     string uri = t.Attributes("Uri").FirstOrDefault().Value;
                     string httpMethod = t.Attributes("HttpMethod").FirstOrDefault().Value;

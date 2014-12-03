@@ -405,8 +405,15 @@ namespace StudyAdminAPITester
 
                     if (BatchTester.Instance.ImportBatchSuccessful(xmlNamespace, xmlStream, lstBxImportTests, out xmlDoc))
                     {
-                        lblImportedXMLConfig.Text = string.Format("Imported Batch Config: {0}", new FileInfo(openFileDialog.FileName).Name);
+                        lblImportedXMLConfig.Text = string.Format("Imported File: {0}", new FileInfo(openFileDialog.FileName).Name);
                         lblImportedXMLConfig.Visible = true;
+
+                        lblImportedTestCount.Text = string.Format("Test Count: {0}", BatchTester.Instance.TotalImportedTests );
+                        lblImportedTestCount.Visible = true;
+
+                        lnkClearImport.Visible = true;
+                        lnkClearImport.Enabled = true;
+
                         BatchTester.Instance.XmlConfig = xmlDoc;
                         btnRunBatch.Enabled = true;
                     }
@@ -478,7 +485,8 @@ namespace StudyAdminAPITester
                 btnImportBatchConfig.Enabled = false; // Disable Import
                 btnViewLog.Enabled = false; // Disable 'View Log' button
                 grpResults.Visible = false; // Hide Results Group Box
-                
+
+                toolStripMenuItemClearBatch.Enabled = false;
                 btnSendRequest.Enabled = false;
                 BatchTester.Instance.BatchRunning = true;
 
@@ -488,10 +496,11 @@ namespace StudyAdminAPITester
                 grpResults.Visible = true;
                 btnViewLog.Enabled = true;
                 btnImportBatchConfig.Enabled = true;
+                toolStripMenuItemClearBatch.Enabled = true;
                 btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
                 lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
                 lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
-                lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalTests;  
+                lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalRunTests;  
             } 
             catch (Exception ex)
             {
@@ -502,6 +511,7 @@ namespace StudyAdminAPITester
             }
             finally
             {
+                toolStripMenuItemClearBatch.Enabled = true;
                 btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
                 lnkClearImport.Enabled = true;
                 lblBatchStatus.Visible = false;
@@ -547,7 +557,7 @@ namespace StudyAdminAPITester
             btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null; 
         }
 
-        
+
         private void lnkClearImport_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lstBxBatchResults.Items.Clear();
@@ -560,6 +570,8 @@ namespace StudyAdminAPITester
             BatchTester.Instance.ResetBatch();
             lblBatchStatus.Text = string.Empty;
             lblImportedXMLConfig.Text = string.Empty;
+            lnkClearImport.Visible = false;
+            lblImportedTestCount.Visible = false;
         }
 
     }
