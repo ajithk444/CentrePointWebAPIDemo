@@ -17,7 +17,7 @@ To run this tool in "single test" mode you will need to obtain an API key value 
 When a request is formulated, the user will click the "Send Request" button to submit the request to the api. The user
 will be able to view the http response along with the status code in the response log.
 
-![2014-11-28_12-12-39](https://cloud.githubusercontent.com/assets/9215408/5231156/46bf5e00-76f8-11e4-8e20-fdb03fe4ea2f.png)
+![2014-12-03_16-38-07](https://cloud.githubusercontent.com/assets/9215408/5290284/0fa15d4e-7b0b-11e4-8bec-d5d05998ec6a.png)
 
 
 
