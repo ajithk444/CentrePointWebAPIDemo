@@ -45,12 +45,12 @@ namespace StudyAdminAPITester
         private void InitializeTestCases()
         {
 
-            string defaultSubjectID = "594";
-            string defaultSiteId = "33";
+            string defaultSubjectID = "108";
+            string defaultSiteId = "9";
             string defaultInBed = "2014-05-27T16:40:00";
             string defaultOutBed = "2014-05-28T02:28:00";
             string defaultDay = "2014-05-27";
-            string defaultStudyId = "1";
+            string defaultStudyId = "9";
             string defaultDataFileId = "299";
 
             _testCaseList = new List<APITestCase>()
