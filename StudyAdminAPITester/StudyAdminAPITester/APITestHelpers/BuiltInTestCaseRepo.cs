@@ -51,6 +51,7 @@ namespace StudyAdminAPITester
             string defaultOutBed = "2014-05-28T02:28:00";
             string defaultDay = "2014-05-27";
             string defaultStudyId = "1";
+            string defaultDataFileId = "299";
 
             _testCaseList = new List<APITestCase>()
             {
@@ -66,6 +67,7 @@ namespace StudyAdminAPITester
                new GetSubjectBoutsTest("GetSubjectBouts", defaultSubjectID, defaultInBed,  defaultOutBed),
                new GetSubjectBedTimesTest("GetSubjectBedTimes", defaultSubjectID, defaultInBed,  defaultOutBed),
                new GetSubjectWeightHistoryTest("GetSubjectWeightHistory", defaultSubjectID),
+               new GetSubjectDataFilesTest("GetSubjectDataFiles", defaultSubjectID),
                
                // Site Endpoints
                new GetSitesTest("GetSites"),
@@ -73,7 +75,10 @@ namespace StudyAdminAPITester
                // Study Endpoints
                new GetStudiesTest("GetStudies"),
                new GetStudyTest("GetStudy",  defaultStudyId),
-               new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId)
+               new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId),
+
+               // DataFile Endpoints
+               new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId)
             };
         }
 

@@ -21,10 +21,10 @@ namespace StudyAdminAPILib
         public string Name { get; set; }
         public String CurrentEndpoint { get; set; }
         public String DefaultResourceURI { get; set; }
-        protected string UriFormat {get; set; }
+        protected string UriFormat { get; set; }
         protected APIJsonDTO dto;
-        public HttpRequestMessage request {get; set;}
-        public HttpResponseMessage response {get; set; }
+        public HttpRequestMessage request { get; set; }
+        public HttpResponseMessage response { get; set; }
         public HttpMethod HttpVerb { get; set; }
 
 
@@ -53,7 +53,7 @@ namespace StudyAdminAPILib
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             };
 
-            return JsonConvert.SerializeObject(this.dto, jsonFormatter); 
+            return JsonConvert.SerializeObject(this.dto, jsonFormatter);
 
         }
     }
@@ -61,7 +61,7 @@ namespace StudyAdminAPILib
     #region SubjectEndpoints
     public class GetSubjectTest : APITestCase
     {
-        public GetSubjectTest(string name, string subjectId) 
+        public GetSubjectTest(string name, string subjectId)
         {
             this.UriFormat = "{0}/v1/subjects/{1}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}", subjectId);
@@ -89,7 +89,7 @@ namespace StudyAdminAPILib
             this.UriFormat = "{0}/v1/subjects/{1}/daystats";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/daystats", subjectId);
             this.Name = name;
-            this.HttpVerb = HttpMethod.Get;      
+            this.HttpVerb = HttpMethod.Get;
         }
     }
 
@@ -159,6 +159,18 @@ namespace StudyAdminAPILib
         }
     }
 
+    public class GetSubjectDataFilesTest : APITestCase
+    {
+        public GetSubjectDataFilesTest(string name, string subjectId)
+        {
+            this.UriFormat = "{0}/v1/subjects/{1}/datafiles";
+            this.DefaultResourceURI = string.Format("/v1/subjects/{0}/datafiles", subjectId);
+            this.Name = name;
+            this.HttpVerb = HttpMethod.Get;
+        }
+    }
+
+
     public class AddSubjectTest : APITestCase
     {
         public AddSubjectTest(string name, string siteId)
@@ -167,7 +179,8 @@ namespace StudyAdminAPILib
             this.Name = name;
             this.HttpVerb = HttpMethod.Post;
             this.DefaultResourceURI = "/v1/subjects";
-            this.dto = new StudyAdminAPILib.JsonDTOs.AddSubjectDTO() {
+            this.dto = new StudyAdminAPILib.JsonDTOs.AddSubjectDTO()
+            {
                 Gender = "Male",
                 SiteID = siteId,
                 SubjectIdentifier = "000008",
@@ -187,7 +200,8 @@ namespace StudyAdminAPILib
             this.Name = name;
             this.HttpVerb = HttpMethod.Put;
             this.DefaultResourceURI = "/v1/subjects";
-            this.dto = new StudyAdminAPILib.JsonDTOs.UpdateSubjectDTO() {
+            this.dto = new StudyAdminAPILib.JsonDTOs.UpdateSubjectDTO()
+            {
                 SubjectId = subjectid,
                 Gender = "Male",
                 SiteID = stieId,
@@ -213,7 +227,7 @@ namespace StudyAdminAPILib
             this.HttpVerb = HttpMethod.Get;
         }
 
-    }       
+    }
     #endregion
 
     #region StudyEndpoints
@@ -222,7 +236,7 @@ namespace StudyAdminAPILib
         public GetStudyTest(string name, string studyId)
         {
             this.UriFormat = "{0}/v1/studies/{1}";
-            this.DefaultResourceURI = string.Format("/v1/studies/{0}",studyId);
+            this.DefaultResourceURI = string.Format("/v1/studies/{0}", studyId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
         }
@@ -254,6 +268,19 @@ namespace StudyAdminAPILib
     }
     #endregion StudyEndpoints
 
+    #region DataFilesEndpoints
+    
+    public class GetDataFileDownloadURLTest : APITestCase
+    {
+        public GetDataFileDownloadURLTest(string name, string dataFileId)
+        {
+            this.UriFormat = "{0}/v1/datafiles/{1}/downloadurl";
+            this.DefaultResourceURI = string.Format("/v1/datafiles/{0}/downloadurl", dataFileId);
+            this.Name = name;
+            this.HttpVerb = HttpMethod.Get;
+        }
+    }
 
+    #endregion
 
 }

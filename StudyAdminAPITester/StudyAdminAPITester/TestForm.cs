@@ -319,7 +319,7 @@ namespace StudyAdminAPITester
         private void InsertRequestToLog( APITestCase apiTestCase, String jsonRequest, DateTime requestTime, DateTime responseTime)
         {
             sbLog.Insert(0, string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
-            sbLog.Insert(0, string.Format("Time: {0}ms{1}", (responseTime - requestTime).Milliseconds, Environment.NewLine));
+            sbLog.Insert(0, string.Format("Time: {0}ms{1}", (responseTime - requestTime).TotalMilliseconds, Environment.NewLine));
             sbLog.Insert(0, string.Format("Authorization: {0}{1}", apiTestCase.request.Headers.Authorization.ToString(), Environment.NewLine));
             sbLog.Insert(0, string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
             sbLog.Insert(0, string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));

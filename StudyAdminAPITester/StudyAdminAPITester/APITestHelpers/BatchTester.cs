@@ -262,7 +262,7 @@ namespace StudyAdminAPITester
             log.Append(string.Format("REQUEST:{0}", Environment.NewLine));
             log.Append(string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
             log.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
-            log.Append(string.Format("Time: {0}ms{1}", ((TimeSpan)(responseTime - requestTime)).Milliseconds, Environment.NewLine));
+            log.Append(string.Format("Time: {0}ms{1}", ((TimeSpan)(responseTime - requestTime)).TotalMilliseconds, Environment.NewLine));
             log.Append(string.Format("Authorization: {0}{1}", apiTestCase.request.Headers.Authorization.ToString(), Environment.NewLine));
             log.Append(string.Format("Content:{0}", request));
             log.Append(Environment.NewLine);
