@@ -537,6 +537,10 @@ namespace StudyAdminAPITester
         private void btnViewLog_Click(object sender, EventArgs e)
         {
             string filename = "StudyAdminAPIBatchTestLog.txt";
+
+            // remove file if it exists
+            if (File.Exists(filename)) File.Delete(filename);
+
             using (var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
             {
                 logStramWriter.AutoFlush = true;

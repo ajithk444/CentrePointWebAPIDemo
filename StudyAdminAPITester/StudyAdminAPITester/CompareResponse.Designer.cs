@@ -54,7 +54,7 @@
             this.btnCompare.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCompare.Image = global::StudyAdminAPITester.Properties.Resources.compare;
             this.btnCompare.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCompare.Location = new System.Drawing.Point(48, 191);
+            this.btnCompare.Location = new System.Drawing.Point(56, 188);
             this.btnCompare.Name = "btnCompare";
             this.btnCompare.Size = new System.Drawing.Size(116, 31);
             this.btnCompare.TabIndex = 1;
@@ -95,7 +95,7 @@
             this.btnCancel.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.Image = global::StudyAdminAPITester.Properties.Resources.cancel_black;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(287, 191);
+            this.btnCancel.Location = new System.Drawing.Point(280, 188);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(116, 31);
             this.btnCancel.TabIndex = 3;

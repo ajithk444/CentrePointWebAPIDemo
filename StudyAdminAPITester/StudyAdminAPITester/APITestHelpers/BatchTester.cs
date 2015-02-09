@@ -219,17 +219,15 @@ namespace StudyAdminAPITester
 
             bool testPassed = (actualStatusCode.Equals(expectedStatusCode) && actualResponseFormatted.Equals(expectedResponseFormatted));
 
-            if (testPassed)
-            {
-                TotalPassed += 1;
-                resultsListBox.Items.Add(new ListBoxItem(Color.Green, String.Format("   ApiTest: {0} PASSED", apiTestId)));
-            }
+            if (testPassed)  TotalPassed += 1;
             else
             {
                 TotalFailed += 1;
-                resultsListBox.Items.Add(new ListBoxItem(Color.Red, String.Format("   ApiTest: {0} FAILED", apiTestId)));
                 this.FailedTestLists.Add(string.Format("Test: {0} (Suite: {1})", apiTestId, suite));
             }
+
+            resultsListBox.Items.Add(new ListBoxItem(testPassed ? Color.Green : Color.Red, String.Format("   ApiTest: {0} {1}", apiTestId, testPassed ? "PASSED" : "FAILED")));
+            resultsListBox.SelectedIndex = resultsListBox.Items.Count - 1;
 
             // format request and expected response for log
             string requestFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(request, Environment.NewLine); // add new lines for readability purposes for log
