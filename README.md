@@ -32,19 +32,20 @@ To run this tool in "batch mode", you will have to import a Batch Config XML Fil
 
 
 
-Connecting to Study Admin API - C# Demo
-==========================
+### Connecting to Study Admin API - C# Demo ###
 
-**Example of invoking 'Studies' Endpoint**    
 
-    string baseUri = "https://studyadmin-api.actigraphcorp.com";
-    string resourceUri = "/v1/studies";
-    string endpointUri = baseUri + resourceUri;
-    HttpResponseMessage resposne = SendRequestAsync(endpointUri, HttpMethod.Get, null).Result;
+**Example of invoking 'Studies' Endpoint** 
+   
+```c#
+string baseUri = "https://studyadmin-api.actigraphcorp.com";
+string resourceUri = "/v1/studies";
+string endpointUri = baseUri + resourceUri;
+HttpResponseMessage resposne = SendRequestAsync(endpointUri, HttpMethod.Get, null).Result;
+```
 	
 **Example of method Sending Request to Study Admin API**
 
-  	
 	public static async Task<HttpResponseMessage> SendRequestAsync(string endpointUri, HttpMethod httpVerb, string requestContentJson)
 	{
 	    // Generate HttpClient   
@@ -70,7 +71,7 @@ Connecting to Study Admin API - C# Demo
 	        
 			// return response from API 
 	        return await client.SendAsync(httpRequest);
-
+	
 		}
 	    catch (Exception)
 	    {
