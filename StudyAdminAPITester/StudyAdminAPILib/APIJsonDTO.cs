@@ -60,6 +60,44 @@ namespace StudyAdminAPILib.JsonDTOs
 
     }
 
+
+	public class AddSiteDTO : APIJsonDTO
+	{
+		[JsonProperty(Required = Required.Default)]
+		public String StudyId;
+
+		[JsonProperty(Required = Required.Default)]
+		public String SiteName;
+
+		[JsonProperty(Required = Required.Default)]
+		public String SiteIdentifier;
+
+		[JsonProperty(Required = Required.Default)]
+		public String Location;
+
+		[JsonProperty(Required = Required.Default)]
+		public String Description;
+
+		[JsonProperty(Required = Required.Default)]
+		public String Timezone;
+
+		[JsonProperty(Required = Required.Default)]
+		public String DateFormat;
+
+		[JsonProperty(Required = Required.Default)]
+		public String AllowWeight;
+
+		[JsonProperty(Required = Required.Default)]
+		public String AllowGender;
+
+		[JsonProperty(Required = Required.Default)]
+		public String AllowDOB;
+
+		[JsonProperty(Required = Required.Default)]
+		public String PreferredWeightUnits;
+	}
+
+
     #endregion
 
 }

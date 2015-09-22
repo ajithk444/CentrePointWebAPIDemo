@@ -71,6 +71,7 @@ namespace StudyAdminAPITester
                
                // Site Endpoints
                new GetSitesTest("GetSites"),
+			   new AddSiteTest("AddSite"),
 
                // Study Endpoints
                new GetStudiesTest("GetStudies"),

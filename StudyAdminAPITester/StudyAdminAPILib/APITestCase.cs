@@ -216,6 +216,31 @@ namespace StudyAdminAPILib
     #endregion
 
     #region SiteEndpoints
+	public class AddSiteTest : APITestCase
+	{
+		public AddSiteTest(string name)
+		{
+			this.UriFormat = "{0}/v1/sites";
+			this.DefaultResourceURI = "/v1/sites";
+			this.Name = name;
+			this.HttpVerb = HttpMethod.Post;
+			this.dto = new StudyAdminAPILib.JsonDTOs.AddSiteDTO()
+			{
+				StudyId = "8",
+				SiteName = "Site1",
+				SiteIdentifier = "001",
+				AllowDOB = "false",
+				AllowGender = "false",
+				AllowWeight = "false",
+				DateFormat = "m/d/yyyy",
+				PreferredWeightUnits = "Pounds",
+				Timezone = "(GMT)",
+				Location = "Pensacola, Florida",
+				Description = "This is Site 1 (Site Identifier: 001)"
+			};
+		}
+	}
+
     public class GetSitesTest : APITestCase
     {
 

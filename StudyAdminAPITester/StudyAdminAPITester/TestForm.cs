@@ -30,6 +30,7 @@ namespace StudyAdminAPITester
         private String defaultAccessKeyText;
         private String defaultSecretKeyText;
         private String xmlNamespace = "http://www.w3schools.com";
+		private bool multipleRequestsRunning = false;
         
         public TestForm()
         {
@@ -41,6 +42,8 @@ namespace StudyAdminAPITester
             //Show as many decimals as we need to for the version (ie: 2.0 instead of 2.0.0.0)
             this.Text += " v" + current.ToString(current.Revision != 0 ? 4 : current.Build != 0 ? 3 : 2);
 
+			lblRequestCount.Visible = false;
+			txtBxRequestCount.Visible = false;
 
             // Add items to Base URI combo box
             ClientState.BaseURI = "https://studyadmin-api-dev.actigraphcorp.com"; // defaults to dev
@@ -147,6 +150,21 @@ namespace StudyAdminAPITester
                 compareResponse.ShowDialog();
             };
 
+			txtBxAccessKey.TextChanged += (o, e) =>
+			{
+				btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
+			};
+
+			txtBxSecretKey.TextChanged += (o, e) =>
+			{
+				btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
+			};
+
+			txtBaseURI.TextChanged += (o, e) =>
+			{
+				btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
+			};
+
             txtBxRequest.TextChanged += (o, e) =>
             {
                 btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
@@ -170,115 +188,38 @@ namespace StudyAdminAPITester
                 }
             };
 
+			rdBtnPerformMultipleReqTrue.CheckedChanged += (o, e) =>
+			{
+					lblRequestCount.Visible = rdBtnPerformMultipleReqTrue.Checked;
+					txtBxRequestCount.Visible = rdBtnPerformMultipleReqTrue.Checked;
+					if (txtBxRequestCount.Visible && string.IsNullOrEmpty(txtBxRequestCount.Text)) txtBxRequestCount.Text = "10000";
+			};
 
             // setting click action for execute button
             btnSendRequest.Click += async (o, e) =>
             {
 
-                APITestCase apiTest = null;
-                string jsonResponse = string.Empty;
-                string jsonRequestRaw = txtBxRequest.Text;
-                DateTime requestTime;
-                DateTime responseTime;
+				// represents the number of request to make to single endpoint
+				long totalRequestNumber = 1;
+				
+				// check for multiple requests
+				lblError.Text = "";
+				if (rdBtnPerformMultipleReqTrue.Checked) {
+					if (!long.TryParse(txtBxRequestCount.Text, out totalRequestNumber)) {
+						lblError.Text = "Request count is invalid";
+						return;
+					}
+					multipleRequestsRunning = true;
+				}
 
-                try
-                {
-                    lblStatusCode.Text = String.Empty;
-                    btnCompareResponse.Enabled = false;
+				for (int i = 0; i < totalRequestNumber; i++)
+					await SendRequest(i+1, totalRequestNumber);
 
-                    lblError.Text = string.Empty;
-                    if (!IsValidInput())
-                    {
-                        lblError.Text = "Required Fields Missing";
-                        return;
-                    }
+				multipleRequestsRunning = false;
 
-                    // Updating Client State Before Execution
-                    ClientState.BaseURI = txtBaseURI.Text;
-                    ClientState.AccessKey = txtBxAccessKey.Text;
-                    ClientState.SecretKey = txtBxSecretKey.Text;
+				// re-enable send request button after request is complete
+				btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
 
-                    // Update Endpoint
-                    apiTest = new APITestCase();
-                    apiTest.CurrentEndpoint = string.Format("{0}{1}", ClientState.BaseURI, txtBxURI.Text);
-                    apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
-
-                    // Hide "Waiting For Response..." label
-                    lblStatus.Text = "Waiting For Response...";
-                    lblStatus.Visible = true;
-
-                    // disable send request button while text is running
-                    btnSendRequest.Enabled = false;
-                    
-                    // Set Request Timestamp
-                    requestTime = DateTime.Now;
-
-                    // await for async method to finish
-                    jsonResponse = await apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
-
-                    // Set Response Timestamp
-                    responseTime = DateTime.Now;
-
-                    // Set last Json response for tool
-                    lastJsonResponse = jsonResponse;
-
-                    // re-enable send request button after request is complete
-                    btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
-
-                    // Hide status label
-                    lblStatus.Visible = false;
-
-                    // Enable Compare Button
-                    btnCompareResponse.Enabled = true;
-
-                    // Update Response Status Code     
-                    if (apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.Created))
-                    {
-                        lblStatusCode.ForeColor = Color.Green;
-                        lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
-                    }
-                    else
-                    {
-                        lblStatusCode.ForeColor = Color.Red;
-                        lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
-                    }
-
-                    lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
-                    lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}", 
-                                                    (int)apiTest.response.StatusCode, (string)apiTest.response.StatusCode.ToString());
-
-                    // Update Log
-                    lblStatus.Text = "Updating Response Log...";
-                    lblStatus.Visible = true;
-                    this.Refresh();
-
-                    InsertResposneToLog(jsonResponse, apiTest.response.StatusCode);
-                    InsertRequestToLog(apiTest, jsonRequestRaw, requestTime, responseTime);
-
-                    txtBxResponse.Text = await Task.Run(() => {
-                       return sbLog.ToString();
-                    });
-
-                    // Hide status label
-                    lblStatus.Visible = false;
-
-                    // Focus on Response text box
-                    txtBxResponse.Focus();
-
-                }
-                catch (HttpRequestException)
-                {
-                    lblError.Text = string.Format("A problem occured while sending request to {0}", apiTest.CurrentEndpoint);
-                }
-                catch (Exception) // Catch Everything else
-                {
-                    lblError.Text = "A problem has occured. Please contact the Study Admin Team."; 
-                }
-                finally
-                {
-                    btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
-                    lblStatus.Visible = false;
-                }
             };
 
             #region response right click menu
@@ -316,6 +257,106 @@ namespace StudyAdminAPITester
         }
 
 
+		private async Task SendRequest(long requestNumber, long totalRequests)
+		{
+
+			APITestCase apiTest = null;
+			string jsonResponse = string.Empty;
+			string jsonRequestRaw = txtBxRequest.Text;
+			DateTime requestTime;
+			DateTime responseTime;
+
+			try
+			{
+				// Clear Status Code label
+				lblStatusCode.Text = String.Empty;
+				btnCompareResponse.Enabled = false;
+
+				// Updating Client State Before Execution
+				ClientState.BaseURI = txtBaseURI.Text;
+				ClientState.AccessKey = txtBxAccessKey.Text;
+				ClientState.SecretKey = txtBxSecretKey.Text;
+
+				// Update Endpoint
+				apiTest = new APITestCase();
+				apiTest.CurrentEndpoint = ClientState.BaseURI + txtBxURI.Text;
+				apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
+
+				// Hide "Waiting For Response..." label
+				lblStatus.Text = "[ "+requestNumber + " / " + totalRequests+" ] Waiting For Response...";
+				lblStatus.Visible = true;
+
+				// disable send request button while text is running
+				btnSendRequest.Enabled = false;
+
+				// Set Request Timestamp
+				requestTime = DateTime.Now;
+
+				// await for async method to finish
+				jsonResponse = await apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
+
+				// Set Response Timestamp
+				responseTime = DateTime.Now;
+
+				// Set last Json response for tool
+				lastJsonResponse = jsonResponse;
+
+				// Hide status label
+				lblStatus.Visible = false;
+
+				// Enable Compare Button
+				btnCompareResponse.Enabled = true;
+
+				// Update Response Status Code     
+				if (apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.Created))
+				{
+					lblStatusCode.ForeColor = Color.Green;
+					lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
+				}
+				else
+				{
+					lblStatusCode.ForeColor = Color.Red;
+					lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.cancel_small;
+				}
+
+				lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
+				lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}",
+												(int)apiTest.response.StatusCode, (string)apiTest.response.StatusCode.ToString());
+
+				// Update Log
+				lblStatus.Text = "[ " + requestNumber + " / " + totalRequests + " ] Updating Response Log...";
+				lblStatus.Visible = true;
+				this.Refresh();
+
+				InsertResposneToLog(jsonResponse, apiTest.response.StatusCode);
+				InsertRequestToLog(apiTest, jsonRequestRaw, requestTime, responseTime);
+
+				txtBxResponse.Text = await Task.Run(() =>
+				{
+					return sbLog.ToString();
+				});
+
+				// Hide status label
+				lblStatus.Visible = false;
+
+				// Focus on Response text box
+				txtBxResponse.Focus();
+
+			}
+			catch (HttpRequestException)
+			{
+				lblError.Text = string.Format("A problem occured while sending request to {0}", apiTest.CurrentEndpoint);
+			}
+			catch (Exception) // Catch Everything else
+			{
+				lblError.Text = "A problem has occured. Please contact the Study Admin Team.";
+			}
+			finally
+			{
+				lblStatus.Visible = false;
+			}
+		}
+
         private void InsertRequestToLog( APITestCase apiTestCase, String jsonRequest, DateTime requestTime, DateTime responseTime)
         {
             sbLog.Insert(0, string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
@@ -343,36 +384,6 @@ namespace StudyAdminAPITester
             sbLog.Insert(0, String.Format("RESPONSE: {0} {1}{2}", (int)statusCode, statusCode.ToString(), Environment.NewLine));
             sbLog.Insert(0, Environment.NewLine);
             sbLog.Insert(0, Environment.NewLine);
-        }
-
-
-        private Boolean IsValidInput()
-        {
-            bool isValid = true;
-
-            lblAccessKeyRequired.Text = string.Empty;
-            lblSecretKeyRequired.Text = string.Empty;
-            lblBaseURIRequired.Text = string.Empty;
-
-            if (String.IsNullOrEmpty(txtBxAccessKey.Text) || txtBxAccessKey.Text.Equals(defaultAccessKeyText))
-            {
-                lblAccessKeyRequired.Text = "*";
-                isValid = false;
-            }
-
-            if (String.IsNullOrEmpty(txtBxSecretKey.Text) || txtBxSecretKey.Text.Equals(defaultSecretKeyText))
-            {
-                lblSecretKeyRequired.Text = "*";
-                isValid = false;
-            }
-
-            if (String.IsNullOrEmpty(txtBaseURI.Text))
-            {
-                lblBaseURIRequired.Text = "*";
-                isValid = false;
-            }
-
-            return isValid;
         }
 
         /// <summary>
@@ -427,7 +438,15 @@ namespace StudyAdminAPITester
 
         private bool ShouldSendRequestButtonBeEnabled {
             get {
-                return (!BatchTester.Instance.BatchRunning && ((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
+
+				bool batchModeNotRunning = !BatchTester.Instance.BatchRunning;
+				bool multipleRequestsNotRunning = !multipleRequestsRunning;
+				bool baseUriNotEmpty = txtBaseURI.TextLength != 0;
+				bool accessKeyNotEmpty = (txtBxAccessKey.TextLength != 0 && !txtBxAccessKey.Text.Equals(defaultAccessKeyText));
+				bool secretKeyNotEmpty = (txtBxSecretKey.TextLength != 0 && !txtBxSecretKey.Text.Equals(defaultSecretKeyText));
+
+				return (batchModeNotRunning && multipleRequestsNotRunning && baseUriNotEmpty && accessKeyNotEmpty && secretKeyNotEmpty &&
+					((txtBxURI.TextLength != 0 && ((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get)) ||
                                (txtBxURI.TextLength != 0 && txtBxRequest.TextLength != 0 && !((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))));
             }
         }
