@@ -21,7 +21,6 @@ namespace StudyAdminAPILib
         public string Name { get; set; }
         public String CurrentEndpoint { get; set; }
         public String DefaultResourceURI { get; set; }
-        protected string UriFormat { get; set; }
         protected APIJsonDTO dto;
         public HttpRequestMessage request { get; set; }
         public HttpResponseMessage response { get; set; }
@@ -63,7 +62,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectTest(string name, string subjectId)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}", subjectId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -74,10 +72,8 @@ namespace StudyAdminAPILib
     {
         public GetSubjectStatsTest(string name, string subjectId)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/stats";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/stats", subjectId);
             this.Name = name;
-            this.CurrentEndpoint = string.Format(UriFormat, ClientState.BaseURI, subjectId);
             this.HttpVerb = HttpMethod.Get;
         }
     }
@@ -86,7 +82,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectDayStatsTest(string name, string subjectId)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/daystats";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/daystats", subjectId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -97,7 +92,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectDayMinutesTest(string name, string subjectID, string day)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/dayminutes/{2}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/dayminutes/{1}", subjectID, day);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -108,7 +102,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectSleepEpochsTest(string name, string subjectId, string inBed, string outBed)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/sleepepochs?inbed={2}&outbed={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/sleepepochs?inbed={1}&outbed={2}", subjectId, inBed, outBed);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -119,7 +112,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectSleepScoreTest(string name, string subjectId, string inBed, string outBed)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/sleepscore?inbed={2}&outbed={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/sleepscore?inbed={1}&outbed={2}", subjectId, inBed, outBed);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -130,7 +122,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectBoutsTest(string name, string subjectId, string start, string stop)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/bouts?start={2}&stop={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/bouts?start={1}&stop={2}", subjectId, start, stop);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -141,7 +132,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectBedTimesTest(string name, string subjectId, string start, string stop)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/bedtimes?start={2}&stop={3}";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/bedtimes?start={1}&stop={2}", subjectId, start, stop);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -152,7 +142,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectWeightHistoryTest(string name, string subjectId)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/weighthistory";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/weighthistory", subjectId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -163,7 +152,6 @@ namespace StudyAdminAPILib
     {
         public GetSubjectDataFilesTest(string name, string subjectId)
         {
-            this.UriFormat = "{0}/v1/subjects/{1}/datafiles";
             this.DefaultResourceURI = string.Format("/v1/subjects/{0}/datafiles", subjectId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -175,7 +163,6 @@ namespace StudyAdminAPILib
     {
         public AddSubjectTest(string name, string siteId)
         {
-            this.UriFormat = "{0}/v1/subjects";
             this.Name = name;
             this.HttpVerb = HttpMethod.Post;
             this.DefaultResourceURI = "/v1/subjects";
@@ -196,7 +183,6 @@ namespace StudyAdminAPILib
     {
         public EditSubjectTest(string name, string subjectid, string stieId)
         {
-            this.UriFormat = "{0}/v1/subjects";
             this.Name = name;
             this.HttpVerb = HttpMethod.Put;
             this.DefaultResourceURI = "/v1/subjects";
@@ -220,7 +206,6 @@ namespace StudyAdminAPILib
 	{
 		public AddSiteTest(string name)
 		{
-			this.UriFormat = "{0}/v1/sites";
 			this.DefaultResourceURI = "/v1/sites";
 			this.Name = name;
 			this.HttpVerb = HttpMethod.Post;
@@ -246,7 +231,6 @@ namespace StudyAdminAPILib
 
         public GetSitesTest(string name)
         {
-            this.UriFormat = "{0}/v1/sites";
             this.DefaultResourceURI = "/v1/sites";
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -260,7 +244,6 @@ namespace StudyAdminAPILib
     {
         public GetStudyTest(string name, string studyId)
         {
-            this.UriFormat = "{0}/v1/studies/{1}";
             this.DefaultResourceURI = string.Format("/v1/studies/{0}", studyId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -272,7 +255,6 @@ namespace StudyAdminAPILib
     {
         public GetStudiesTest(string name)
         {
-            this.UriFormat = "{0}/v1/studies";
             this.DefaultResourceURI = "/v1/studies";
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -284,7 +266,6 @@ namespace StudyAdminAPILib
     {
         public GetStudySubjectsTest(string name, string studyId)
         {
-            this.UriFormat = "{0}/v1/studies/{1}/subjects";
             this.DefaultResourceURI = string.Format("/v1/studies/{0}/subjects", studyId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
@@ -293,13 +274,22 @@ namespace StudyAdminAPILib
     }
     #endregion StudyEndpoints
 
-    #region DataFilesEndpoints
-    
+    #region UploadEndpoints
+
+	public class GetUploadTest : APITestCase
+	{
+		public GetUploadTest(string name, string uploadId)
+		{
+			this.DefaultResourceURI = string.Format("/v1/uploads/{0}", uploadId);
+			this.Name = name;
+			this.HttpVerb = HttpMethod.Get;
+		}
+	}
+
     public class GetDataFileDownloadURLTest : APITestCase
     {
         public GetDataFileDownloadURLTest(string name, string dataFileId)
         {
-            this.UriFormat = "{0}/v1/datafiles/{1}/downloadurl";
             this.DefaultResourceURI = string.Format("/v1/datafiles/{0}/downloadurl", dataFileId);
             this.Name = name;
             this.HttpVerb = HttpMethod.Get;
