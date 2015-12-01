@@ -67,7 +67,14 @@ namespace StudyAdminAPITester
             // Populate Built-In Tests Combo Box
             List<string> testCases = (from i in BuiltInTestCaseRepo.Instance.TestCases
                                       select i.Name).ToList();
-            testCases.Insert(0, "");
+			
+			
+			// Add separators in Built-in Tests dropdown
+			testCases.Insert(BuiltInTestCaseRepo.Instance.SubjectListStartIndex, "--------------- Subject Endpoints ---------------");
+			testCases.Insert(BuiltInTestCaseRepo.Instance.SitesListStartIndex + 1, "--------------- Site Endpoints ---------------");
+			testCases.Insert(BuiltInTestCaseRepo.Instance.StudiesListStartIndex + 2, "--------------- Study Endpoints ---------------");
+			testCases.Insert(BuiltInTestCaseRepo.Instance.UploadsListStartIndex + 3, "--------------- Upload Endpoints ---------------");
+			testCases.Insert(0, ""); 
             cBBuiltInTests.DataSource = testCases;
 
             // Setting Help LInk
