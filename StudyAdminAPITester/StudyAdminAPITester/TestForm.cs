@@ -36,7 +36,7 @@ namespace StudyAdminAPITester
         {
             InitializeComponent();
             sbLog = new StringBuilder();
-
+			
             System.Version current = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             //Major.Minor.Build.Revision
             //Show as many decimals as we need to for the version (ie: 2.0 instead of 2.0.0.0)

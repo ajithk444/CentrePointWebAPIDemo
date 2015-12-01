@@ -98,6 +98,54 @@ namespace StudyAdminAPILib.JsonDTOs
 	}
 
 
+	public class PostUploadDTO : APIJsonDTO
+	{
+
+		[JsonProperty(Required = Required.Default)]
+		public ActivityFiles ActivityFiles;
+
+		[JsonProperty(Required = Required.Default)]
+		public ClientDetails ClientDetails;
+
+		[JsonProperty(Required = Required.Default)]
+		public DeviceDetails DeviceDetails;
+	}
+
+	public class ActivityFiles
+	{
+        public string FileType;
+		public string DeviceData;
+	}
+
+	public class ClientDetails
+	{
+		public string SoftwareName;
+        public string SoftwareVersion;
+        public string OSVersion;
+        public string CultureName;
+        public string MachineName;
+        public string Username;
+		public string DatetimePattern;
+	}
+
+	public class DeviceDetails
+	{ 
+	    public string SerialNumber;
+        public double BatteryVoltage;
+        public double SampleRate;
+        public string DownloadedDate;
+        public string StartDate;
+        public string StopDate;
+        public string FirmwareVersion;
+        public string Mode;
+        public string WatchdogResets;
+        public string HardFaultResets;
+        public string UnexpectedResets;
+        public string HaltorErrorReason;
+        public string TimeOfDay;
+		public string State;
+	}
+
     #endregion
 
 }

@@ -266,6 +266,51 @@ namespace StudyAdminAPILib
 		}
 	}
 
+	public class PostUploadTest : APIBuiltInTestCase
+	{
+		public PostUploadTest(string name)
+		{
+			this.DefaultResourceURI = "/v1/uploads";
+			this.Name = name;
+			this.HttpVerb = HttpMethod.Post;
+			System.Version current = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+			this.dto = new StudyAdminAPILib.JsonDTOs.PostUploadDTO()
+			{
+				ActivityFiles = new ActivityFiles()
+				{
+					FileType = "EPOCH",
+					DeviceData = "",
+				},
+				ClientDetails = new ClientDetails()
+				{
+					SoftwareName = "CentrePoint API Tester",
+					SoftwareVersion = current.ToString(current.Revision != 0 ? 4 : current.Build != 0 ? 3 : 2),
+					OSVersion = System.Environment.OSVersion.VersionString,
+					CultureName = System.Globalization.CultureInfo.CurrentCulture.Name,
+					MachineName = System.Environment.MachineName,
+					Username = System.Environment.UserName,
+					DatetimePattern = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FullDateTimePattern,
+				},
+				DeviceDetails = new DeviceDetails() { 
+				 SerialNumber = "",
+				 BatteryVoltage = 0.0,
+				 SampleRate = 0.0,
+				 DownloadedDate = DateTime.UtcNow.ToString("s") + "Z",
+				 StartDate = DateTime.UtcNow.ToString("s") + "Z",
+				 StopDate = DateTime.UtcNow.ToString("s") + "Z",
+				 FirmwareVersion = "",
+				 Mode = "Active",
+				 WatchdogResets = "",
+				 HardFaultResets = "",
+				 UnexpectedResets = "",
+				 HaltorErrorReason = "",
+				 TimeOfDay = "",
+				 State = "",
+				}
+			};
+		}
+	}
+
     public class GetDataFileDownloadURLTest : APIBuiltInTestCase
     {
         public GetDataFileDownloadURLTest(string name, string dataFileId)
