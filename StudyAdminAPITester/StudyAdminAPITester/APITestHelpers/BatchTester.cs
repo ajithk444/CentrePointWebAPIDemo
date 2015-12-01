@@ -196,11 +196,7 @@ namespace StudyAdminAPITester
             }
 
             // Create API Test Case Object
-            APITestCase apiTest = new APITestCase()
-            {
-                CurrentEndpoint = string.Format("{0}{1}", ClientState.BaseURI, uri),
-                HttpVerb = httpMethod
-            };
+			APIEndpointExecuter apiTestRun = new APIEndpointExecuter(string.Format("{0}{1}", ClientState.BaseURI, uri), httpMethod);
 
             // Retrieve Expected Response
             string expectedResponse = apiTestElement.Elements(XmlNamespace + "ExpectedResponse").FirstOrDefault().Value;
@@ -210,12 +206,12 @@ namespace StudyAdminAPITester
 
             DateTime requestTime = DateTime.Now;
 
-            string actualResponse = await apiTest.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""), includeDateInHttpHeader);
-            string actualResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(actualResponse, ""); // remove new lines and whitespace before comparing with expected response
+            APIEndpointExecuterResult apiTestRunResult = await apiTestRun.Run(new Regex(ClientState.RemoveNewLineRegEx).Replace(request, ""), includeDateInHttpHeader);
+			string actualResponseFormatted = new Regex(ClientState.RemoveNewLineAndWhiteSpaceRegEx).Replace(apiTestRunResult.ResponseContent, ""); // remove new lines and whitespace before comparing with expected response
 
             DateTime responseTime = DateTime.Now;
 
-            HttpStatusCode actualStatusCode = apiTest.response.StatusCode;
+			HttpStatusCode actualStatusCode = apiTestRunResult.Response.StatusCode;
 
             bool testPassed = (actualStatusCode.Equals(expectedStatusCode) && actualResponseFormatted.Equals(expectedResponseFormatted));
 
@@ -234,7 +230,7 @@ namespace StudyAdminAPITester
             string expectedResponseFormattedWithNewLines = new Regex(ClientState.RemoveNewLineRegEx).Replace(expectedResponse, Environment.NewLine); // add new lines for readability purposes for log
 
             // Update Log
-            UpdateLog(suite, apiTestId, testPassed, apiTest, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, actualResponse, requestTime, responseTime);
+			UpdateLog(suite, apiTestId, testPassed, apiTestRun, apiTestRunResult, requestFormattedWithNewLines, expectedStatusCode, expectedResponseFormattedWithNewLines, apiTestRunResult.ResponseContent, requestTime, responseTime);
 
         }
 
@@ -244,31 +240,31 @@ namespace StudyAdminAPITester
         /// <param name="suiteId"></param>
         /// <param name="apiTestId"></param>
         /// <param name="hasPassed"></param>
-        /// <param name="apiTestCase"></param>
+        /// <param name="apiTest"></param>
         /// <param name="request"></param>
         /// <param name="expectedStatusCode"></param>
         /// <param name="expectedResponse"></param>
         /// <param name="actualResponse"></param>
         /// <param name="requestTime"></param>
         /// <param name="responseTime"></param>
-        public void UpdateLog(string suiteId, string apiTestId, bool hasPassed, APITestCase apiTestCase, string request, 
+		public void UpdateLog(string suiteId, string apiTestId, bool hasPassed, APIEndpointExecuter apiTest, APIEndpointExecuterResult apiTestResult, string request, 
             HttpStatusCode expectedStatusCode, string expectedResponse, string actualResponse, DateTime requestTime, DateTime responseTime)
         {
             log.Append(string.Format("Test : {0}{1}", apiTestId, Environment.NewLine));
             log.Append(string.Format("Suite : {0}{1}", suiteId, Environment.NewLine));
             log.Append(string.Format("Result: {0}{1}", hasPassed ? "PASSED" : "FAILED", Environment.NewLine));
             log.Append(string.Format("REQUEST:{0}", Environment.NewLine));
-            log.Append(string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
+            log.Append(string.Format("{0}  {1}{2}", apiTest._HttpVerb, apiTest._Uri, Environment.NewLine));
             log.Append(string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
             log.Append(string.Format("Time: {0}ms{1}", ((TimeSpan)(responseTime - requestTime)).TotalMilliseconds, Environment.NewLine));
-            log.Append(string.Format("Authorization: {0}{1}", apiTestCase.request.Headers.Authorization.ToString(), Environment.NewLine));
+			log.Append(string.Format("Authorization: {0}{1}", apiTestResult.Request.Headers.Authorization.ToString(), Environment.NewLine));
             log.Append(string.Format("Content:{0}", request));
             log.Append(Environment.NewLine);
             log.Append(Environment.NewLine);
             log.Append(String.Format("EXPECTED RESPONSE: {0} {1}", (int)expectedStatusCode, expectedStatusCode.ToString()));
             log.Append(expectedResponse);
             log.Append(Environment.NewLine);
-            log.Append(String.Format("ACTUAL RESPONSE: {0} {1}", (int)apiTestCase.response.StatusCode, apiTestCase.response.StatusCode.ToString()));
+			log.Append(String.Format("ACTUAL RESPONSE: {0} {1}", (int)apiTestResult.Response.StatusCode, apiTestResult.Response.StatusCode.ToString()));
             log.Append(Environment.NewLine);
             log.Append(actualResponse);
             log.Append(Environment.NewLine);

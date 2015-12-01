@@ -14,7 +14,7 @@ namespace StudyAdminAPITester
     public class BuiltInTestCaseRepo
     {
         private static BuiltInTestCaseRepo _instance = null; 
-        private List<APITestCase> _testCaseList;
+        private List<APIBuiltInTestCase> _testCaseList;
 		
 		public int SubjectListStartIndex;
 		public int SitesListStartIndex;
@@ -31,7 +31,7 @@ namespace StudyAdminAPITester
             }
         }
 
-        public  List<APITestCase> TestCases
+        public  List<APIBuiltInTestCase> TestCases
         {
             get 
             { 
@@ -60,7 +60,7 @@ namespace StudyAdminAPITester
 
 
 
-            _testCaseList = new List<APITestCase>()
+            _testCaseList = new List<APIBuiltInTestCase>()
             {
                 // Subject Endpoints
                new GetSubjectTest("GetSubject", defaultSubjectID), // index: 0 

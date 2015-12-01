@@ -121,7 +121,7 @@ namespace StudyAdminAPITester
                 lblStatusCode.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
 
-                APITestCase apiTest = (
+                APIBuiltInTestCase apiTest = (
                 from i in BuiltInTestCaseRepo.Instance.TestCases
                 where i.Name.Equals(cBBuiltInTests.Text)
                 select i).FirstOrDefault();
@@ -267,7 +267,8 @@ namespace StudyAdminAPITester
 		private async Task SendRequest(long requestNumber, long totalRequests)
 		{
 
-			APITestCase apiTest = null;
+			APIEndpointExecuter apiEndpointExecuter = null;
+			APIEndpointExecuterResult apiEndpointExecuterResult = null;
 			string jsonResponse = string.Empty;
 			string jsonRequestRaw = txtBxRequest.Text;
 			DateTime requestTime;
@@ -284,11 +285,9 @@ namespace StudyAdminAPITester
 				ClientState.AccessKey = txtBxAccessKey.Text;
 				ClientState.SecretKey = txtBxSecretKey.Text;
 
-				// Update Endpoint
-				apiTest = new APITestCase();
-				apiTest.CurrentEndpoint = ClientState.BaseURI + txtBxURI.Text;
-				apiTest.HttpVerb = (HttpMethod)cbHttpMethod.SelectedItem;
-
+				// Create Endpoint Executer
+				apiEndpointExecuter = new APIEndpointExecuter(ClientState.BaseURI + txtBxURI.Text, (HttpMethod)cbHttpMethod.SelectedItem);
+	
 				// Hide "Waiting For Response..." label
 				lblStatus.Text = "[ "+requestNumber + " / " + totalRequests+" ] Waiting For Response...";
 				lblStatus.Visible = true;
@@ -300,7 +299,8 @@ namespace StudyAdminAPITester
 				requestTime = DateTime.Now;
 
 				// await for async method to finish
-				jsonResponse = await apiTest.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
+				apiEndpointExecuterResult = await apiEndpointExecuter.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
+				jsonResponse = apiEndpointExecuterResult.ResponseContent;
 
 				// Set Response Timestamp
 				responseTime = DateTime.Now;
@@ -315,7 +315,7 @@ namespace StudyAdminAPITester
 				btnCompareResponse.Enabled = true;
 
 				// Update Response Status Code     
-				if (apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.OK) || apiTest.response.StatusCode.Equals(System.Net.HttpStatusCode.Created))
+				if (apiEndpointExecuterResult.Response.StatusCode.Equals(System.Net.HttpStatusCode.OK) || apiEndpointExecuterResult.Response.StatusCode.Equals(System.Net.HttpStatusCode.Created))
 				{
 					lblStatusCode.ForeColor = Color.Green;
 					lblStatusCode.Image = StudyAdminAPITester.Properties.Resources.check_smaller;
@@ -328,15 +328,15 @@ namespace StudyAdminAPITester
 
 				lblStatusCode.ImageAlign = ContentAlignment.MiddleLeft;
 				lblStatusCode.Text = string.Format("      HTTP Status Code {0} {1}",
-												(int)apiTest.response.StatusCode, (string)apiTest.response.StatusCode.ToString());
+												(int)apiEndpointExecuterResult.Response.StatusCode, (string)apiEndpointExecuterResult.Response.StatusCode.ToString());
 
 				// Update Log
 				lblStatus.Text = "[ " + requestNumber + " / " + totalRequests + " ] Updating Response Log...";
 				lblStatus.Visible = true;
 				this.Refresh();
 
-				InsertResposneToLog(jsonResponse, apiTest.response.StatusCode);
-				InsertRequestToLog(apiTest, jsonRequestRaw, requestTime, responseTime);
+				InsertResposneToLog(jsonResponse, apiEndpointExecuterResult.Response.StatusCode);
+				InsertRequestToLog(apiEndpointExecuter, apiEndpointExecuterResult, jsonRequestRaw, requestTime, responseTime);
 
 				txtBxResponse.Text = await Task.Run(() =>
 				{
@@ -352,7 +352,7 @@ namespace StudyAdminAPITester
 			}
 			catch (HttpRequestException)
 			{
-				lblError.Text = string.Format("A problem occured while sending request to {0}", apiTest.CurrentEndpoint);
+				lblError.Text = string.Format("A problem occured while sending request to {0}", apiEndpointExecuter._Uri);
 			}
 			catch (Exception) // Catch Everything else
 			{
@@ -364,13 +364,13 @@ namespace StudyAdminAPITester
 			}
 		}
 
-        private void InsertRequestToLog( APITestCase apiTestCase, String jsonRequest, DateTime requestTime, DateTime responseTime)
+		private void InsertRequestToLog(APIEndpointExecuter apiEndpointExecuter, APIEndpointExecuterResult apiEndpointExecuteResult, String jsonRequest, DateTime requestTime, DateTime responseTime)
         {
             sbLog.Insert(0, string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
             sbLog.Insert(0, string.Format("Time: {0}ms{1}", (responseTime - requestTime).TotalMilliseconds, Environment.NewLine));
-            sbLog.Insert(0, string.Format("Authorization: {0}{1}", apiTestCase.request.Headers.Authorization.ToString(), Environment.NewLine));
+            sbLog.Insert(0, string.Format("Authorization: {0}{1}", apiEndpointExecuteResult.Request.Headers.Authorization.ToString(), Environment.NewLine));
             sbLog.Insert(0, string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
-            sbLog.Insert(0, string.Format("{0}  {1}{2}", apiTestCase.HttpVerb, apiTestCase.CurrentEndpoint, Environment.NewLine));
+			sbLog.Insert(0, string.Format("{0}  {1}{2}", apiEndpointExecuter._HttpVerb, apiEndpointExecuter._Uri, Environment.NewLine));
             sbLog.Insert(0, string.Format("REQUEST:{0}", Environment.NewLine));
         }
 
