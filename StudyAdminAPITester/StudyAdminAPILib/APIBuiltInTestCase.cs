@@ -281,7 +281,7 @@ namespace StudyAdminAPILib
 				ActivityFiles = new List<ActivityFile>()
 				{
 					new ActivityFile() {
-						DataFormat = "DAT",
+						DataFormat = "EPOCH",
 						FileType = "EPOCH",
 						DeviceData = ""
 					}
