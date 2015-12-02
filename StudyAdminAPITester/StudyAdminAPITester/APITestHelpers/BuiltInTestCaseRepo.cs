@@ -56,7 +56,7 @@ namespace StudyAdminAPITester
             string defaultDay = "2014-05-27";
             string defaultStudyId = "9";
             string defaultDataFileId = "299";
-			string defaultUploadId = "34204";
+			string defaultUploadId = "418";
 
 
 
@@ -86,9 +86,9 @@ namespace StudyAdminAPITester
                new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId), // index: 16
 
                // Upload Endpoints
-               new GetUploadTest("GetUpload", defaultDataFileId), // index: 17
-			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId), // index: 17
-			   new PostUploadTest("PostUpload")
+               new GetUploadTest("GetUpload", defaultUploadId), // index: 17
+			   new PostUploadTest("PostUpload"),  // index: 18
+			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId)   // index: 19
             };
 
 			SubjectListStartIndex = 0;

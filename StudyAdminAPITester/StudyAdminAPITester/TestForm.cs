@@ -141,7 +141,9 @@ namespace StudyAdminAPITester
 							{
 								PostUploadTest test = ((PostUploadTest)apiTest);
 								test.SetDeviceData(activityFileBase64Encoding);
+
 								test.SetFileType(cmBxFileType.SelectedItem.ToString());
+								test.SetDataFormat(cmBxFileType.SelectedItem.ToString());
 								btnPopualte.PerformClick();
 							}
 						}
@@ -176,7 +178,8 @@ namespace StudyAdminAPITester
                     else
                     {
                         txtBxRequest.Enabled = true;
-						txtBxRequest.Text = "Loading Content...";
+						txtBxRequest.Text = "Loading Request Content...";
+						this.Refresh();
 						txtBxRequest.Text = await Task.Run(() =>
 						{
 							return apiTest.GetJsonRequestText();

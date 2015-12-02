@@ -278,10 +278,13 @@ namespace StudyAdminAPILib
 			System.Version current = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 			this.dto = new StudyAdminAPILib.JsonDTOs.PostUploadDTO()
 			{
-				ActivityFiles = new ActivityFiles()
+				ActivityFiles = new List<ActivityFile>()
 				{
-					FileType = "EPOCH",
-					DeviceData = "",
+					new ActivityFile() {
+						DataFormat = "DAT",
+						FileType = "EPOCH",
+						DeviceData = ""
+					}
 				},
 				ClientDetails = new ClientDetails()
 				{
@@ -293,14 +296,14 @@ namespace StudyAdminAPILib
 					Username = System.Environment.UserName,
 					DatetimePattern = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FullDateTimePattern,
 				},
-				DeviceDetails = new DeviceDetails() { 
-				 SerialNumber = "",
+				DeviceDetails = new DeviceDetails() {
+				 SerialNumber = "TASFAKED03238",
 				 BatteryVoltage = 0.0,
 				 SampleRate = 0.0,
 				 DownloadedDate = DateTime.UtcNow.ToString("s") + "Z",
 				 StartDate = DateTime.UtcNow.ToString("s") + "Z",
 				 StopDate = DateTime.UtcNow.ToString("s") + "Z",
-				 FirmwareVersion = "",
+				 FirmwareVersion = "1.4.0",
 				 Mode = "Active",
 				 WatchdogResets = "",
 				 HardFaultResets = "",
@@ -312,16 +315,22 @@ namespace StudyAdminAPILib
 			};
 		}
 
+		public void SetDataFormat(string format)
+		{
+			PostUploadDTO postUploadDTO = ((PostUploadDTO)this.dto);
+			postUploadDTO.ActivityFiles.FirstOrDefault().DataFormat = format;
+		}
+
 		public void SetFileType(string fileType)
 		{
 			PostUploadDTO postUploadDTO = ((PostUploadDTO)this.dto);
-			postUploadDTO.ActivityFiles.FileType = fileType;
+			postUploadDTO.ActivityFiles.FirstOrDefault().FileType = fileType;
 		}
 
 		public void SetDeviceData(string deviceDataBase64String)
 		{
 			PostUploadDTO postUploadDTO = ((PostUploadDTO)this.dto);
-			postUploadDTO.ActivityFiles.DeviceData = deviceDataBase64String;
+			postUploadDTO.ActivityFiles.FirstOrDefault().DeviceData = deviceDataBase64String;
 		}
 	}
 

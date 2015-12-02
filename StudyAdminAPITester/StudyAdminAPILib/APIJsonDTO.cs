@@ -102,7 +102,7 @@ namespace StudyAdminAPILib.JsonDTOs
 	{
 
 		[JsonProperty(Required = Required.Default)]
-		public ActivityFiles ActivityFiles;
+		public List<ActivityFile> ActivityFiles;
 
 		[JsonProperty(Required = Required.Default)]
 		public ClientDetails ClientDetails;
@@ -111,9 +111,10 @@ namespace StudyAdminAPILib.JsonDTOs
 		public DeviceDetails DeviceDetails;
 	}
 
-	public class ActivityFiles
+	public class ActivityFile
 	{
         public string FileType;
+		public string DataFormat;
 		public string DeviceData;
 	}
 
@@ -131,8 +132,8 @@ namespace StudyAdminAPILib.JsonDTOs
 	public class DeviceDetails
 	{ 
 	    public string SerialNumber;
-        public double BatteryVoltage;
-        public double SampleRate;
+		public double? BatteryVoltage;
+		public double? SampleRate;
         public string DownloadedDate;
         public string StartDate;
         public string StopDate;

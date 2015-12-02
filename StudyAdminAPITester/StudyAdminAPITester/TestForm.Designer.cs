@@ -49,9 +49,13 @@
 			this.txtBaseURI = new System.Windows.Forms.TextBox();
 			this.lblStatusCode = new System.Windows.Forms.Label();
 			this.grpBxRequest = new System.Windows.Forms.GroupBox();
-			this.txtBxRequest = new System.Windows.Forms.TextBox();
+			this.pnlActivityFile = new System.Windows.Forms.Panel();
+			this.label2 = new System.Windows.Forms.Label();
+			this.cmBxFileType = new System.Windows.Forms.ComboBox();
+			this.btnSelectActivityFile = new System.Windows.Forms.Button();
 			this.cbHttpMethod = new System.Windows.Forms.ComboBox();
 			this.txtBxURI = new System.Windows.Forms.TextBox();
+			this.txtBxRequest = new System.Windows.Forms.TextBox();
 			this.grpBxResponse = new System.Windows.Forms.GroupBox();
 			this.txtBxResponse = new System.Windows.Forms.TextBox();
 			this.contextMenuStripResponse = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -63,6 +67,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageSingleTest = new System.Windows.Forms.TabPage();
 			this.splitContainerRequest = new System.Windows.Forms.SplitContainer();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.txtBxRequestCount = new System.Windows.Forms.TextBox();
 			this.lblRequestCount = new System.Windows.Forms.Label();
 			this.lblMultipleRequests = new System.Windows.Forms.Label();
@@ -95,16 +100,12 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.lblBatchInstructions = new System.Windows.Forms.Label();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-			this.btnSelectActivityFile = new System.Windows.Forms.Button();
-			this.pnlActivityFile = new System.Windows.Forms.Panel();
-			this.cmBxFileType = new System.Windows.Forms.ComboBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.grpBxBuiltInTests.SuspendLayout();
 			this.grpBxAccessKey.SuspendLayout();
 			this.grpBxSecretKey.SuspendLayout();
 			this.grpBxBaseURI.SuspendLayout();
 			this.grpBxRequest.SuspendLayout();
+			this.pnlActivityFile.SuspendLayout();
 			this.grpBxResponse.SuspendLayout();
 			this.contextMenuStripResponse.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -115,13 +116,12 @@
 			this.splitContainerRequest.Panel1.SuspendLayout();
 			this.splitContainerRequest.Panel2.SuspendLayout();
 			this.splitContainerRequest.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.tabPageBatchForm.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.contextMenuStripBatchResults.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.grpResults.SuspendLayout();
-			this.pnlActivityFile.SuspendLayout();
-			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// BottomToolStripPanel
@@ -309,19 +309,46 @@
 			this.grpBxRequest.TabStop = false;
 			this.grpBxRequest.Text = "Request (to Study Admin API)";
 			// 
-			// txtBxRequest
+			// pnlActivityFile
 			// 
-			this.txtBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.pnlActivityFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBxRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtBxRequest.Location = new System.Drawing.Point(6, 13);
-			this.txtBxRequest.Multiline = true;
-			this.txtBxRequest.Name = "txtBxRequest";
-			this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtBxRequest.Size = new System.Drawing.Size(871, 90);
-			this.txtBxRequest.TabIndex = 3;
-			
+			this.pnlActivityFile.Controls.Add(this.label2);
+			this.pnlActivityFile.Controls.Add(this.cmBxFileType);
+			this.pnlActivityFile.Controls.Add(this.btnSelectActivityFile);
+			this.pnlActivityFile.Enabled = false;
+			this.pnlActivityFile.Location = new System.Drawing.Point(617, 12);
+			this.pnlActivityFile.Name = "pnlActivityFile";
+			this.pnlActivityFile.Size = new System.Drawing.Size(261, 29);
+			this.pnlActivityFile.TabIndex = 38;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Location = new System.Drawing.Point(5, 6);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(83, 13);
+			this.label2.TabIndex = 41;
+			this.label2.Text = "File Type/Format";
+			// 
+			// cmBxFileType
+			// 
+			this.cmBxFileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmBxFileType.FormattingEnabled = true;
+			this.cmBxFileType.Location = new System.Drawing.Point(92, 3);
+			this.cmBxFileType.Name = "cmBxFileType";
+			this.cmBxFileType.Size = new System.Drawing.Size(92, 21);
+			this.cmBxFileType.TabIndex = 40;
+			// 
+			// btnSelectActivityFile
+			// 
+			this.btnSelectActivityFile.Location = new System.Drawing.Point(190, 3);
+			this.btnSelectActivityFile.Name = "btnSelectActivityFile";
+			this.btnSelectActivityFile.Size = new System.Drawing.Size(64, 22);
+			this.btnSelectActivityFile.TabIndex = 37;
+			this.btnSelectActivityFile.Text = "Select File";
+			this.btnSelectActivityFile.UseVisualStyleBackColor = true;
 			// 
 			// cbHttpMethod
 			// 
@@ -338,8 +365,21 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.txtBxURI.Location = new System.Drawing.Point(92, 17);
 			this.txtBxURI.Name = "txtBxURI";
-			this.txtBxURI.Size = new System.Drawing.Size(557, 20);
+			this.txtBxURI.Size = new System.Drawing.Size(524, 20);
 			this.txtBxURI.TabIndex = 33;
+			// 
+			// txtBxRequest
+			// 
+			this.txtBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBxRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtBxRequest.Location = new System.Drawing.Point(6, 13);
+			this.txtBxRequest.Multiline = true;
+			this.txtBxRequest.Name = "txtBxRequest";
+			this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtBxRequest.Size = new System.Drawing.Size(871, 90);
+			this.txtBxRequest.TabIndex = 3;
 			// 
 			// grpBxResponse
 			// 
@@ -492,6 +532,19 @@
 			this.splitContainerRequest.Size = new System.Drawing.Size(898, 491);
 			this.splitContainerRequest.SplitterDistance = 294;
 			this.splitContainerRequest.TabIndex = 39;
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox3.Controls.Add(this.txtBxRequest);
+			this.groupBox3.Location = new System.Drawing.Point(9, 149);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(883, 109);
+			this.groupBox3.TabIndex = 39;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "Content";
 			// 
 			// txtBxRequestCount
 			// 
@@ -856,60 +909,6 @@
 			this.lblBatchInstructions.TabIndex = 0;
 			this.lblBatchInstructions.Text = resources.GetString("lblBatchInstructions.Text");
 			// 
-			// btnSelectActivityFile
-			// 
-			this.btnSelectActivityFile.Location = new System.Drawing.Point(143, 2);
-			this.btnSelectActivityFile.Name = "btnSelectActivityFile";
-			this.btnSelectActivityFile.Size = new System.Drawing.Size(75, 23);
-			this.btnSelectActivityFile.TabIndex = 37;
-			this.btnSelectActivityFile.Text = "Select File";
-			this.btnSelectActivityFile.UseVisualStyleBackColor = true;
-			// 
-			// pnlActivityFile
-			// 
-			this.pnlActivityFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.pnlActivityFile.Controls.Add(this.label2);
-			this.pnlActivityFile.Controls.Add(this.cmBxFileType);
-			this.pnlActivityFile.Controls.Add(this.btnSelectActivityFile);
-			this.pnlActivityFile.Enabled = false;
-			this.pnlActivityFile.Location = new System.Drawing.Point(655, 12);
-			this.pnlActivityFile.Name = "pnlActivityFile";
-			this.pnlActivityFile.Size = new System.Drawing.Size(223, 29);
-			this.pnlActivityFile.TabIndex = 38;
-			// 
-			// cmBxFileType
-			// 
-			this.cmBxFileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmBxFileType.FormattingEnabled = true;
-			this.cmBxFileType.Location = new System.Drawing.Point(59, 3);
-			this.cmBxFileType.Name = "cmBxFileType";
-			this.cmBxFileType.Size = new System.Drawing.Size(80, 21);
-			this.cmBxFileType.TabIndex = 40;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(7, 6);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(50, 13);
-			this.label2.TabIndex = 41;
-			this.label2.Text = "File Type";
-			
-			// 
-			// groupBox3
-			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Controls.Add(this.txtBxRequest);
-			this.groupBox3.Location = new System.Drawing.Point(9, 149);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(883, 109);
-			this.groupBox3.TabIndex = 39;
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "Content";
-			// 
 			// TestForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -921,7 +920,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(931, 565);
 			this.Name = "TestForm";
-			this.Text = "Study Admin API Tester";
+			this.Text = "CentrePoint Web API Tester";
 			this.grpBxBuiltInTests.ResumeLayout(false);
 			this.grpBxAccessKey.ResumeLayout(false);
 			this.grpBxAccessKey.PerformLayout();
@@ -931,6 +930,8 @@
 			this.grpBxBaseURI.PerformLayout();
 			this.grpBxRequest.ResumeLayout(false);
 			this.grpBxRequest.PerformLayout();
+			this.pnlActivityFile.ResumeLayout(false);
+			this.pnlActivityFile.PerformLayout();
 			this.grpBxResponse.ResumeLayout(false);
 			this.grpBxResponse.PerformLayout();
 			this.contextMenuStripResponse.ResumeLayout(false);
@@ -945,6 +946,8 @@
 			this.splitContainerRequest.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerRequest)).EndInit();
 			this.splitContainerRequest.ResumeLayout(false);
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.tabPageBatchForm.ResumeLayout(false);
 			this.tabPageBatchForm.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -952,10 +955,6 @@
 			this.groupBox1.ResumeLayout(false);
 			this.grpResults.ResumeLayout(false);
 			this.grpResults.PerformLayout();
-			this.pnlActivityFile.ResumeLayout(false);
-			this.pnlActivityFile.PerformLayout();
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 
         }
