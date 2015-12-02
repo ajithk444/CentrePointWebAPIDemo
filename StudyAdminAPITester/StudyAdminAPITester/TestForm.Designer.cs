@@ -49,9 +49,9 @@
 			this.txtBaseURI = new System.Windows.Forms.TextBox();
 			this.lblStatusCode = new System.Windows.Forms.Label();
 			this.grpBxRequest = new System.Windows.Forms.GroupBox();
+			this.txtBxRequest = new System.Windows.Forms.TextBox();
 			this.cbHttpMethod = new System.Windows.Forms.ComboBox();
 			this.txtBxURI = new System.Windows.Forms.TextBox();
-			this.txtBxRequest = new System.Windows.Forms.TextBox();
 			this.grpBxResponse = new System.Windows.Forms.GroupBox();
 			this.txtBxResponse = new System.Windows.Forms.TextBox();
 			this.contextMenuStripResponse = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -70,7 +70,6 @@
 			this.rdBtnPerformMultipleReqTrue = new System.Windows.Forms.RadioButton();
 			this.btnSendRequest = new System.Windows.Forms.Button();
 			this.lblStatus = new System.Windows.Forms.Label();
-			this.grpBxContent = new System.Windows.Forms.GroupBox();
 			this.lblError = new System.Windows.Forms.Label();
 			this.btnCompareResponse = new System.Windows.Forms.Button();
 			this.tabPageBatchForm = new System.Windows.Forms.TabPage();
@@ -96,6 +95,11 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.lblBatchInstructions = new System.Windows.Forms.Label();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+			this.btnSelectActivityFile = new System.Windows.Forms.Button();
+			this.pnlActivityFile = new System.Windows.Forms.Panel();
+			this.cmBxFileType = new System.Windows.Forms.ComboBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.grpBxBuiltInTests.SuspendLayout();
 			this.grpBxAccessKey.SuspendLayout();
 			this.grpBxSecretKey.SuspendLayout();
@@ -111,12 +115,13 @@
 			this.splitContainerRequest.Panel1.SuspendLayout();
 			this.splitContainerRequest.Panel2.SuspendLayout();
 			this.splitContainerRequest.SuspendLayout();
-			this.grpBxContent.SuspendLayout();
 			this.tabPageBatchForm.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.contextMenuStripBatchResults.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.grpResults.SuspendLayout();
+			this.pnlActivityFile.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// BottomToolStripPanel
@@ -172,7 +177,7 @@
 			// 
 			this.btnPopualte.Image = global::StudyAdminAPITester.Properties.Resources.wand;
 			this.btnPopualte.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnPopualte.Location = new System.Drawing.Point(348, 15);
+			this.btnPopualte.Location = new System.Drawing.Point(348, 14);
 			this.btnPopualte.Name = "btnPopualte";
 			this.btnPopualte.Size = new System.Drawing.Size(93, 23);
 			this.btnPopualte.TabIndex = 1;
@@ -294,14 +299,29 @@
 			// 
 			this.grpBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.grpBxRequest.Controls.Add(this.pnlActivityFile);
 			this.grpBxRequest.Controls.Add(this.cbHttpMethod);
 			this.grpBxRequest.Controls.Add(this.txtBxURI);
-			this.grpBxRequest.Location = new System.Drawing.Point(9, 104);
+			this.grpBxRequest.Location = new System.Drawing.Point(9, 99);
 			this.grpBxRequest.Name = "grpBxRequest";
-			this.grpBxRequest.Size = new System.Drawing.Size(882, 46);
+			this.grpBxRequest.Size = new System.Drawing.Size(882, 47);
 			this.grpBxRequest.TabIndex = 32;
 			this.grpBxRequest.TabStop = false;
 			this.grpBxRequest.Text = "Request (to Study Admin API)";
+			// 
+			// txtBxRequest
+			// 
+			this.txtBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBxRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtBxRequest.Location = new System.Drawing.Point(6, 13);
+			this.txtBxRequest.Multiline = true;
+			this.txtBxRequest.Name = "txtBxRequest";
+			this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtBxRequest.Size = new System.Drawing.Size(871, 90);
+			this.txtBxRequest.TabIndex = 3;
+			
 			// 
 			// cbHttpMethod
 			// 
@@ -314,26 +334,12 @@
 			// 
 			// txtBxURI
 			// 
-			this.txtBxURI.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtBxURI.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
 			this.txtBxURI.Location = new System.Drawing.Point(92, 17);
 			this.txtBxURI.Name = "txtBxURI";
-			this.txtBxURI.Size = new System.Drawing.Size(764, 20);
+			this.txtBxURI.Size = new System.Drawing.Size(557, 20);
 			this.txtBxURI.TabIndex = 33;
-			// 
-			// txtBxRequest
-			// 
-			this.txtBxRequest.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBxRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtBxRequest.Location = new System.Drawing.Point(2, 20);
-			this.txtBxRequest.Multiline = true;
-			this.txtBxRequest.Name = "txtBxRequest";
-			this.txtBxRequest.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtBxRequest.Size = new System.Drawing.Size(876, 60);
-			this.txtBxRequest.TabIndex = 2;
 			// 
 			// grpBxResponse
 			// 
@@ -342,9 +348,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.grpBxResponse.Controls.Add(this.txtBxResponse);
 			this.grpBxResponse.Controls.Add(this.lblResponseRequired);
-			this.grpBxResponse.Location = new System.Drawing.Point(9, 26);
+			this.grpBxResponse.Location = new System.Drawing.Point(9, 25);
 			this.grpBxResponse.Name = "grpBxResponse";
-			this.grpBxResponse.Size = new System.Drawing.Size(882, 131);
+			this.grpBxResponse.Size = new System.Drawing.Size(882, 118);
 			this.grpBxResponse.TabIndex = 33;
 			this.grpBxResponse.TabStop = false;
 			this.grpBxResponse.Text = "Resposne (from Study Admin API)";
@@ -358,12 +364,12 @@
 			this.txtBxResponse.ContextMenuStrip = this.contextMenuStripResponse;
 			this.txtBxResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtBxResponse.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.txtBxResponse.Location = new System.Drawing.Point(2, 20);
+			this.txtBxResponse.Location = new System.Drawing.Point(2, 19);
 			this.txtBxResponse.Multiline = true;
 			this.txtBxResponse.Name = "txtBxResponse";
 			this.txtBxResponse.ReadOnly = true;
 			this.txtBxResponse.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtBxResponse.Size = new System.Drawing.Size(876, 100);
+			this.txtBxResponse.Size = new System.Drawing.Size(874, 88);
 			this.txtBxResponse.TabIndex = 7;
 			// 
 			// contextMenuStripResponse
@@ -401,7 +407,7 @@
 			// linkLabelHelp
 			// 
 			this.linkLabelHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.linkLabelHelp.Location = new System.Drawing.Point(781, 0);
+			this.linkLabelHelp.Location = new System.Drawing.Point(782, 2);
 			this.linkLabelHelp.Name = "linkLabelHelp";
 			this.linkLabelHelp.Size = new System.Drawing.Size(112, 14);
 			this.linkLabelHelp.TabIndex = 34;
@@ -462,6 +468,7 @@
 			// 
 			// splitContainerRequest.Panel1
 			// 
+			this.splitContainerRequest.Panel1.Controls.Add(this.groupBox3);
 			this.splitContainerRequest.Panel1.Controls.Add(this.txtBxRequestCount);
 			this.splitContainerRequest.Panel1.Controls.Add(this.lblRequestCount);
 			this.splitContainerRequest.Panel1.Controls.Add(this.lblMultipleRequests);
@@ -474,7 +481,6 @@
 			this.splitContainerRequest.Panel1.Controls.Add(this.grpBxAccessKey);
 			this.splitContainerRequest.Panel1.Controls.Add(this.grpBxBuiltInTests);
 			this.splitContainerRequest.Panel1.Controls.Add(this.grpBxSecretKey);
-			this.splitContainerRequest.Panel1.Controls.Add(this.grpBxContent);
 			this.splitContainerRequest.Panel1.Controls.Add(this.grpBxRequest);
 			// 
 			// splitContainerRequest.Panel2
@@ -484,13 +490,13 @@
 			this.splitContainerRequest.Panel2.Controls.Add(this.btnCompareResponse);
 			this.splitContainerRequest.Panel2.Controls.Add(this.lblStatusCode);
 			this.splitContainerRequest.Size = new System.Drawing.Size(898, 491);
-			this.splitContainerRequest.SplitterDistance = 280;
+			this.splitContainerRequest.SplitterDistance = 294;
 			this.splitContainerRequest.TabIndex = 39;
 			// 
 			// txtBxRequestCount
 			// 
 			this.txtBxRequestCount.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.txtBxRequestCount.Location = new System.Drawing.Point(311, 241);
+			this.txtBxRequestCount.Location = new System.Drawing.Point(295, 263);
 			this.txtBxRequestCount.MaxLength = 5;
 			this.txtBxRequestCount.Name = "txtBxRequestCount";
 			this.txtBxRequestCount.Size = new System.Drawing.Size(50, 20);
@@ -501,7 +507,7 @@
 			this.lblRequestCount.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.lblRequestCount.AutoSize = true;
 			this.lblRequestCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblRequestCount.Location = new System.Drawing.Point(209, 245);
+			this.lblRequestCount.Location = new System.Drawing.Point(199, 267);
 			this.lblRequestCount.Name = "lblRequestCount";
 			this.lblRequestCount.Size = new System.Drawing.Size(89, 13);
 			this.lblRequestCount.TabIndex = 42;
@@ -511,18 +517,18 @@
 			// 
 			this.lblMultipleRequests.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.lblMultipleRequests.AutoSize = true;
-			this.lblMultipleRequests.Location = new System.Drawing.Point(8, 244);
+			this.lblMultipleRequests.Location = new System.Drawing.Point(8, 265);
 			this.lblMultipleRequests.Name = "lblMultipleRequests";
-			this.lblMultipleRequests.Size = new System.Drawing.Size(90, 13);
+			this.lblMultipleRequests.Size = new System.Drawing.Size(85, 13);
 			this.lblMultipleRequests.TabIndex = 37;
-			this.lblMultipleRequests.Text = "Repeat Requests";
+			this.lblMultipleRequests.Text = "Repeat Request";
 			// 
 			// rdBtnPerformMultipleReqFalse
 			// 
 			this.rdBtnPerformMultipleReqFalse.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.rdBtnPerformMultipleReqFalse.AutoSize = true;
 			this.rdBtnPerformMultipleReqFalse.Checked = true;
-			this.rdBtnPerformMultipleReqFalse.Location = new System.Drawing.Point(163, 245);
+			this.rdBtnPerformMultipleReqFalse.Location = new System.Drawing.Point(152, 264);
 			this.rdBtnPerformMultipleReqFalse.Name = "rdBtnPerformMultipleReqFalse";
 			this.rdBtnPerformMultipleReqFalse.Size = new System.Drawing.Size(39, 17);
 			this.rdBtnPerformMultipleReqFalse.TabIndex = 41;
@@ -534,7 +540,7 @@
 			// 
 			this.rdBtnPerformMultipleReqTrue.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.rdBtnPerformMultipleReqTrue.AutoSize = true;
-			this.rdBtnPerformMultipleReqTrue.Location = new System.Drawing.Point(115, 245);
+			this.rdBtnPerformMultipleReqTrue.Location = new System.Drawing.Point(104, 264);
 			this.rdBtnPerformMultipleReqTrue.Name = "rdBtnPerformMultipleReqTrue";
 			this.rdBtnPerformMultipleReqTrue.Size = new System.Drawing.Size(43, 17);
 			this.rdBtnPerformMultipleReqTrue.TabIndex = 40;
@@ -546,7 +552,7 @@
 			this.btnSendRequest.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnSendRequest.Image = global::StudyAdminAPITester.Properties.Resources.mail;
 			this.btnSendRequest.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSendRequest.Location = new System.Drawing.Point(381, 242);
+			this.btnSendRequest.Location = new System.Drawing.Point(381, 261);
 			this.btnSendRequest.Name = "btnSendRequest";
 			this.btnSendRequest.Size = new System.Drawing.Size(156, 23);
 			this.btnSendRequest.TabIndex = 12;
@@ -557,32 +563,19 @@
 			// 
 			this.lblStatus.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.lblStatus.AutoSize = true;
-			this.lblStatus.Location = new System.Drawing.Point(543, 246);
+			this.lblStatus.Location = new System.Drawing.Point(543, 267);
 			this.lblStatus.Name = "lblStatus";
 			this.lblStatus.Size = new System.Drawing.Size(121, 13);
 			this.lblStatus.TabIndex = 38;
 			this.lblStatus.Text = "Waiting For Response...";
 			this.lblStatus.Visible = false;
 			// 
-			// grpBxContent
-			// 
-			this.grpBxContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.grpBxContent.Controls.Add(this.txtBxRequest);
-			this.grpBxContent.Location = new System.Drawing.Point(9, 149);
-			this.grpBxContent.Name = "grpBxContent";
-			this.grpBxContent.Size = new System.Drawing.Size(882, 86);
-			this.grpBxContent.TabIndex = 36;
-			this.grpBxContent.TabStop = false;
-			this.grpBxContent.Text = "Content";
-			// 
 			// lblError
 			// 
 			this.lblError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblError.AutoSize = true;
 			this.lblError.ForeColor = System.Drawing.Color.Red;
-			this.lblError.Location = new System.Drawing.Point(14, 160);
+			this.lblError.Location = new System.Drawing.Point(14, 146);
 			this.lblError.Name = "lblError";
 			this.lblError.Size = new System.Drawing.Size(118, 13);
 			this.lblError.TabIndex = 37;
@@ -594,7 +587,7 @@
 			this.btnCompareResponse.Enabled = false;
 			this.btnCompareResponse.Image = global::StudyAdminAPITester.Properties.Resources.compare_smaller;
 			this.btnCompareResponse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnCompareResponse.Location = new System.Drawing.Point(738, 160);
+			this.btnCompareResponse.Location = new System.Drawing.Point(738, 146);
 			this.btnCompareResponse.Name = "btnCompareResponse";
 			this.btnCompareResponse.Size = new System.Drawing.Size(149, 27);
 			this.btnCompareResponse.TabIndex = 30;
@@ -863,6 +856,60 @@
 			this.lblBatchInstructions.TabIndex = 0;
 			this.lblBatchInstructions.Text = resources.GetString("lblBatchInstructions.Text");
 			// 
+			// btnSelectActivityFile
+			// 
+			this.btnSelectActivityFile.Location = new System.Drawing.Point(143, 2);
+			this.btnSelectActivityFile.Name = "btnSelectActivityFile";
+			this.btnSelectActivityFile.Size = new System.Drawing.Size(75, 23);
+			this.btnSelectActivityFile.TabIndex = 37;
+			this.btnSelectActivityFile.Text = "Select File";
+			this.btnSelectActivityFile.UseVisualStyleBackColor = true;
+			// 
+			// pnlActivityFile
+			// 
+			this.pnlActivityFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlActivityFile.Controls.Add(this.label2);
+			this.pnlActivityFile.Controls.Add(this.cmBxFileType);
+			this.pnlActivityFile.Controls.Add(this.btnSelectActivityFile);
+			this.pnlActivityFile.Enabled = false;
+			this.pnlActivityFile.Location = new System.Drawing.Point(655, 12);
+			this.pnlActivityFile.Name = "pnlActivityFile";
+			this.pnlActivityFile.Size = new System.Drawing.Size(223, 29);
+			this.pnlActivityFile.TabIndex = 38;
+			// 
+			// cmBxFileType
+			// 
+			this.cmBxFileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmBxFileType.FormattingEnabled = true;
+			this.cmBxFileType.Location = new System.Drawing.Point(59, 3);
+			this.cmBxFileType.Name = "cmBxFileType";
+			this.cmBxFileType.Size = new System.Drawing.Size(80, 21);
+			this.cmBxFileType.TabIndex = 40;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(7, 6);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(50, 13);
+			this.label2.TabIndex = 41;
+			this.label2.Text = "File Type";
+			
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox3.Controls.Add(this.txtBxRequest);
+			this.groupBox3.Location = new System.Drawing.Point(9, 149);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(883, 109);
+			this.groupBox3.TabIndex = 39;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "Content";
+			// 
 			// TestForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -898,8 +945,6 @@
 			this.splitContainerRequest.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerRequest)).EndInit();
 			this.splitContainerRequest.ResumeLayout(false);
-			this.grpBxContent.ResumeLayout(false);
-			this.grpBxContent.PerformLayout();
 			this.tabPageBatchForm.ResumeLayout(false);
 			this.tabPageBatchForm.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -907,6 +952,10 @@
 			this.groupBox1.ResumeLayout(false);
 			this.grpResults.ResumeLayout(false);
 			this.grpResults.PerformLayout();
+			this.pnlActivityFile.ResumeLayout(false);
+			this.pnlActivityFile.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 
         }
@@ -925,8 +974,7 @@
         private System.Windows.Forms.Label lblStatusCode;
         private System.Windows.Forms.Button btnCompareResponse;
         private System.Windows.Forms.GroupBox grpBxRequest;
-        private System.Windows.Forms.TextBox txtBxURI;
-        private System.Windows.Forms.TextBox txtBxRequest;
+		private System.Windows.Forms.TextBox txtBxURI;
         private System.Windows.Forms.Button btnSendRequest;
         private System.Windows.Forms.GroupBox grpBxResponse;
         private System.Windows.Forms.TextBox txtBxResponse;
@@ -935,8 +983,7 @@
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripResponse;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearLog;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSaveLog;
-        private System.Windows.Forms.GroupBox grpBxContent;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSaveLog;
         private System.Windows.Forms.Button btnPopualte;
         private System.Windows.Forms.ComboBox cbHttpMethod;
         private System.Windows.Forms.Label lblError;
@@ -979,6 +1026,12 @@
 		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 		private System.Windows.Forms.Label lblRequestCount;
 		private System.Windows.Forms.TextBox txtBxRequestCount;
+		private System.Windows.Forms.TextBox txtBxRequest;
+		private System.Windows.Forms.Panel pnlActivityFile;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.ComboBox cmBxFileType;
+		private System.Windows.Forms.Button btnSelectActivityFile;
+		private System.Windows.Forms.GroupBox groupBox3;
         //private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatchLog;
 
         

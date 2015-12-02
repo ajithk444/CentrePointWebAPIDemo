@@ -23,6 +23,7 @@ namespace StudyAdminAPILib
         public String DefaultResourceURI { get; set; }
         protected APIJsonDTO dto;
         public HttpMethod HttpVerb { get; set; }
+		public bool AllowActivityFilePanal { get; set; }
 
         public string GetJsonRequestText()
         {
@@ -270,6 +271,7 @@ namespace StudyAdminAPILib
 	{
 		public PostUploadTest(string name)
 		{
+			this.AllowActivityFilePanal = true;
 			this.DefaultResourceURI = "/v1/uploads";
 			this.Name = name;
 			this.HttpVerb = HttpMethod.Post;
@@ -308,6 +310,18 @@ namespace StudyAdminAPILib
 				 State = "",
 				}
 			};
+		}
+
+		public void SetFileType(string fileType)
+		{
+			PostUploadDTO postUploadDTO = ((PostUploadDTO)this.dto);
+			postUploadDTO.ActivityFiles.FileType = fileType;
+		}
+
+		public void SetDeviceData(string deviceDataBase64String)
+		{
+			PostUploadDTO postUploadDTO = ((PostUploadDTO)this.dto);
+			postUploadDTO.ActivityFiles.DeviceData = deviceDataBase64String;
 		}
 	}
 

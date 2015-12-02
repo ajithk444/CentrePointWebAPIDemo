@@ -56,6 +56,10 @@ namespace StudyAdminAPITester
             cbHttpMethod.SelectedIndex = 0;
             txtBxRequest.Enabled = false;
 
+			// Populdate File Type Combo Box for Upload
+			cmBxFileType.Items.Add("EPOCH");
+			cmBxFileType.SelectedIndex = 0;
+
             lblStatusCode.Text = string.Empty;
             btnSendRequest.Enabled = false;
             lblError.Text = string.Empty;
@@ -114,8 +118,39 @@ namespace StudyAdminAPITester
                 btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
             };
 
+			btnSelectActivityFile.Click += (o, e) =>
+			{
+				using (var openFileDialog = new OpenFileDialog())
+				{
+					DialogResult result = openFileDialog.ShowDialog();
+
+					if (!string.IsNullOrEmpty(openFileDialog.FileName))
+					{ 
+						using (var fileStream = new System.IO.FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+						{
+							byte[] filebytes = new byte[fileStream.Length];
+							fileStream.Read(filebytes, 0, Convert.ToInt32(fileStream.Length));
+							string activityFileBase64Encoding = Convert.ToBase64String(filebytes);
+						
+							APIBuiltInTestCase apiTest = (
+							from i in BuiltInTestCaseRepo.Instance.TestCases
+							where i.Name.Equals(cBBuiltInTests.Text)
+							select i).FirstOrDefault();
+
+							if (apiTest.GetType().Equals(typeof(PostUploadTest)))
+							{
+								PostUploadTest test = ((PostUploadTest)apiTest);
+								test.SetDeviceData(activityFileBase64Encoding);
+								test.SetFileType(cmBxFileType.SelectedItem.ToString());
+								btnPopualte.PerformClick();
+							}
+						}
+					}
+				}
+			};
+
             // btnPopulate click action for button
-            btnPopualte.Click += (o, e) =>
+            btnPopualte.Click += async (o, e) =>
             {
                 // clear response box when selecting new built in test
                 lblStatusCode.Text = string.Empty;
@@ -130,6 +165,7 @@ namespace StudyAdminAPITester
                 {
                     txtBxURI.Text = apiTest.DefaultResourceURI;
                     cbHttpMethod.SelectedItem = apiTest.HttpVerb;
+					pnlActivityFile.Enabled = apiTest.AllowActivityFilePanal;
 
                     if (((HttpMethod)cbHttpMethod.SelectedItem).Equals(HttpMethod.Get))
                     {
@@ -140,7 +176,11 @@ namespace StudyAdminAPITester
                     else
                     {
                         txtBxRequest.Enabled = true;
-                        txtBxRequest.Text = apiTest.GetJsonRequestText(); ;
+						txtBxRequest.Text = "Loading Content...";
+						txtBxRequest.Text = await Task.Run(() =>
+						{
+							return apiTest.GetJsonRequestText();
+						});
                     }
                 }
                 else
@@ -185,7 +225,7 @@ namespace StudyAdminAPITester
             int previousSplitterDisatnace = splitContainerRequest.SplitterDistance;
             splitContainerRequest.SplitterMoved += (o, e) =>
             {
-                if (grpBxContent.Height <= 20 || grpBxResponse.Height <= 20)
+                if (grpBxResponse.Height <= 20)
                 {
                     splitContainerRequest.SplitterDistance = previousSplitterDisatnace;
                 }
@@ -603,6 +643,5 @@ namespace StudyAdminAPITester
             lnkClearImport.Visible = false;
             lblImportedTestCount.Visible = false;
         }
-
     }
 }
