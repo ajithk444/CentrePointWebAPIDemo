@@ -21,7 +21,7 @@ namespace StudyAdminAPILib
         public string Name { get; set; }
         public String CurrentEndpoint { get; set; }
         public String DefaultResourceURI { get; set; }
-        protected APIJsonDTO dto;
+        public APIJsonDTO dto;
         public HttpMethod HttpVerb { get; set; }
 		public bool AllowActivityFilePanal { get; set; }
 
@@ -281,7 +281,6 @@ namespace StudyAdminAPILib
 				ActivityFiles = new List<ActivityFile>()
 				{
 					new ActivityFile() {
-						DataFormat = "EPOCH",
 						FileType = "EPOCH",
 						DeviceData = ""
 					}
@@ -313,12 +312,6 @@ namespace StudyAdminAPILib
 				 State = "",
 				}
 			};
-		}
-
-		public void SetDataFormat(string format)
-		{
-			PostUploadDTO postUploadDTO = ((PostUploadDTO)this.dto);
-			postUploadDTO.ActivityFiles.FirstOrDefault().DataFormat = format;
 		}
 
 		public void SetFileType(string fileType)

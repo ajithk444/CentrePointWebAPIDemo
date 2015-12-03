@@ -30,6 +30,7 @@ namespace StudyAdminAPITester
         private String defaultAccessKeyText;
         private String defaultSecretKeyText;
         private String xmlNamespace = "http://www.w3schools.com";
+		private String base64String;
 		private bool multipleRequestsRunning = false;
         
         public TestForm()
@@ -123,14 +124,13 @@ namespace StudyAdminAPITester
 				using (var openFileDialog = new OpenFileDialog())
 				{
 					DialogResult result = openFileDialog.ShowDialog();
-
+					base64String = null;
 					if (!string.IsNullOrEmpty(openFileDialog.FileName))
 					{ 
 						using (var fileStream = new System.IO.FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
 						{
 							byte[] filebytes = new byte[fileStream.Length];
 							fileStream.Read(filebytes, 0, Convert.ToInt32(fileStream.Length));
-							string activityFileBase64Encoding = Convert.ToBase64String(filebytes);
 						
 							APIBuiltInTestCase apiTest = (
 							from i in BuiltInTestCaseRepo.Instance.TestCases
@@ -140,10 +140,12 @@ namespace StudyAdminAPITester
 							if (apiTest.GetType().Equals(typeof(PostUploadTest)))
 							{
 								PostUploadTest test = ((PostUploadTest)apiTest);
-								test.SetDeviceData(activityFileBase64Encoding);
-
+								base64String = Convert.ToBase64String(filebytes);
+								
+								// Put placeholder here
+								test.SetDeviceData("<" + new FileInfo(openFileDialog.FileName).Name + ">");
+								
 								test.SetFileType(cmBxFileType.SelectedItem.ToString());
-								test.SetDataFormat(cmBxFileType.SelectedItem.ToString());
 								btnPopualte.PerformClick();
 							}
 						}
@@ -179,11 +181,7 @@ namespace StudyAdminAPITester
                     {
                         txtBxRequest.Enabled = true;
 						txtBxRequest.Text = "Loading Request Content...";
-						this.Refresh();
-						txtBxRequest.Text = await Task.Run(() =>
-						{
-							return apiTest.GetJsonRequestText();
-						});
+						txtBxRequest.Text = apiTest.GetJsonRequestText();
                     }
                 }
                 else
@@ -341,6 +339,34 @@ namespace StudyAdminAPITester
 				// Set Request Timestamp
 				requestTime = DateTime.Now;
 
+				/** BEGIN: Snippet to Update Json Request with Base 64 String that was set **/
+				APIBuiltInTestCase selectedBuiltInTest = (
+				from i in BuiltInTestCaseRepo.Instance.TestCases
+				where i.Name.Equals(cBBuiltInTests.Text)
+				select i).FirstOrDefault();
+
+				if (chkBxUseFile.Checked && selectedBuiltInTest != null && selectedBuiltInTest.GetType().Equals(typeof(PostUploadTest)))
+				{
+					try
+					{
+						PostUploadDTO postUploadDTO = Newtonsoft.Json.JsonConvert.DeserializeObject<PostUploadDTO>(new Regex("(\r\n|\r|\n)").Replace(txtBxRequest.Text, ""));
+						postUploadDTO.ActivityFiles.FirstOrDefault().DeviceData = base64String;
+						base64String = null;
+
+						JsonSerializerSettings jsonFormatter = new JsonSerializerSettings
+						{
+							Formatting = Newtonsoft.Json.Formatting.Indented,
+							DateFormatHandling = DateFormatHandling.IsoDateFormat,
+							DateTimeZoneHandling = DateTimeZoneHandling.Utc
+						};
+
+						jsonRequestRaw = JsonConvert.SerializeObject(postUploadDTO, jsonFormatter);
+					
+					}
+					catch { }
+				}
+				/** END: Snippet to Update Json Request with Base 64 String **/
+
 				// await for async method to finish
 				apiEndpointExecuterResult = await apiEndpointExecuter.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
 				jsonResponse = apiEndpointExecuterResult.ResponseContent;
@@ -379,7 +405,7 @@ namespace StudyAdminAPITester
 				this.Refresh();
 
 				InsertResposneToLog(jsonResponse, apiEndpointExecuterResult.Response.StatusCode);
-				InsertRequestToLog(apiEndpointExecuter, apiEndpointExecuterResult, jsonRequestRaw, requestTime, responseTime);
+				InsertRequestToLog(apiEndpointExecuter, apiEndpointExecuterResult, txtBxRequest.Text, requestTime, responseTime);
 
 				txtBxResponse.Text = await Task.Run(() =>
 				{
@@ -543,7 +569,6 @@ namespace StudyAdminAPITester
             btnRunBatch.Enabled = false;  
             try
             {
-
                 BatchTester.Instance.ResetBatch(); // Reset Test Counters (Pass, Fail, Total)
                 BatchTester.Instance.log.Clear();  // Clear Log
                 lstBxBatchResults.Items.Clear();   // Clear Batch Results List Box
@@ -646,5 +671,11 @@ namespace StudyAdminAPITester
             lnkClearImport.Visible = false;
             lblImportedTestCount.Visible = false;
         }
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+				cmBxFileType.Enabled = chkBxUseFile.Checked;
+				btnSelectActivityFile.Enabled = chkBxUseFile.Checked;
+		}
     }
 }

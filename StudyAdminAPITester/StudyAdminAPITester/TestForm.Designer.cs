@@ -100,6 +100,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.lblBatchInstructions = new System.Windows.Forms.Label();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+			this.chkBxUseFile = new System.Windows.Forms.CheckBox();
 			this.grpBxBuiltInTests.SuspendLayout();
 			this.grpBxAccessKey.SuspendLayout();
 			this.grpBxSecretKey.SuspendLayout();
@@ -313,6 +314,7 @@
 			// 
 			this.pnlActivityFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlActivityFile.Controls.Add(this.chkBxUseFile);
 			this.pnlActivityFile.Controls.Add(this.label2);
 			this.pnlActivityFile.Controls.Add(this.cmBxFileType);
 			this.pnlActivityFile.Controls.Add(this.btnSelectActivityFile);
@@ -325,27 +327,30 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
+			this.label2.Enabled = false;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(5, 6);
+			this.label2.Location = new System.Drawing.Point(81, 6);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(83, 13);
+			this.label2.Size = new System.Drawing.Size(64, 13);
 			this.label2.TabIndex = 41;
-			this.label2.Text = "File Type/Format";
+			this.label2.Text = "Type/Format";
 			// 
 			// cmBxFileType
 			// 
 			this.cmBxFileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmBxFileType.Enabled = false;
 			this.cmBxFileType.FormattingEnabled = true;
-			this.cmBxFileType.Location = new System.Drawing.Point(92, 3);
+			this.cmBxFileType.Location = new System.Drawing.Point(147, 3);
 			this.cmBxFileType.Name = "cmBxFileType";
-			this.cmBxFileType.Size = new System.Drawing.Size(92, 21);
+			this.cmBxFileType.Size = new System.Drawing.Size(61, 21);
 			this.cmBxFileType.TabIndex = 40;
 			// 
 			// btnSelectActivityFile
 			// 
-			this.btnSelectActivityFile.Location = new System.Drawing.Point(190, 3);
+			this.btnSelectActivityFile.Enabled = false;
+			this.btnSelectActivityFile.Location = new System.Drawing.Point(212, 3);
 			this.btnSelectActivityFile.Name = "btnSelectActivityFile";
-			this.btnSelectActivityFile.Size = new System.Drawing.Size(64, 22);
+			this.btnSelectActivityFile.Size = new System.Drawing.Size(45, 22);
 			this.btnSelectActivityFile.TabIndex = 37;
 			this.btnSelectActivityFile.Text = "Select File";
 			this.btnSelectActivityFile.UseVisualStyleBackColor = true;
@@ -909,6 +914,17 @@
 			this.lblBatchInstructions.TabIndex = 0;
 			this.lblBatchInstructions.Text = resources.GetString("lblBatchInstructions.Text");
 			// 
+			// chkBxUseFile
+			// 
+			this.chkBxUseFile.AutoSize = true;
+			this.chkBxUseFile.Location = new System.Drawing.Point(11, 6);
+			this.chkBxUseFile.Name = "chkBxUseFile";
+			this.chkBxUseFile.Size = new System.Drawing.Size(64, 17);
+			this.chkBxUseFile.TabIndex = 42;
+			this.chkBxUseFile.Text = "Use File";
+			this.chkBxUseFile.UseVisualStyleBackColor = true;
+			this.chkBxUseFile.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			// 
 			// TestForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1031,6 +1047,7 @@
 		private System.Windows.Forms.ComboBox cmBxFileType;
 		private System.Windows.Forms.Button btnSelectActivityFile;
 		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.CheckBox chkBxUseFile;
         //private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClearBatchLog;
 
         

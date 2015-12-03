@@ -114,7 +114,6 @@ namespace StudyAdminAPILib.JsonDTOs
 	public class ActivityFile
 	{
         public string FileType;
-		public string DataFormat;
 		public string DeviceData;
 	}
 
