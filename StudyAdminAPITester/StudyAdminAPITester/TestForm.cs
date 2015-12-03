@@ -124,7 +124,7 @@ namespace StudyAdminAPITester
 				using (var openFileDialog = new OpenFileDialog())
 				{
 					DialogResult result = openFileDialog.ShowDialog();
-					base64String = null;
+					
 					if (!string.IsNullOrEmpty(openFileDialog.FileName))
 					{ 
 						using (var fileStream = new System.IO.FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
@@ -159,7 +159,7 @@ namespace StudyAdminAPITester
                 // clear response box when selecting new built in test
                 lblStatusCode.Text = string.Empty;
                 btnCompareResponse.Enabled = false;
-
+				
                 APIBuiltInTestCase apiTest = (
                 from i in BuiltInTestCaseRepo.Instance.TestCases
                 where i.Name.Equals(cBBuiltInTests.Text)
@@ -351,8 +351,7 @@ namespace StudyAdminAPITester
 					{
 						PostUploadDTO postUploadDTO = Newtonsoft.Json.JsonConvert.DeserializeObject<PostUploadDTO>(new Regex("(\r\n|\r|\n)").Replace(txtBxRequest.Text, ""));
 						postUploadDTO.ActivityFiles.FirstOrDefault().DeviceData = base64String;
-						base64String = null;
-
+					
 						JsonSerializerSettings jsonFormatter = new JsonSerializerSettings
 						{
 							Formatting = Newtonsoft.Json.Formatting.Indented,
