@@ -50,6 +50,7 @@
 			this.lblStatusCode = new System.Windows.Forms.Label();
 			this.grpBxRequest = new System.Windows.Forms.GroupBox();
 			this.pnlActivityFile = new System.Windows.Forms.Panel();
+			this.chkBxUseFile = new System.Windows.Forms.CheckBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.cmBxFileType = new System.Windows.Forms.ComboBox();
 			this.btnSelectActivityFile = new System.Windows.Forms.Button();
@@ -100,7 +101,6 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.lblBatchInstructions = new System.Windows.Forms.Label();
 			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-			this.chkBxUseFile = new System.Windows.Forms.CheckBox();
 			this.grpBxBuiltInTests.SuspendLayout();
 			this.grpBxAccessKey.SuspendLayout();
 			this.grpBxSecretKey.SuspendLayout();
@@ -324,6 +324,17 @@
 			this.pnlActivityFile.Size = new System.Drawing.Size(261, 29);
 			this.pnlActivityFile.TabIndex = 38;
 			// 
+			// chkBxUseFile
+			// 
+			this.chkBxUseFile.AutoSize = true;
+			this.chkBxUseFile.Location = new System.Drawing.Point(11, 6);
+			this.chkBxUseFile.Name = "chkBxUseFile";
+			this.chkBxUseFile.Size = new System.Drawing.Size(64, 17);
+			this.chkBxUseFile.TabIndex = 42;
+			this.chkBxUseFile.Text = "Use File";
+			this.chkBxUseFile.UseVisualStyleBackColor = true;
+			this.chkBxUseFile.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
@@ -398,7 +409,7 @@
 			this.grpBxResponse.Size = new System.Drawing.Size(882, 118);
 			this.grpBxResponse.TabIndex = 33;
 			this.grpBxResponse.TabStop = false;
-			this.grpBxResponse.Text = "Resposne (from Study Admin API)";
+			this.grpBxResponse.Text = "Response (from Study Admin API)";
 			// 
 			// txtBxResponse
 			// 
@@ -913,17 +924,6 @@
 			this.lblBatchInstructions.Size = new System.Drawing.Size(852, 39);
 			this.lblBatchInstructions.TabIndex = 0;
 			this.lblBatchInstructions.Text = resources.GetString("lblBatchInstructions.Text");
-			// 
-			// chkBxUseFile
-			// 
-			this.chkBxUseFile.AutoSize = true;
-			this.chkBxUseFile.Location = new System.Drawing.Point(11, 6);
-			this.chkBxUseFile.Name = "chkBxUseFile";
-			this.chkBxUseFile.Size = new System.Drawing.Size(64, 17);
-			this.chkBxUseFile.TabIndex = 42;
-			this.chkBxUseFile.Text = "Use File";
-			this.chkBxUseFile.UseVisualStyleBackColor = true;
-			this.chkBxUseFile.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
 			// TestForm
 			// 

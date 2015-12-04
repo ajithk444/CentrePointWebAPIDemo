@@ -150,6 +150,8 @@ namespace StudyAdminAPITester
 							}
 						}
 					}
+					else
+						UpdateDeviceDataInRequestTextBoxForPostUpload(string.Empty);
 				}
 			};
 
@@ -305,6 +307,65 @@ namespace StudyAdminAPITester
         }
 
 
+		/// <summary>
+		/// Updated 'Device Data' field in request text box
+		/// </summary>
+		/// <param name="value"></param>
+		private void UpdateDeviceDataInRequestTextBoxForPostUpload(string value)
+		{
+
+			APIBuiltInTestCase apiTest = (
+			from i in BuiltInTestCaseRepo.Instance.TestCases
+								where i.Name.Equals(cBBuiltInTests.Text)
+								select i).FirstOrDefault();
+
+			if (apiTest.GetType().Equals(typeof(PostUploadTest)))
+			{
+				PostUploadDTO postUploadDTO = Newtonsoft.Json.JsonConvert.DeserializeObject<PostUploadDTO>(new Regex("(\r\n|\r|\n)").Replace(txtBxRequest.Text, ""));
+				postUploadDTO.ActivityFiles.FirstOrDefault().DeviceData = value;
+								
+				JsonSerializerSettings jsonFormatter = new JsonSerializerSettings {
+					Formatting = Newtonsoft.Json.Formatting.Indented,
+					DateFormatHandling = DateFormatHandling.IsoDateFormat,
+					DateTimeZoneHandling = DateTimeZoneHandling.Utc
+				};
+				txtBxRequest.Text = JsonConvert.SerializeObject(postUploadDTO, jsonFormatter);
+			}
+		}
+
+
+		private string GetJsonTextForNewDeviceDataForPostUpload()
+		{
+			/** BEGIN: Snippet to Update RAW Json Request with Base 64 String that was set from file **/
+			APIBuiltInTestCase selectedBuiltInTest = (
+			from i in BuiltInTestCaseRepo.Instance.TestCases
+			where i.Name.Equals(cBBuiltInTests.Text)
+			select i).FirstOrDefault();
+
+			if (chkBxUseFile.Checked && selectedBuiltInTest != null
+				&& selectedBuiltInTest.GetType().Equals(typeof(PostUploadTest))
+				&& !string.IsNullOrEmpty(base64String))
+			{
+				try
+				{
+					PostUploadDTO postUploadDTO = Newtonsoft.Json.JsonConvert.DeserializeObject<PostUploadDTO>(new Regex("(\r\n|\r|\n)").Replace(txtBxRequest.Text, ""));
+					postUploadDTO.ActivityFiles.FirstOrDefault().DeviceData = base64String;
+
+					JsonSerializerSettings jsonFormatter = new JsonSerializerSettings
+					{
+						Formatting = Newtonsoft.Json.Formatting.Indented,
+						DateFormatHandling = DateFormatHandling.IsoDateFormat,
+						DateTimeZoneHandling = DateTimeZoneHandling.Utc
+					};
+					return JsonConvert.SerializeObject(postUploadDTO, jsonFormatter);
+
+				}
+				catch { }
+			}
+			/** END: Snippet to Update Json Request with Base 64 String **/
+			return null; 
+		}
+
 		private async Task SendRequest(long requestNumber, long totalRequests)
 		{
 
@@ -330,7 +391,7 @@ namespace StudyAdminAPITester
 				apiEndpointExecuter = new APIEndpointExecuter(ClientState.BaseURI + txtBxURI.Text, (HttpMethod)cbHttpMethod.SelectedItem);
 	
 				// Hide "Waiting For Response..." label
-				lblStatus.Text = "[ "+requestNumber + " / " + totalRequests+" ] Waiting For Response...";
+				lblStatus.Text = "[ "+requestNumber + " / " + totalRequests +" ] Waiting For Response...";
 				lblStatus.Visible = true;
 
 				// disable send request button while text is running
@@ -339,28 +400,18 @@ namespace StudyAdminAPITester
 				// Set Request Timestamp
 				requestTime = DateTime.Now;
 
-				/** BEGIN: Snippet to Update Json Request with Base 64 String that was set **/
+				/** BEGIN: Snippet to Update RAW Json Request with Base 64 String that was set from file **/
 				APIBuiltInTestCase selectedBuiltInTest = (
 				from i in BuiltInTestCaseRepo.Instance.TestCases
 				where i.Name.Equals(cBBuiltInTests.Text)
 				select i).FirstOrDefault();
 
-				if (chkBxUseFile.Checked && selectedBuiltInTest != null && selectedBuiltInTest.GetType().Equals(typeof(PostUploadTest)))
+				if (chkBxUseFile.Checked && selectedBuiltInTest != null && 
+					selectedBuiltInTest.GetType().Equals(typeof(PostUploadTest)) && !string.IsNullOrEmpty(base64String))
 				{
 					try
 					{
-						PostUploadDTO postUploadDTO = Newtonsoft.Json.JsonConvert.DeserializeObject<PostUploadDTO>(new Regex("(\r\n|\r|\n)").Replace(txtBxRequest.Text, ""));
-						postUploadDTO.ActivityFiles.FirstOrDefault().DeviceData = base64String;
-					
-						JsonSerializerSettings jsonFormatter = new JsonSerializerSettings
-						{
-							Formatting = Newtonsoft.Json.Formatting.Indented,
-							DateFormatHandling = DateFormatHandling.IsoDateFormat,
-							DateTimeZoneHandling = DateTimeZoneHandling.Utc
-						};
-
-						jsonRequestRaw = JsonConvert.SerializeObject(postUploadDTO, jsonFormatter);
-					
+						jsonRequestRaw = GetJsonTextForNewDeviceDataForPostUpload();
 					}
 					catch { }
 				}
@@ -673,8 +724,15 @@ namespace StudyAdminAPITester
 
 		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
-				cmBxFileType.Enabled = chkBxUseFile.Checked;
-				btnSelectActivityFile.Enabled = chkBxUseFile.Checked;
+			cmBxFileType.Enabled = chkBxUseFile.Checked;
+			btnSelectActivityFile.Enabled = chkBxUseFile.Checked;
+
+			// Remove FileName from text in request text box
+			if (!chkBxUseFile.Checked)
+			{
+				base64String = null;
+				UpdateDeviceDataInRequestTextBoxForPostUpload(string.Empty);
+			}
 		}
     }
 }

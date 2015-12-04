@@ -86,7 +86,7 @@ namespace StudyAdminAPITester
                new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId), // index: 16
 
                // Upload Endpoints
-               new GetUploadTest("GetUpload", defaultUploadId), // index: 17
+               new GetUploadTest("GetUploadDetails", defaultUploadId), // index: 17
 			   new PostUploadTest("PostUpload"),  // index: 18
 			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId)   // index: 19
             };
