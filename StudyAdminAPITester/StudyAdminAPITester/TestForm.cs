@@ -79,6 +79,7 @@ namespace StudyAdminAPITester
 			testCases.Insert(BuiltInTestCaseRepo.Instance.SitesListStartIndex + 1, "--------------- Site Endpoints ---------------");
 			testCases.Insert(BuiltInTestCaseRepo.Instance.StudiesListStartIndex + 2, "--------------- Study Endpoints ---------------");
 			testCases.Insert(BuiltInTestCaseRepo.Instance.UploadsListStartIndex + 3, "--------------- Upload Endpoints ---------------");
+			testCases.Insert(BuiltInTestCaseRepo.Instance.WebHooksListStartIndex + 4, "--------------- WebHooks Endpoints ---------------");
 			testCases.Insert(0, ""); 
             cBBuiltInTests.DataSource = testCases;
 

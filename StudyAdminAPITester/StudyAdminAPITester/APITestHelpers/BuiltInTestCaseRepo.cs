@@ -20,6 +20,7 @@ namespace StudyAdminAPITester
 		public int SitesListStartIndex;
 		public int StudiesListStartIndex;
 		public int UploadsListStartIndex;
+		public int WebHooksListStartIndex;
 
         public static BuiltInTestCaseRepo Instance {
             get {
@@ -89,13 +90,14 @@ namespace StudyAdminAPITester
                new GetUploadTest("GetUploadDetails", defaultUploadId), // index: 17
 			   new PostUploadTest("PostUpload"),  // index: 18
 			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId),   // index: 19
-               new GetStudyWebhookHistoryTest(@"GetStudyWebhookHistory", defaultStudyId, DateTime.UtcNow.AddDays(-1).ToString("s"))
+               new GetStudyWebhookHistoryTest(@"GetStudyWebhookHistory", defaultStudyId, DateTime.UtcNow.AddDays(-1).ToString("s")) // index: 20
             };
 
 			SubjectListStartIndex = 0;
 			SitesListStartIndex = 12;
 			StudiesListStartIndex = 14;
 			UploadsListStartIndex = 17;
+			WebHooksListStartIndex = 20;
         }
 
         
