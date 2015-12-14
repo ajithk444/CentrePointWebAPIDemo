@@ -261,7 +261,7 @@ namespace StudyAdminAPILib
 	{
 		public GetUploadTest(string name, string uploadId)
 		{
-			this.DefaultResourceURI = string.Format("/v1/uploads/{0}", uploadId);
+			this.DefaultResourceURI = string.Format("/v1/uploaddetails/{0}", uploadId);
 			this.Name = name;
 			this.HttpVerb = HttpMethod.Get;
 		}
