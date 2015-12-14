@@ -339,4 +339,18 @@ namespace StudyAdminAPILib
 
     #endregion
 
+    #region Webhooks
+
+    public class GetStudyWebhookHistoryTest : APIBuiltInTestCase
+    {
+        public GetStudyWebhookHistoryTest(string name, string studyId, string startDate)
+        {
+            this.DefaultResourceURI = string.Format("/v1/webhooks/history?studyId={0}&startDate={1}", studyId, startDate);
+            this.Name = name;
+            this.HttpVerb = HttpMethod.Get;
+        }
+    }
+
+    #endregion
+
 }

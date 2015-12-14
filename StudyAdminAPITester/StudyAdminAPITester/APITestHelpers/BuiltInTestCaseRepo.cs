@@ -88,7 +88,8 @@ namespace StudyAdminAPITester
                // Upload Endpoints
                new GetUploadTest("GetUploadDetails", defaultUploadId), // index: 17
 			   new PostUploadTest("PostUpload"),  // index: 18
-			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId)   // index: 19
+			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId),   // index: 19
+               new GetStudyWebhookHistoryTest(@"GetStudyWebhookHistory", defaultStudyId, DateTime.UtcNow.AddDays(-1).ToString("s"))
             };
 
 			SubjectListStartIndex = 0;
