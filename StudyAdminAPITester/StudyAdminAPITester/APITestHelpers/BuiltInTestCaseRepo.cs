@@ -15,12 +15,6 @@ namespace StudyAdminAPITester
     {
         private static BuiltInTestCaseRepo _instance = null; 
         private List<APIBuiltInTestCase> _testCaseList;
-		
-		public int SubjectListStartIndex;
-		public int SitesListStartIndex;
-		public int StudiesListStartIndex;
-		public int UploadsListStartIndex;
-		public int WebHooksListStartIndex;
 
         public static BuiltInTestCaseRepo Instance {
             get {
@@ -32,13 +26,55 @@ namespace StudyAdminAPITester
             }
         }
 
-        public  List<APIBuiltInTestCase> TestCases
+        public List<APIBuiltInTestCase> AllTestCases
         {
             get 
             { 
                 return _testCaseList;  
             } 
         }
+
+		public List<string> SubjectTestCases
+		{
+			get
+			{
+				return AllTestCases.Where(x => x.Name.Contains("Subject") && !x.Name.Contains("Study")).Select(x => x.Name).ToList();
+			}
+		}
+
+		public List<string> SiteTestCases
+		{
+			get
+			{
+				return AllTestCases.Where(x => x.Name.Contains("Site")).Select(x => x.Name).ToList();
+			}
+		}
+
+
+		public List<string> StudyTestCases
+		{
+			get
+			{
+				return AllTestCases.Where(x => (x.Name.Contains("Study") || x.Name.Contains("Studies")) && (!x.Name.Contains("GetStudyWebhookHistory"))).Select(x => x.Name).ToList();
+			}
+		}
+
+
+		public List<string> UploadTestCases
+		{
+			get
+			{
+				return AllTestCases.Where(x => x.Name.Contains("Upload") || x.Name.Equals("GetDataFileDownloadURL")).Select(x => x.Name).ToList();
+			}
+		}
+
+		public List<string> WebHooksTestCases
+		{
+			get
+			{
+				return AllTestCases.Where(x => x.Name.Equals("GetStudyWebhookHistory")).Select(x => x.Name).ToList();
+			}
+		}
 
         // Private Constructor
         private BuiltInTestCaseRepo() 
@@ -92,12 +128,6 @@ namespace StudyAdminAPITester
 			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId),   // index: 19
                new GetStudyWebhookHistoryTest(@"GetStudyWebhookHistory", defaultStudyId, DateTime.UtcNow.AddDays(-1).ToString("s")) // index: 20
             };
-
-			SubjectListStartIndex = 0;
-			SitesListStartIndex = 12;
-			StudiesListStartIndex = 14;
-			UploadsListStartIndex = 17;
-			WebHooksListStartIndex = 20;
         }
 
         

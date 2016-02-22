@@ -70,18 +70,27 @@ namespace StudyAdminAPITester
             lblBaseURIRequired.Text = string.Empty;
 
             // Populate Built-In Tests Combo Box
-            List<string> testCases = (from i in BuiltInTestCaseRepo.Instance.TestCases
-                                      select i.Name).ToList();
-			
-			
-			// Add separators in Built-in Tests dropdown
-			testCases.Insert(BuiltInTestCaseRepo.Instance.SubjectListStartIndex, "--------------- Subject Endpoints ---------------");
-			testCases.Insert(BuiltInTestCaseRepo.Instance.SitesListStartIndex + 1, "--------------- Site Endpoints ---------------");
-			testCases.Insert(BuiltInTestCaseRepo.Instance.StudiesListStartIndex + 2, "--------------- Study Endpoints ---------------");
-			testCases.Insert(BuiltInTestCaseRepo.Instance.UploadsListStartIndex + 3, "--------------- Upload Endpoints ---------------");
-			testCases.Insert(BuiltInTestCaseRepo.Instance.WebHooksListStartIndex + 4, "--------------- WebHooks Endpoints ---------------");
-			testCases.Insert(0, ""); 
-            cBBuiltInTests.DataSource = testCases;
+			cBBuiltInTests.Items.Add("--------------- Subject Endpoints ---------------");
+			foreach (var i in BuiltInTestCaseRepo.Instance.SubjectTestCases)
+				cBBuiltInTests.Items.Add(i);
+
+			cBBuiltInTests.Items.Add("--------------- Site Endpoints ---------------");
+			foreach (var i in BuiltInTestCaseRepo.Instance.SiteTestCases)
+				cBBuiltInTests.Items.Add(i);
+
+			cBBuiltInTests.Items.Add("--------------- Study Endpoints ---------------");
+			foreach (var i in BuiltInTestCaseRepo.Instance.StudyTestCases)
+				cBBuiltInTests.Items.Add(i);
+
+			cBBuiltInTests.Items.Add("--------------- Upload Endpoints ---------------");
+			foreach (var i in BuiltInTestCaseRepo.Instance.UploadTestCases)
+				cBBuiltInTests.Items.Add(i);
+
+			cBBuiltInTests.Items.Add("--------------- WebHooks Endpoints ---------------");
+			foreach (var i in BuiltInTestCaseRepo.Instance.WebHooksTestCases)
+				cBBuiltInTests.Items.Add(i);
+
+			cBBuiltInTests.Items.Insert(0, ""); 
 
             // Setting Help LInk
             linkLabelHelp.Click += (o, e) => { Process.Start("https://github.com/actigraph/StudyAdminAPIDocumentation"); };
@@ -91,10 +100,8 @@ namespace StudyAdminAPITester
             txtBxAccessKey.Text = defaultAccessKeyText;
             txtBxAccessKey.MouseClick += (o, e) =>
             {
-                if (txtBxAccessKey.Text.Equals(defaultAccessKeyText))
-                {
+                if (txtBxAccessKey.Text.Equals(defaultAccessKeyText))                
                     txtBxAccessKey.Text = string.Empty;
-                }
             };
 
             defaultSecretKeyText = "<Enter Secret Key>";
@@ -102,9 +109,7 @@ namespace StudyAdminAPITester
             txtBxSecretKey.MouseClick += (o, e) =>
             {
                 if (txtBxSecretKey.Text.Equals(defaultSecretKeyText))
-                {
                     txtBxSecretKey.Text = string.Empty;
-                }
             };
 
 
@@ -116,7 +121,6 @@ namespace StudyAdminAPITester
                     txtBxRequest.Clear();
                     txtBxRequest.Enabled = false;
                 }
-
                 btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
             };
 
@@ -134,7 +138,7 @@ namespace StudyAdminAPITester
 							fileStream.Read(filebytes, 0, Convert.ToInt32(fileStream.Length));
 						
 							APIBuiltInTestCase apiTest = (
-							from i in BuiltInTestCaseRepo.Instance.TestCases
+							from i in BuiltInTestCaseRepo.Instance.AllTestCases
 							where i.Name.Equals(cBBuiltInTests.Text)
 							select i).FirstOrDefault();
 
@@ -164,7 +168,7 @@ namespace StudyAdminAPITester
                 btnCompareResponse.Enabled = false;
 				
                 APIBuiltInTestCase apiTest = (
-                from i in BuiltInTestCaseRepo.Instance.TestCases
+                from i in BuiltInTestCaseRepo.Instance.AllTestCases
                 where i.Name.Equals(cBBuiltInTests.Text)
                 select i).FirstOrDefault();
 
@@ -316,7 +320,7 @@ namespace StudyAdminAPITester
 		{
 
 			APIBuiltInTestCase apiTest = (
-			from i in BuiltInTestCaseRepo.Instance.TestCases
+			from i in BuiltInTestCaseRepo.Instance.AllTestCases
 								where i.Name.Equals(cBBuiltInTests.Text)
 								select i).FirstOrDefault();
 
@@ -339,7 +343,7 @@ namespace StudyAdminAPITester
 		{
 			/** BEGIN: Snippet to Update RAW Json Request with Base 64 String that was set from file **/
 			APIBuiltInTestCase selectedBuiltInTest = (
-			from i in BuiltInTestCaseRepo.Instance.TestCases
+			from i in BuiltInTestCaseRepo.Instance.AllTestCases
 			where i.Name.Equals(cBBuiltInTests.Text)
 			select i).FirstOrDefault();
 
@@ -383,6 +387,10 @@ namespace StudyAdminAPITester
 				lblStatusCode.Text = String.Empty;
 				btnCompareResponse.Enabled = false;
 
+				// remove trailing '/' from baseURI
+				if (txtBaseURI.Text.EndsWith("/")) txtBaseURI.Text = txtBaseURI.Text.Remove(txtBaseURI.Text.Length - 1, 1);
+				if (!txtBxURI.Text.StartsWith("/")) txtBxURI.Text = "/" + txtBxURI.Text; // add trailing '/' to uri if it doesnt exist
+
 				// Updating Client State Before Execution
 				ClientState.BaseURI = txtBaseURI.Text;
 				ClientState.AccessKey = txtBxAccessKey.Text;
@@ -403,7 +411,7 @@ namespace StudyAdminAPITester
 
 				/** BEGIN: Snippet to Update RAW Json Request with Base 64 String that was set from file **/
 				APIBuiltInTestCase selectedBuiltInTest = (
-				from i in BuiltInTestCaseRepo.Instance.TestCases
+				from i in BuiltInTestCaseRepo.Instance.AllTestCases
 				where i.Name.Equals(cBBuiltInTests.Text)
 				select i).FirstOrDefault();
 
