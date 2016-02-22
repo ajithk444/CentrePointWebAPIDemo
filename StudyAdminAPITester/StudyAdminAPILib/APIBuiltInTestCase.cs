@@ -49,6 +49,16 @@ namespace StudyAdminAPILib
         }
     }
 
+	public class GetSubjectByIdentifierTest : APIBuiltInTestCase
+	{
+		public GetSubjectByIdentifierTest(string name, string studyId, string subjectIdentifier)
+		{
+			this.DefaultResourceURI = string.Format("/v1/subjects/GetSubjectByIdentifier?studyId={0}&identifier={1}&matchWithSitePrefix=true", studyId, subjectIdentifier);
+			this.Name = name;
+			this.HttpVerb = HttpMethod.Get;
+		}
+	}
+
     public class GetSubjectStatsTest : APIBuiltInTestCase
     {
         public GetSubjectStatsTest(string name, string subjectId)

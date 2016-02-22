@@ -87,6 +87,7 @@ namespace StudyAdminAPITester
         {
 
             string defaultSubjectID = "108";
+			string defaultSubjectIdentifier = "000055";
             string defaultSiteId = "9";
             string defaultInBed = "2014-05-27T16:40:00";
             string defaultOutBed = "2014-05-28T02:28:00";
@@ -100,33 +101,35 @@ namespace StudyAdminAPITester
             _testCaseList = new List<APIBuiltInTestCase>()
             {
                 // Subject Endpoints
-               new GetSubjectTest("GetSubject", defaultSubjectID), // index: 0 
-               new AddSubjectTest("AddSubject",defaultSiteId), // index: 1 
-               new EditSubjectTest("EditSubject", defaultSubjectID, defaultSiteId), // index: 2
-               new GetSubjectStatsTest("GetSubjectStats", defaultSubjectID), // index: 3
-               new GetSubjectDayStatsTest("GetSubjectDayStats", defaultSubjectID),  // index: 4
-               new GetSubjectDayMinutesTest("GetSubjectDayMinutes", defaultSubjectID,   defaultDay), // index: 5
-               new GetSubjectSleepEpochsTest("GetSubjectSleepEpochs", defaultSubjectID, defaultInBed,  defaultOutBed), // index: 6
-               new GetSubjectSleepScoreTest("GetSubjectSleepScore", defaultSubjectID, defaultInBed,  defaultOutBed), // index: 7
-               new GetSubjectBoutsTest("GetSubjectBouts", defaultSubjectID, defaultInBed,  defaultOutBed), // index: 8
-               new GetSubjectBedTimesTest("GetSubjectBedTimes", defaultSubjectID, defaultInBed,  defaultOutBed), // index: 9
-               new GetSubjectWeightHistoryTest("GetSubjectWeightHistory", defaultSubjectID), // index: 10
-               new GetSubjectDataFilesTest("GetSubjectDataFiles", defaultSubjectID), // index: 11
+               new GetSubjectTest("GetSubject", defaultSubjectID), 
+			   new GetSubjectByIdentifierTest("GetSubjectByIdentifierTest", defaultStudyId, defaultSubjectIdentifier), 
+               new AddSubjectTest("AddSubject",defaultSiteId), 
+               new EditSubjectTest("EditSubject", defaultSubjectID, defaultSiteId),
+               new GetSubjectStatsTest("GetSubjectStats", defaultSubjectID), 
+			   new GetSubjectStatsTest("GetSubjectStats", defaultSubjectID), 
+               new GetSubjectDayStatsTest("GetSubjectDayStats", defaultSubjectID), 
+               new GetSubjectDayMinutesTest("GetSubjectDayMinutes", defaultSubjectID, defaultDay),
+               new GetSubjectSleepEpochsTest("GetSubjectSleepEpochs", defaultSubjectID, defaultInBed,  defaultOutBed), 
+               new GetSubjectSleepScoreTest("GetSubjectSleepScore", defaultSubjectID, defaultInBed,  defaultOutBed),
+               new GetSubjectBoutsTest("GetSubjectBouts", defaultSubjectID, defaultInBed,  defaultOutBed),
+               new GetSubjectBedTimesTest("GetSubjectBedTimes", defaultSubjectID, defaultInBed,  defaultOutBed),
+               new GetSubjectWeightHistoryTest("GetSubjectWeightHistory", defaultSubjectID), 
+               new GetSubjectDataFilesTest("GetSubjectDataFiles", defaultSubjectID), 
                
                // Site Endpoints
-               new GetSitesTest("GetSites"), // index: 12
-			   new AddSiteTest("AddSite"), // index: 13
+               new GetSitesTest("GetSites"), 
+			   new AddSiteTest("AddSite"),
 
                // Study Endpoints
-               new GetStudiesTest("GetStudies"), // index: 14
-               new GetStudyTest("GetStudy",  defaultStudyId), // index: 15
-               new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId), // index: 16
+               new GetStudiesTest("GetStudies"), 
+               new GetStudyTest("GetStudy",  defaultStudyId), 
+               new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId), 
 
                // Upload Endpoints
-               new GetUploadTest("GetUploadDetails", defaultUploadId), // index: 17
-			   new PostUploadTest("PostUpload"),  // index: 18
-			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId),   // index: 19
-               new GetStudyWebhookHistoryTest(@"GetStudyWebhookHistory", defaultStudyId, DateTime.UtcNow.AddDays(-1).ToString("s")) // index: 20
+               new GetUploadTest("GetUploadDetails", defaultUploadId),
+			   new PostUploadTest("PostUpload"),
+			   new GetDataFileDownloadURLTest("GetDataFileDownloadURL", defaultDataFileId),
+               new GetStudyWebhookHistoryTest(@"GetStudyWebhookHistory", defaultStudyId, DateTime.UtcNow.AddDays(-1).ToString("s"))
             };
         }
 
