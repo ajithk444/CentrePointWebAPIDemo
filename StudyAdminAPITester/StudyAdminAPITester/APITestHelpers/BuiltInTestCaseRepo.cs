@@ -102,7 +102,6 @@ namespace StudyAdminAPITester
             {
                 // Subject Endpoints
                new GetSubjectTest("GetSubject", defaultSubjectID), 
-			   new GetSubjectByIdentifierTest("GetSubjectByIdentifierTest", defaultStudyId, defaultSubjectIdentifier), 
                new AddSubjectTest("AddSubject",defaultSiteId), 
                new EditSubjectTest("EditSubject", defaultSubjectID, defaultSiteId),
                new GetSubjectStatsTest("GetSubjectStats", defaultSubjectID), 
@@ -124,6 +123,7 @@ namespace StudyAdminAPITester
                new GetStudiesTest("GetStudies"), 
                new GetStudyTest("GetStudy",  defaultStudyId), 
                new GetStudySubjectsTest("GetStudySubjects",  defaultStudyId), 
+			   new GetStudySubjectsByIdentifierTest("GetStudySubjectsByIdentifierTest", defaultStudyId, defaultSubjectIdentifier), 
 
                // Upload Endpoints
                new GetUploadTest("GetUploadDetails", defaultUploadId),
