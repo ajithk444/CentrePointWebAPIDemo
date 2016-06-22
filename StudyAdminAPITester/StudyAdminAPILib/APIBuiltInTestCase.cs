@@ -89,6 +89,16 @@ namespace StudyAdminAPILib
         }
     }
 
+	public class GetSubjectMinutesOnRangeTest : APIBuiltInTestCase
+	{
+		public GetSubjectMinutesOnRangeTest(string name, string subjectID, string start, string stop)
+		{
+			this.DefaultResourceURI = string.Format("/v1/subjects/{0}/minutesonrange?start={1}&stop={2}", subjectID, start, stop);
+			this.Name = name;
+			this.HttpVerb = HttpMethod.Get;
+		}
+	}
+
     public class GetSubjectSleepEpochsTest : APIBuiltInTestCase
     {
         public GetSubjectSleepEpochsTest(string name, string subjectId, string inBed, string outBed)
