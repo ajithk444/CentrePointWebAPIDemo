@@ -161,7 +161,7 @@ namespace StudyAdminAPITester
 			};
 
             // btnPopulate click action for button
-            btnPopualte.Click += async (o, e) =>
+            btnPopualte.Click += (o, e) =>
             {
                 // clear response box when selecting new built in test
                 lblStatusCode.Text = string.Empty;
@@ -647,20 +647,22 @@ namespace StudyAdminAPITester
 
                 BatchTester.Instance.BatchRunning = false;
                 grpResults.Visible = true;
-                btnViewLog.Enabled = true;
+                
                 btnImportBatchConfig.Enabled = true;
                 toolStripMenuItemClearBatch.Enabled = true;
                 btnSendRequest.Enabled = this.ShouldSendRequestButtonBeEnabled;
                 lblTestsPassed.Text = "Total Passed: " + BatchTester.Instance.TotalPassed;
                 lblTestsFailed.Text = "Total Failed: " + BatchTester.Instance.TotalFailed;
                 lblTotalTests.Text = "Total Tests: " + BatchTester.Instance.TotalRunTests;  
-            } 
+            }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("API Key"))
-                    MessageBox.Show(ex.Message, "Problem");
-                else
-                    MessageBox.Show("A problem occured with batch tester.", "Problem");
+                //append batch failure to the log.
+                BatchTester.Instance.log.AppendLine("------------------------------------------");
+                BatchTester.Instance.log.AppendLine("BATCH RUN FAILED TO COMPLETE: \r\n\r\n\"" + ex.ToString() + "\"");
+                BatchTester.Instance.log.AppendLine("------------------------------------------");
+
+                MessageBox.Show(this, "Could not finish tests:\r\n\r\n\"" + ex.Message + "\"", "A problem occured with batch tester", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -671,6 +673,8 @@ namespace StudyAdminAPITester
                 btnRunBatch.Enabled = BatchTester.Instance.XmlConfig != null;
                 btnImportBatchConfig.Enabled = true;
                 BatchTester.Instance.BatchRunning = false;
+
+                btnViewLog.Enabled = true; //always enable the view log button
             }
         }
 
@@ -687,22 +691,36 @@ namespace StudyAdminAPITester
             }
         }
 
+        string logfilename = "StudyAdminAPIBatchTestLog.txt";
         private void btnViewLog_Click(object sender, EventArgs e)
         {
-            string filename = "StudyAdminAPIBatchTestLog.txt";
+            using (SaveFileDialog sd = new SaveFileDialog())
+            {
+                sd.Title = "Path to save log file";
+                sd.FileName = logfilename;
 
+                if (sd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    logfilename = sd.FileName;
+                else
+                    return;
+            }
+
+            SaveLogFile();
+
+            if (File.Exists(logfilename))
+                Process.Start(logfilename);
+        }
+
+        private void SaveLogFile()
+        {
             // remove file if it exists
-            if (File.Exists(filename)) File.Delete(filename);
+            if (File.Exists(logfilename)) File.Delete(logfilename);
 
-            using (var logStramWriter = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
+            using (var logStramWriter = new StreamWriter(new FileStream(logfilename, FileMode.Create, FileAccess.ReadWrite, FileShare.Read)))
             {
                 logStramWriter.AutoFlush = true;
                 logStramWriter.Write(BatchTester.Instance.log.ToString());
             }
-
-            if (File.Exists(filename))
-                Process.Start(filename);     
-            
         }
 
         private void toolStripMenuItemClearBatchLog(object sender, EventArgs e)

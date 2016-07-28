@@ -142,7 +142,14 @@
     <Content Include="Resources\cancel_black.png" />
     <Content Include="Resources\cancel_small.jpg" />
     <None Include="Resources\compare_smaller.jpg" />
+    <None Include="Resources\page_white_copy.png" />
+    <None Include="Resources\compare.png" />
+    <None Include="Resources\oms_send.png" />
+    <None Include="Resources\page_white_code.png" />
+    <None Include="Resources\clock_history_frame.png" />
+    <None Include="Resources\page_white_text.png" />
     <Content Include="Resources\Study Admin API Tester.ico" />
+    <None Include="Resources\tick_circle_frame.png" />
     <Content Include="Resources\wand.png" />
     <Content Include="Study Admin API Tester.ico" />
     <None Include="Resources\cell_clear.png" />
