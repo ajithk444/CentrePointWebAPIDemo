@@ -378,7 +378,7 @@ namespace StudyAdminAPITester
 			APIEndpointExecuterResult apiEndpointExecuterResult = null;
 			string jsonResponse = string.Empty;
 			string jsonRequestRaw = txtBxRequest.Text;
-			DateTime requestTime;
+			DateTimeOffset requestTime;
 			DateTime responseTime;
 
 			try
@@ -406,8 +406,7 @@ namespace StudyAdminAPITester
 				// disable send request button while text is running
 				btnSendRequest.Enabled = false;
 
-				// Set Request Timestamp
-				requestTime = DateTime.Now;
+		
 
 				/** BEGIN: Snippet to Update RAW Json Request with Base 64 String that was set from file **/
 				APIBuiltInTestCase selectedBuiltInTest = (
@@ -429,9 +428,6 @@ namespace StudyAdminAPITester
 				// await for async method to finish
 				apiEndpointExecuterResult = await apiEndpointExecuter.Run(new Regex("(\r\n|\r|\n)").Replace(jsonRequestRaw, ""));
 				jsonResponse = apiEndpointExecuterResult.ResponseContent;
-
-				// Set Response Timestamp
-				responseTime = DateTime.Now;
 
 				// Set last Json response for tool
 				lastJsonResponse = jsonResponse;
@@ -464,7 +460,7 @@ namespace StudyAdminAPITester
 				this.Refresh();
 
 				InsertResposneToLog(jsonResponse, apiEndpointExecuterResult.Response.StatusCode);
-				InsertRequestToLog(apiEndpointExecuter, apiEndpointExecuterResult, txtBxRequest.Text, requestTime, responseTime);
+				InsertRequestToLog(apiEndpointExecuter, apiEndpointExecuterResult, txtBxRequest.Text);
 
 				txtBxResponse.Text = await Task.Run(() =>
 				{
@@ -492,12 +488,14 @@ namespace StudyAdminAPITester
 			}
 		}
 
-		private void InsertRequestToLog(APIEndpointExecuter apiEndpointExecuter, APIEndpointExecuterResult apiEndpointExecuteResult, String jsonRequest, DateTime requestTime, DateTime responseTime)
+		private void InsertRequestToLog(APIEndpointExecuter apiEndpointExecuter, APIEndpointExecuterResult apiEndpointExecuteResult, String jsonRequest)
         {
+            DateTime requestTime = apiEndpointExecuteResult.Request.Headers.Date.Value.UtcDateTime;
+
             sbLog.Insert(0, string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
             sbLog.Insert(0, string.Format("Time: {0}ms{1}", (responseTime - requestTime).TotalMilliseconds, Environment.NewLine));
             sbLog.Insert(0, string.Format("Authorization: {0}{1}", apiEndpointExecuteResult.Request.Headers.Authorization.ToString(), Environment.NewLine));
-            sbLog.Insert(0, string.Format("Date: {0}{1}", requestTime.ToString(), Environment.NewLine));
+            sbLog.Insert(0, string.Format("Date: {0}{1}", requestTime.ToString("r"), Environment.NewLine));
 			sbLog.Insert(0, string.Format("{0}  {1}{2}", apiEndpointExecuter._HttpVerb, apiEndpointExecuter._Uri, Environment.NewLine));
             sbLog.Insert(0, string.Format("REQUEST:{0}", Environment.NewLine));
         }

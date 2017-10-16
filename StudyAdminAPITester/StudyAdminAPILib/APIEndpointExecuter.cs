@@ -12,6 +12,7 @@ namespace StudyAdminAPILib
 	{
 		public HttpRequestMessage Request { get; set; }
 		public HttpResponseMessage Response { get; set; }
+        public DateTime ResponseReceivedOnUtc { get; set; }
 		public string ResponseContent { get; set; }
 	}
 
@@ -41,8 +42,9 @@ namespace StudyAdminAPILib
 			returnVal.Request = result.request;
 			returnVal.Response = result.response;
 			returnVal.ResponseContent = await result.response.Content.ReadAsStringAsync();
-			
-			return returnVal;
+            returnVal.ResponseReceivedOnUtc = DateTime.UtcNow;
+
+            return returnVal;
 		}
 	}
 }
