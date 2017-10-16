@@ -491,6 +491,7 @@ namespace StudyAdminAPITester
 		private void InsertRequestToLog(APIEndpointExecuter apiEndpointExecuter, APIEndpointExecuterResult apiEndpointExecuteResult, String jsonRequest)
         {
             DateTime requestTime = apiEndpointExecuteResult.Request.Headers.Date.Value.UtcDateTime;
+            DateTime responseTime = apiEndpointExecuteResult.ResponseReceivedOnUtc;
 
             sbLog.Insert(0, string.Format("Content:{0}{1}", Environment.NewLine, jsonRequest));
             sbLog.Insert(0, string.Format("Time: {0}ms{1}", (responseTime - requestTime).TotalMilliseconds, Environment.NewLine));
